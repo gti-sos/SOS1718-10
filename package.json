@@ -15,9 +15,9 @@
   "bugs": {
     "url": "https://github.com/gti-sos/SOS1718-10/issues"
   },
-  },
   "homepage": "https://github.com/gti-sos/SOS1718-10#readme",
   "dependencies": {
-    "cool-ascii-faces": "^1.3.4"
+    "cool-ascii-faces": "^1.3.4",
+    "express": "^4.16.2"
   }
 }
