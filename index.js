@@ -23,4 +23,3 @@ app.listen(port,()=>{
 
 //console.log(cool());
 console.log("Server setting up....");
-//git
