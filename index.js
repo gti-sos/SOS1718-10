@@ -3,6 +3,8 @@ var express=require("express");
 var port = (process.env.PORT || 1607)
 
 var app=express();
+var bodyParser = require("body-parser");
+var DataStore = require("nedb");
 
 app.use("/",express.static(__dirname+"/public"));
 
@@ -13,7 +15,7 @@ app.get("/hello",(req,res)=>{
 app.get("/time",(req,res)=>{
     console.log("new request to /time");
     res.send(new Date());
-})
+});
 
 app.listen(port,()=>{
     console.log("Server Ready on port" +port+ "!");

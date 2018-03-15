@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
-    
   },
   "repository": {
     "type": "git",
@@ -19,7 +18,8 @@
   },
   "homepage": "https://github.com/gti-sos/SOS1718-10#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cool-ascii-faces": "^1.3.4",
-    "express": "^4.16.2"
+    "express": "^4.16.3"
   }
 }
