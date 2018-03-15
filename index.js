@@ -127,6 +127,224 @@ app.put(BASE_API_PATH + "/buildings/:name", (req, res) => {
     res.sendStatus(200);
 });
 
+/////////////////////////////////API PACO-LEE//////////////////////////
+var initialMotogpStats = [
+		{	
+			"year" : 2017,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 298,
+			"age" : 24
+		},
+		{
+			"year" : 2016,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 298,
+			"age" : 23
+		},
+		{	
+			"year" : 2015,
+			"pilot" : "jorge-lorezo",
+			"country" : "spain",
+			"score" : 330,
+			"age" : 28
+		},
+		{	
+			"year" : 2014,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 362,
+			"age" : 21
+		},
+		{	
+			"year" : 2013,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 334,
+			"age" : 20
+		},
+		{	
+			"year" : 2012,
+			"pilot" : "jorge-lorezo",
+			"country" : "spain",
+			"score" : 350,
+			"age" : 25
+		},
+		{	
+			"year" : 2011,
+			"pilot" : "casey-stoner",
+			"country" : "australia",
+			"score" : 350,
+			"age" : 25
+		},
+		{	
+			"year" : 2010,
+			"pilot" : "jorge-lorezo",
+			"country" : "spain",
+			"score" : 383,
+			"age" : 23
+		},
+		{	
+			"year" : 2009,
+			"pilot" : "valentino-rossi",
+			"country" : "italy",
+			"score" : 306,
+			"age" : 30
+		}
+	];
+
+
+
+app.get(BASE_API_PATH + "/motogpStats/loadInitialData", function (req, res){
+     var inicializacion = [
+     	{	
+			"year" : 2017,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 298,
+			"age" : 24
+		},
+		{
+			"year" : 2016,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 298,
+			"age" : 23
+		},
+		{	
+			"year" : 2015,
+			"pilot" : "jorge-lorezo",
+			"country" : "spain",
+			"score" : 330,
+			"age" : 28
+		},
+		{	
+			"year" : 2014,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 362,
+			"age" : 21
+		},
+		{	
+			"year" : 2013,
+			"pilot" : "marc-marquez",
+			"country" : "spain",
+			"score" : 334,
+			"age" : 20
+		},
+		{	
+			"year" : 2012,
+			"pilot" : "jorge-lorezo",
+			"country" : "spain",
+			"score" : 350,
+			"age" : 25
+		},
+		{	
+			"year" : 2011,
+			"pilot" : "casey-stoner",
+			"country" : "australia",
+			"score" : 350,
+			"age" : 25
+		},
+		{	
+			"year" : 2010,
+			"pilot" : "jorge-lorezo",
+			"country" : "spain",
+			"score" : 383,
+			"age" : 23
+		},
+		{	
+			"year" : 2009,
+			"pilot" : "valentino-rossi",
+			"country" : "italy",
+			"score" : 306,
+			"age" : 30
+		}
+	];
+    initialMotogpStats=inicializacion;
+        console.log("INFO: Initializing data.");
+     res.send(initialMotogpStats);
+     res.sendStatus(201); //created!
+     console.log("INFO: Data initialized.");
+                 
+});              
+
+app.get(BASE_API_PATH + "/motogpStats", (req, res) => {
+    console.log(Date() + " - GET /motogpStats");
+    res.send(initialMotogpStats);
+});
+
+app.post(BASE_API_PATH + "/motogpStats", (req, res) => {
+    console.log(Date() + " - POST /motogpStats");
+    var motogp = req.body;
+    initialMotogpStats.push(motogp);
+    res.sendStatus(201);
+});
+
+app.put(BASE_API_PATH + "/motogpStats", (req, res) => {
+    console.log(Date() + " - PUT /motogpStats");
+    res.sendStatus(405);
+});
+
+app.delete(BASE_API_PATH + "/motogpStats", (req, res) => {
+    console.log(Date() + " - DELETE /motogpStats");
+    initialMotogpStats = [];
+    res.sendStatus(200);
+});
+
+
+app.get(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - GET /motogpStats/" + year);
+
+    res.send(initialMotogpStats.filter((c) => {
+        return (c.year == year);
+    })[0]);
+});
+
+app.delete(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - DELETE /motogpStats/" + year);
+
+    initialMotogpStats = initialMotogpStats.filter((c) => {
+        return (c.year != year);
+    });
+
+    res.sendStatus(200);
+});
+
+app.post(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /motogpStats/" + year);
+    res.sendStatus(405);
+});
+
+app.put(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+    var year = req.params.year;
+    var motogp = req.body;
+
+    console.log(Date() + " - PUT /motogpStats/" + year);
+    
+    //db.update({"year": motogp.year}, motogp, (err,numUpdate)=>{
+        //console.log("Update " + numUpdate);
+    //})
+
+    if (year != motogp.year) {
+        res.sendStatus(409);
+        console.warn(Date() + " - Hacking attempt!");
+        return;
+    }
+
+    initialMotogpStats = initialMotogpStats.map((c) => {
+        if (c.year == motogp.year)
+            return motogp;
+        else
+            return c;
+    });
+
+    res.sendStatus(200);
+});
 
 
 
