@@ -22,29 +22,51 @@ app.get("/time",(req,res)=>{
 
 
 /////////////////////////////////API DAVID/////////////////////////////////////
-
-
-var initialBuildings = [{
-        "name": "pablo",
-        "phone": 12345
+var initialBuildings = [
+	{
+		"country": "italy",
+		"year":2004,
+		"builder":"ferrari",
+		"pole":18,
+		"victory":15
     },
+    
+    {	"country":"germany",
+    	"year":2015,
+    	"builder":"mercedes",
+    	"pole":18, 
+    	"victory":16},
     {
-        "name": "pepe",
-        "phone": 6789
-    }
-];
-
+    	"country": "italy",
+    	"year": 2004, 
+    	"builder": "ferrari",
+    	"pole": "ferrari",
+    	"victory":1
+    }];
 
 
 app.get(BASE_API_PATH + "/buildings/loadInitialData", function (req, res){
      var inicializacion = [{
-        "name": "pablo",
-        "phone": 12345
+		"country": "italy",
+		"year":2004,
+		"builder":"ferrari",
+		"pole":18,
+		"victory":15
     },
+    
+    {	"country":"germany",
+    	"year":2015,
+    	"builder":"mercedes",
+    	"pole":18, 
+    	"victory":16},
     {
-        "name": "pepe",
-        "phone": 6789
+    	"country": "italy",
+    	"year": 2004, 
+    	"builder": "ferrari",
+    	"pole": "ferrari",
+    	"victory":1
     }];
+    
     initialBuildings=inicializacion;
         console.log("INFO: Initializing data.");
      res.send(initialBuildings);
