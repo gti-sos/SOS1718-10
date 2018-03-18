@@ -37,11 +37,11 @@ var initialBuildings = [
     	"pole":18, 
     	"victory":16},
     {
-    	"country": "italy",
-    	"year": 2004, 
-    	"builder": "ferrari",
-    	"pole": "ferrari",
-    	"victory":1
+    	"country": "uk",
+    	"year": 1996, 
+    	"builder": "williams",
+    	"pole": 12,
+    	"victory":12
     }];
 
 
@@ -59,12 +59,13 @@ app.get(BASE_API_PATH + "/buildings/loadInitialData", function (req, res){
     	"builder":"mercedes",
     	"pole":18, 
     	"victory":16},
+    
     {
-    	"country": "italy",
-    	"year": 2004, 
-    	"builder": "ferrari",
-    	"pole": "ferrari",
-    	"victory":1
+    	"country": "uk",
+    	"year": 1996, 
+    	"builder": "williams",
+    	"pole": 12,
+    	"victory":12
     }];
     
     initialBuildings=inicializacion;
@@ -82,8 +83,8 @@ app.get(BASE_API_PATH + "/buildings", (req, res) => {
 
 app.post(BASE_API_PATH + "/buildings", (req, res) => {
     console.log(Date() + " - POST /buildings");
-    var contact = req.body;
-    initialBuildings.push(contact);
+    var builder = req.body;
+    initialBuildings.push(builder);
     res.sendStatus(201);
 });
 
@@ -127,23 +128,23 @@ app.post(BASE_API_PATH + "/buildings/:year", (req, res) => {
 
 app.put(BASE_API_PATH + "/buildings/:year", (req, res) => {
     var year = req.params.year;
-    var contact = req.body;
+    var builder = req.body;
 
     console.log(Date() + " - PUT /buildings/" + year);
     
-    //db.update({"name": contact.name}, contact, (err,numUpdate)=>{
+    //db.update({"year": builder.year}, builder, (err,numUpdate)=>{
         //console.log("Update " + numUpdate);
     //})
 
-    if (year != contact.year) {
+    if (year != builder.year) {
         res.sendStatus(409);
         console.warn(Date() + " - Hacking attempt!");
         return;
     }
 
     initialBuildings = initialBuildings.map((c) => {
-        if (c.year == contact.year)
-            return contact;
+        if (c.year == builder.year)
+            return builder;
         else
             return c;
     });
