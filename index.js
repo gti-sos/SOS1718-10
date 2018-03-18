@@ -99,50 +99,50 @@ app.delete(BASE_API_PATH + "/buildings", (req, res) => {
 });
 
 
-app.get(BASE_API_PATH + "/buildings/:name", (req, res) => {
-    var name = req.params.name;
-    console.log(Date() + " - GET /buildings/" + name);
+app.get(BASE_API_PATH + "/buildings/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - GET /buildings/" + year);
 
     res.send(initialBuildings.filter((c) => {
-        return (c.name == name);
+        return (c.year == year);
     })[0]);
 });
 
-app.delete(BASE_API_PATH + "/buildings/:name", (req, res) => {
-    var name = req.params.name;
-    console.log(Date() + " - DELETE /buildings/" + name);
+app.delete(BASE_API_PATH + "/buildings/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - DELETE /buildings/" + year);
 
     initialBuildings = initialBuildings.filter((c) => {
-        return (c.name != name);
+        return (c.year != year);
     });
 
     res.sendStatus(200);
 });
 
-app.post(BASE_API_PATH + "/buildings/:name", (req, res) => {
-    var name = req.params.name;
-    console.log(Date() + " - POST /buildings/" + name);
+app.post(BASE_API_PATH + "/buildings/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /buildings/" + year);
     res.sendStatus(405);
 });
 
-app.put(BASE_API_PATH + "/buildings/:name", (req, res) => {
-    var name = req.params.name;
+app.put(BASE_API_PATH + "/buildings/:year", (req, res) => {
+    var year = req.params.year;
     var contact = req.body;
 
-    console.log(Date() + " - PUT /buildings/" + name);
+    console.log(Date() + " - PUT /buildings/" + year);
     
     //db.update({"name": contact.name}, contact, (err,numUpdate)=>{
         //console.log("Update " + numUpdate);
     //})
 
-    if (name != contact.name) {
+    if (year != contact.year) {
         res.sendStatus(409);
         console.warn(Date() + " - Hacking attempt!");
         return;
     }
 
     initialBuildings = initialBuildings.map((c) => {
-        if (c.name == contact.name)
+        if (c.year == contact.year)
             return contact;
         else
             return c;
