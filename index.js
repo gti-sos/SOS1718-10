@@ -1,6 +1,6 @@
 var express=require("express");
 var bodyParser = require("body-parser");
-var DataStore = require("nedb");
+//var DataStore = require("nedb");
 
 var port = (process.env.PORT || 1607);
 var BASE_API_PATH = "/api/v1";
@@ -10,15 +10,6 @@ var BASE_API_PATH = "/api/v1";
 var app=express();
 app.use(bodyParser.json());
 app.use("/",express.static(__dirname+"/public"));
-
-app.get("/hello",(req,res)=>{
-    res.send("Hello world!");
-});
-
-app.get("/time",(req,res)=>{
-    console.log("new request to /time");
-    res.send(new Date());
-});
 
 
 /////////////////////////////////API DAVID/////////////////////////////////////
@@ -70,13 +61,15 @@ app.get(BASE_API_PATH + "/buildings/loadInitialData", function (req, res){
     
     initialBuildings=inicializacion;
         console.log("INFO: Initializing data.");
-     res.send(initialBuildings);
+     //res.send(initialBuildings);
      res.sendStatus(201); //created!
      console.log("INFO: Data initialized.");
                  
 });              
 
 app.get(BASE_API_PATH + "/buildings", (req, res) => {
+    //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
+    //y despues la coletilla GET /buildings
     console.log(Date() + " - GET /buildings");
     res.send(initialBuildings);
 });
@@ -84,40 +77,51 @@ app.get(BASE_API_PATH + "/buildings", (req, res) => {
 app.post(BASE_API_PATH + "/buildings", (req, res) => {
     console.log(Date() + " - POST /buildings");
     var builder = req.body;
-    initialBuildings.push(builder);
     res.sendStatus(201);
+    initialBuildings.push(builder);
+    
 });
 
 app.put(BASE_API_PATH + "/buildings", (req, res) => {
     console.log(Date() + " - PUT /buildings");
+    //Method not allowed
     res.sendStatus(405);
 });
 
+//DELETE al conjunto de recursos
 app.delete(BASE_API_PATH + "/buildings", (req, res) => {
     console.log(Date() + " - DELETE /buildings");
     initialBuildings = [];
     res.sendStatus(200);
 });
 
-
+//GET a un recurso
 app.get(BASE_API_PATH + "/buildings/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - GET /buildings/" + year);
-
-    res.send(initialBuildings.filter((c) => {
-        return (c.year == year);
-    })[0]);
+     if (!year) {
+        console.log("WARNING: New GET request to /buildings/:year without season, sending 400...");
+        res.sendStatus(400); // bad request
+    }else{
+        console.log(Date() + " - GET /buildings/" + year);
+        res.send(initialBuildings.filter((c) => {
+            return (c.year == year);
+        })[0]);
+    }
 });
-
+//DELETE de un recurso
 app.delete(BASE_API_PATH + "/buildings/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - DELETE /buildings/" + year);
-
-    initialBuildings = initialBuildings.filter((c) => {
-        return (c.year != year);
-    });
-
-    res.sendStatus(200);
+    if (!year) {
+        console.log("WARNING: New GET request to /buildings/:year without season, sending 400...");
+        res.sendStatus(400); // bad request
+    }else{
+        console.log(Date() + " - DELETE /buildings/" + year);
+    
+        initialBuildings = initialBuildings.filter((c) => {
+            return (c.year != year);
+        });
+        res.sendStatus(200);
+    }
 });
 
 app.post(BASE_API_PATH + "/buildings/:year", (req, res) => {
