@@ -227,7 +227,7 @@ var initialMotogpStats = [
 
 
 
-app.get(BASE_API_PATH + "/motogpStats/loadInitialData", function (req, res){
+app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function (req, res){
      var inicializacion = [
      	{	
 			"year" : 2017,
@@ -301,42 +301,42 @@ app.get(BASE_API_PATH + "/motogpStats/loadInitialData", function (req, res){
                  
 });              
 
-app.get(BASE_API_PATH + "/motogpStats", (req, res) => {
-    console.log(Date() + " - GET /motogpStats");
+app.get(BASE_API_PATH + "/motogp-stats", (req, res) => {
+    console.log(Date() + " - GET /motogp-stats");
     res.send(initialMotogpStats);
 });
 
-app.post(BASE_API_PATH + "/motogpStats", (req, res) => {
-    console.log(Date() + " - POST /motogpStats");
+app.post(BASE_API_PATH + "/motogp-stats", (req, res) => {
+    console.log(Date() + " - POST /motogp-stats");
     var motogp = req.body;
     initialMotogpStats.push(motogp);
     res.sendStatus(201);
 });
 
-app.put(BASE_API_PATH + "/motogpStats", (req, res) => {
-    console.log(Date() + " - PUT /motogpStats");
+app.put(BASE_API_PATH + "/motogp-stats", (req, res) => {
+    console.log(Date() + " - PUT /motogp-stats");
     res.sendStatus(405);
 });
 
-app.delete(BASE_API_PATH + "/motogpStats", (req, res) => {
-    console.log(Date() + " - DELETE /motogpStats");
+app.delete(BASE_API_PATH + "/motogp-stats", (req, res) => {
+    console.log(Date() + " - DELETE /motogp-stats");
     initialMotogpStats = [];
     res.sendStatus(200);
 });
 
 
-app.get(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - GET /motogpStats/" + year);
+    console.log(Date() + " - GET /motogp-stats/" + year);
 
     res.send(initialMotogpStats.filter((c) => {
         return (c.year == year);
     })[0]);
 });
 
-app.delete(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+app.delete(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - DELETE /motogpStats/" + year);
+    console.log(Date() + " - DELETE /motogp-stats/" + year);
 
     initialMotogpStats = initialMotogpStats.filter((c) => {
         return (c.year != year);
@@ -345,17 +345,17 @@ app.delete(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
     res.sendStatus(200);
 });
 
-app.post(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+app.post(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - POST /motogpStats/" + year);
+    console.log(Date() + " - POST /motogp-stats/" + year);
     res.sendStatus(405);
 });
 
-app.put(BASE_API_PATH + "/motogpStats/:year", (req, res) => {
+app.put(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
     var year = req.params.year;
     var motogp = req.body;
 
-    console.log(Date() + " - PUT /motogpStats/" + year);
+    console.log(Date() + " - PUT /motogp-stats/" + year);
     
     //db.update({"year": motogp.year}, motogp, (err,numUpdate)=>{
         //console.log("Update " + numUpdate);
