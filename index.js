@@ -2,11 +2,13 @@ var express = require("express");
 var bodyParser = require("body-parser");
 
 
-var MongoClient = require("mongodb").MongoClient;
-var mdbURL = "mongodb://dbbuses:12345@ds121118.mlab.com:21118/sos1718-10-sandbox";
-
-var port = (process.env.PORT || 1607);
-var BASE_API_PATH = "/api/v1";
+/////////////////////////MÓDULOS DE APIS//////////////////////////
+///////API DAVID///////////////////
+var apiBuilders = require("./apis/builders.js");
+///////API PACO/////////////////////
+var apiMotogpStats = require("./apis/motogp-stats.js");
+///////API VICTOR//////////////////
+var apiBuses = require ("./apis/buses.js");
 
 
 
@@ -15,6 +17,11 @@ app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
+var MongoClient = require("mongodb").MongoClient;
+var mdbURL = "mongodb://dbbuses:12345@ds121118.mlab.com:21118/sos1718-10-sandbox";
+
+var port = (process.env.PORT || 1607);
+var BASE_API_PATH = "/api/v1";
 
 MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     
@@ -26,8 +33,10 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
     var database = mlabs.db("sos1718-10-sandbox")
     var db = database.collection("buses");
+    var dbd = database.collection("builders");
+    var dbp = database.collection("motogp-stats");
 
-    db.find({}).toArray((err, buses) => {
+   /* db.find({}).toArray((err, buses) => {
         if (buses.lenght == 0) {
             console.log("Empty DB");
             db.insert(initialBuses);
@@ -36,170 +45,20 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
         else {
             console.log("DB initialized with " + buses.lenght + "buses");
         }
-    });
+    });*/
 
-    busesApi.register(app,db);
-    app.listen(port, () => {
+    /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
+    apiBuilders.register(app, dbd, BASE_API_PATH);
+    apiMotogpStats.register(app, dbp, BASE_API_PATH);
+    apiBuses.register(app, db, BASE_API_PATH);
+    
+     app.listen(port, () => {
         console.log("Server Ready on port" + port + "!");
     }).on("error", (e) => {
         console.log("Server NOT READY:" + e + "!");
     });
-
+    
     console.log("Server setting up....");
-
-
-});
-
-
-/////////////////////////////////API DAVID/////////////////////////////////////
-var initialBuildings = [{
-        "country": "italy",
-        "year": 2004,
-        "builder": "ferrari",
-        "pole": 18,
-        "victory": 15
-    },
-
-    {
-        "country": "germany",
-        "year": 2015,
-        "builder": "mercedes",
-        "pole": 18,
-        "victory": 16
-    },
-    {
-        "country": "uk",
-        "year": 1996,
-        "builder": "williams",
-        "pole": 12,
-        "victory": 12
-    }
-];
-
-
-app.get(BASE_API_PATH + "/buildings/loadInitialData", function(req, res) {
-    var inicializacion = [{
-            "country": "italy",
-            "year": 2004,
-            "builder": "ferrari",
-            "pole": 18,
-            "victory": 15
-        },
-
-        {
-            "country": "germany",
-            "year": 2015,
-            "builder": "mercedes",
-            "pole": 18,
-            "victory": 16
-        },
-
-        {
-            "country": "uk",
-            "year": 1996,
-            "builder": "williams",
-            "pole": 12,
-            "victory": 12
-        }
-    ];
-
-    initialBuildings = inicializacion;
-    console.log("INFO: Initializing data.");
-    //res.send(initialBuildings);
-    res.sendStatus(201); //created!
-    console.log("INFO: Data initialized.");
-
-});
-
-app.get(BASE_API_PATH + "/buildings", (req, res) => {
-    //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
-    //y despues la coletilla GET /buildings
-    console.log(Date() + " - GET /buildings");
-    res.send(initialBuildings);
-});
-
-app.post(BASE_API_PATH + "/buildings", (req, res) => {
-    console.log(Date() + " - POST /buildings");
-    var builder = req.body;
-    res.sendStatus(201);
-    initialBuildings.push(builder);
-
-});
-
-app.put(BASE_API_PATH + "/buildings", (req, res) => {
-    console.log(Date() + " - PUT /buildings");
-    //Method not allowed
-    res.sendStatus(405);
-});
-
-//DELETE al conjunto de recursos
-app.delete(BASE_API_PATH + "/buildings", (req, res) => {
-    console.log(Date() + " - DELETE /buildings");
-    initialBuildings = [];
-    res.sendStatus(200);
-});
-
-//GET a un recurso
-app.get(BASE_API_PATH + "/buildings/:year", (req, res) => {
-    var year = req.params.year;
-    if (!year) {
-        console.log("WARNING: New GET request to /buildings/:year without season, sending 400...");
-        res.sendStatus(400); // bad request
-    }
-    else {
-        console.log(Date() + " - GET /buildings/" + year);
-        res.send(initialBuildings.filter((c) => {
-            return (c.year == year);
-        })[0]);
-    }
-});
-//DELETE de un recurso
-app.delete(BASE_API_PATH + "/buildings/:year", (req, res) => {
-    var year = req.params.year;
-    if (!year) {
-        console.log("WARNING: New GET request to /buildings/:year without season, sending 400...");
-        res.sendStatus(400); // bad request
-    }
-    else {
-        console.log(Date() + " - DELETE /buildings/" + year);
-
-        initialBuildings = initialBuildings.filter((c) => {
-            return (c.year != year);
-        });
-        res.sendStatus(200);
-    }
-});
-
-app.post(BASE_API_PATH + "/buildings/:year", (req, res) => {
-    var year = req.params.year;
-    console.log(Date() + " - POST /buildings/" + year);
-    res.sendStatus(405);
-});
-
-app.put(BASE_API_PATH + "/buildings/:year", (req, res) => {
-    var year = req.params.year;
-    var builder = req.body;
-
-    console.log(Date() + " - PUT /buildings/" + year);
-
-    //db.update({"year": builder.year}, builder, (err,numUpdate)=>{
-    //console.log("Update " + numUpdate);
-    //})
-
-    if (year != builder.year) {
-        res.sendStatus(409);
-        console.warn(Date() + " - Hacking attempt!");
-        return;
-    }
-
-    initialBuildings = initialBuildings.map((c) => {
-        if (c.year == builder.year)
-            return builder;
-        else
-            return c;
-    });
-
-    res.sendStatus(200);
 });
 
 /////////////////////////////////API PACO-LEE///////////////////////////////////
