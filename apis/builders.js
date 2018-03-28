@@ -108,7 +108,7 @@ app.post(BASE_API_PATH + "/builders", (req, res) => {
                         return (builder.year.localeCompare(newBuilder.year, "en", {'sensitivity' : 'base'}) == 0);
                     });
                     if(builderBeforeInsertion.length > 0){
-                        console.log("WARNING: The builder " + JSON.stringify(newBuilder, 2, null) + " already extis, sending 409...");
+                        console.log("WARNING: The builder " + JSON.stringify(newBuilder, 2, null) + " already exists, sending 409...");
                         res.sendStatus(409);
                     }else{
                         console.log("INFO: Adding builder " + JSON.stringify(newBuilder, 2, null));
