@@ -53,7 +53,14 @@ app.get(BASE_API_PATH + "/builders", (req, res) => {
     //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
     //y despues la coletilla GET /builders
     console.log(Date() + " - GET /builders");
-    res.send(inicializacion);
+    dbd.find({}).toArray(function(err, builders){
+        if(err){
+            console.error("WARNING: Error getting data from DB");
+            res.sendStatus(500);//Internal server error
+        }else{
+            res.send(builders);
+        }
+    });
 });
 
 //GET a un recurso
@@ -64,7 +71,7 @@ app.get(BASE_API_PATH + "/builders/:year", (req, res) => {
         res.sendStatus(400); // bad request
     }else{
         console.log(Date() + " - GET /builders/" + year);
-        dbd.find({year:year}).toArray(function (err, filteredbuilders){
+        dbd.find({year:year}).toArray(function (err, filteredBuilders){
            if(err){
                 console.error('WARNING: Error getting data from DB');
                 res.sendStatus(500); // internal server error
@@ -79,11 +86,6 @@ app.get(BASE_API_PATH + "/builders/:year", (req, res) => {
                }
            }
         });
-        
-        
-        res.send(initialbuilders.filter((c) => {
-            return (c.year == year);
-        })[0]);
     }
 });
 
@@ -119,6 +121,13 @@ app.post(BASE_API_PATH + "/builders", (req, res) => {
             });
         }
     }
+});
+
+/////////////////////////////////POST A UN RECURSO (405 MÉTODO NO PERMITIDO)////////////////////////////////////////////////////////
+app.post(BASE_API_PATH + "/builders/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /builders/" + year);
+    res.sendStatus(405);
 });
 
 /////////////////////////////////////PUT AL CONJUNTO DE RECURSOS(405 METODO NO PERMITIDO)//////////////////////////////////////////
@@ -175,12 +184,7 @@ app.delete(BASE_API_PATH + "/builders/:year", (req, res) => {
     }
 });
 
-/////////////////////////////////POST A UN RECURSO (405 MÉTODO NO PERMITIDO)////////////////////////////////////////////////////////
-app.post(BASE_API_PATH + "/builders/:year", (req, res) => {
-    var year = req.params.year;
-    console.log(Date() + " - POST /builders/" + year);
-    res.sendStatus(405);
-});
+
 
 ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
 app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
