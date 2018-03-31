@@ -76,8 +76,8 @@ app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function(req, res) {
             res.sendStatus(500);
         }else{
             /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
-            if(motogpStats.lenght > 0){
-                console.log(' INFO: DBD has ' + motogpStats.lenght + ' results ');
+            if(motogpStats.length > 0){
+                console.log(' INFO: DBD has ' + motogpStats.length + ' results ');
                          res.sendStatus(409); //Already Data
             }else{
                 /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
@@ -95,24 +95,32 @@ app.get(BASE_API_PATH + "/motogp-stats", (req, res) =>  {
     /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
     /// y despues la coletilla GET /motogp-stats
     console.log(Date() + " - GET /motogp-stats");
-    res.send(inicializacion);
+    dbd.find({}).toArray((function(err, motogpStats) {
+        if(err){
+            console.error("WARNING: Error getting fata from DB");
+            res.sendStatus(500); /// Internal server error
+        }else{
+            res.send(motogpStats);
+        }
+        
+    }))
 });
 
-/// GET a un recurso
+/////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
 app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
     var year = req.params.year;
     if(!year){
-        console.lo("WARNING: New GET request to /motogp-stats/:year without season, sending 400...");
+        console.log("WARNING: New GET request to /motogp-stats/:year without season, sending 400...");
         res.sendStatus(400); /// bad request
     }else{
         console.log(Date() + " - GET /motogp-stats/" + year);
-        dbd.find({year:year}).toArray(function(err, filteredmotogpStats){
+        dbd.find({year:year}).toArray(function(err, filteredMotogpStats){
             if(err){
                 console.error('WARNING: Error getting data from DB');
                 res.sendStatus(500); /// internal server error
             }else{
-                if(filteredmotogpStats.lenght > 0){
-                    var builders = filteredmotogpStats[0];
+                if(filteredMotogpStats.length > 0){
+                    var motogpStats = filteredMotogpStats[0];
                     console.log(" INFO: Sending motogp-stats: " + JSON.stringify(motogpStats, 2, null));
                     res.send(motogpStats);
                 }else{
@@ -121,10 +129,6 @@ app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
                 }
             }
         });
-        
-        res.send(initialMotogpStats.filter((c) =>{
-            return (c.year == year);
-        })[0]);
         
     }
 
@@ -147,7 +151,7 @@ app.post(BASE_API_PATH + "/motogp-stats", (req, res) => {
                     console.log("WARNING: Error getting data from DB");
                     res.sendStatus(500); /// internal server error
                 }else{ /// MIRAMOS QUE NO ESTE YA EN LA BASE DE DATOS
-                    var motogpStatsBeforeInsertion = motogpStats.filter((pilot) => {
+                    var pilotBeforeInsertion = motogpStats.filter((pilot) => {
                         return (pilot.year.localeCompare(newPilot.year, "en", {'sensitivity' : 'base'}) == 0);
                     });
                     if(pilotBeforeInsertion.length > 0){
@@ -175,12 +179,13 @@ app.put(BASE_API_PATH + "/motogp-stats", (req, res) => {
 app.delete(BASE_API_PATH + "/motogp-stats", (req, res) => {
     console.log(Date() + " - DELETE /motogp-stats");
     dbd.remove({}, {multi:true}, function(err, result){
+        var numRemoved = JSON.parse(result)       
         if(err){
             console.error("WARNING: Error removing data from DB");
             res.sendStatus(500);
         }else{
             if(numRemoved.n>0){
-                console.log("INFO: All the builders (" + numRemoved + ") have been succesfully deleted, sending 204 ...");
+                console.log("INFO: All the motogp-stats (" + numRemoved + ") have been succesfully deleted, sending 204 ...");
                 res.sendStatus(204); /// no content
             }else{
                 console.log("WARNING: There are no contacts to delete");
