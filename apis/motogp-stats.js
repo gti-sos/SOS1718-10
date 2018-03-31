@@ -1,6 +1,6 @@
 var exports = module.exports ={};
 
-exports.register = function(app, dbd, BASE_API_PATH){
+exports.register = function(app, dbp, BASE_API_PATH){
     
 /////////////////////////////////////// INICIALIZAR EL CONJUNTO ///////////////////////////////////////////////////////////////////////
 app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function(req, res) {
@@ -70,18 +70,18 @@ app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function(req, res) {
     ];
     
     /// BUSCAMOS EN LA BASE DE DATOS Y OBTENEMOS UN ARRAY
-    dbd.find({}).toArray(function(err, motogpStats){
+    dbp.find({}).toArray(function(err, motogpStats){
         /// SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
         if(err){
             res.sendStatus(500);
         }else{
             /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
             if(motogpStats.length > 0){
-                console.log(' INFO: DBD has ' + motogpStats.length + ' results ');
+                console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
                          res.sendStatus(409); //Already Data
             }else{
                 /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
-                dbd.insert(inicializacion);
+                dbp.insert(inicializacion);
                 res.sendStatus(201); //created!
                 console.log(" INFO: DataBase initialized. ");
             }
@@ -95,7 +95,7 @@ app.get(BASE_API_PATH + "/motogp-stats", (req, res) =>  {
     /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
     /// y despues la coletilla GET /motogp-stats
     console.log(Date() + " - GET /motogp-stats");
-    dbd.find({}).toArray((function(err, motogpStats) {
+    dbp.find({}).toArray((function(err, motogpStats) {
         if(err){
             console.error("WARNING: Error getting fata from DB");
             res.sendStatus(500); /// Internal server error
@@ -114,7 +114,7 @@ app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
         res.sendStatus(400); /// bad request
     }else{
         console.log(Date() + " - GET /motogp-stats/" + year);
-        dbd.find({year:year}).toArray(function(err, filteredMotogpStats){
+        dbp.find({year:year}).toArray(function(err, filteredMotogpStats){
             if(err){
                 console.error('WARNING: Error getting data from DB');
                 res.sendStatus(500); /// internal server error
@@ -146,7 +146,7 @@ app.post(BASE_API_PATH + "/motogp-stats", (req, res) => {
             console.log("WARNING: The newPilot " + JSON.stringify(newPilot, 2, null) + "is not well-formed, sending 422...");
             res.sendStatus(422); /// unprocessable entity
         }else{
-            dbd.find({}).toArray(function (err, motogpStats){
+            dbp.find({}).toArray(function (err, motogpStats){
                 if(err){
                     console.log("WARNING: Error getting data from DB");
                     res.sendStatus(500); /// internal server error
@@ -159,7 +159,7 @@ app.post(BASE_API_PATH + "/motogp-stats", (req, res) => {
                         res.sendStatus(409);
                     }else{
                         console.log("INFO: Adding pilot " + JSON.stringify(newPilot, 2, null));
-                        dbd.insert(newPilot);
+                        dbp.insert(newPilot);
                         res.sendStatus(201); /// Created
                     }
                 }
@@ -178,7 +178,7 @@ app.put(BASE_API_PATH + "/motogp-stats", (req, res) => {
 ///////////////////////////////////// DELETE al conjunto de recursos /////////////////////////////////////////////////////////////////
 app.delete(BASE_API_PATH + "/motogp-stats", (req, res) => {
     console.log(Date() + " - DELETE /motogp-stats");
-    dbd.remove({}, {multi:true}, function(err, result){
+    dbp.remove({}, {multi:true}, function(err, result){
         var numRemoved = JSON.parse(result)       
         if(err){
             console.error("WARNING: Error removing data from DB");
@@ -203,7 +203,7 @@ app.delete(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
         res.sendStatus(400); /// bad request
     }else{
         console.log(Date() + " - DELETE /motogp-stats/" + yearToRemove);
-        dbd.remove({year:yearToRemove},{},function(err, result){
+        dbp.remove({year:yearToRemove},{},function(err, result){
             var numRemoved = JSON.parse(result);
             if(err){
                 console.error("WARNING: Error removing data from DB");
