@@ -111,34 +111,6 @@ app.get(BASE_API_PATH + "/buses/:community",(req,res)=>{
     });
 });
 
-/*
-app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
-    var community = req.params.community;
-     if (!community) {
-        console.log("WARNING: New GET request to /buses/:community without season, sending 400...");
-        res.sendStatus(400); // bad request
-    }else{
-        console.log(Date() + " - GET /buses/" + community);
-        db.find({"community":community}).toArray(function (err, filteredbuses){
-           if(err){
-                console.error('WARNING: Error getting data from DB');
-                res.sendStatus(500); // internal server error
-           }else{
-               if(filteredbuses.length > 0){
-                   var buses = filteredbuses[0];
-                   console.log("INFO: Sending buses: " + JSON.stringify(buses, 2, null));
-                   res.send(buses);
-                   res.sendStatus(200);
-               }else{
-                   console.log("WARNING: There are not any contact with bus " + community);
-                   res.sendStatus(404); // not found
-               }
-           }
-        });
-    }
-});
-*/
-
 //////////////////////////////////////POST AL CONJUNTO DE RECURSOS(AÑADE UN NUEVO RECURSO)/////////////////////////////////////////////
 
 app.post(BASE_API_PATH + "/buses", (req, res) => {
@@ -172,6 +144,8 @@ app.post(BASE_API_PATH + "/buses", (req, res) => {
 });
 
 /////////////////////////////////POST A UN RECURSO (405 MÉTODO NO PERMITIDO)////////////////////////////////////////////////////////
+
+
 app.post(BASE_API_PATH + "/buses/:community", (req, res) => {
     var community = req.params.community;
     console.log(Date() + " - POST /buses/" + community);
@@ -179,6 +153,7 @@ app.post(BASE_API_PATH + "/buses/:community", (req, res) => {
 });
 
 /////////////////////////////////////PUT AL CONJUNTO DE RECURSOS(405 METODO NO PERMITIDO)//////////////////////////////////////////
+
 app.put(BASE_API_PATH + "/buses", (req, res) => {
     console.log(Date() + " - PUT /buses");
     //Method not allowed
@@ -186,6 +161,8 @@ app.put(BASE_API_PATH + "/buses", (req, res) => {
 });
 
 ///////////////////////////////////DELETE al conjunto de recursos////////////////////////////////////////////////////
+
+
 app.delete(BASE_API_PATH + "/buses", (req, res) => {
     console.log(Date() + " - DELETE /buses");
     db.remove({}, {multi:true}, function(err, result){
@@ -206,6 +183,8 @@ app.delete(BASE_API_PATH + "/buses", (req, res) => {
 });
 
 //////////////////////////////////////////////DELETE de un recurso//////////////////////////////////////////////////////////////////////////////
+
+
 app.delete(BASE_API_PATH + "/buses/:community", (req, res) => {
     var communityToRemove = req.params.community;
     if (!communityToRemove) {
@@ -235,6 +214,7 @@ app.delete(BASE_API_PATH + "/buses/:community", (req, res) => {
 
 
 ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
+
 app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
     var community = req.params.community;
     var bus = req.body;
