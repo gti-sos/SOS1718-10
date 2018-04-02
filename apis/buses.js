@@ -88,6 +88,30 @@ app.get(BASE_API_PATH + "/buses", (req, res) => {
 });
 
 //GET a un recurso
+
+
+app.get(BASE_API_PATH + "/buses/:community",(req,res)=>{
+   var community = req.params.community;
+   console.log(Date() + " - GET /buses/" + community);
+
+   if(!community){
+       console.log("warning : new Get req");
+       res.sendStatus(400);
+   }
+   db.find({"community": community}).toArray((err,buses)=>{
+    if(err){
+        console.error("Error accesing DB");
+        res.sendStatus(500);
+        return;
+    }
+    res.send(buses.map((c)=>{
+        delete c._id;
+        return c;
+    })[0]);
+    });
+});
+
+/*
 app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
     var community = req.params.community;
      if (!community) {
@@ -113,7 +137,7 @@ app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
         });
     }
 });
-
+*/
 //////////////////////////////////////POST AL CONJUNTO DE RECURSOS(AÑADE UN NUEVO RECURSO)/////////////////////////////////////////////
 app.post(BASE_API_PATH + "/buses", (req, res) => {
     var newBuses = req.body;
