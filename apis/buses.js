@@ -119,7 +119,7 @@ app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
         res.sendStatus(400); // bad request
     }else{
         console.log(Date() + " - GET /buses/" + community);
-        db.find({community:community}).toArray(function (err, filteredbuses){
+        db.find({"community":community}).toArray(function (err, filteredbuses){
            if(err){
                 console.error('WARNING: Error getting data from DB');
                 res.sendStatus(500); // internal server error
