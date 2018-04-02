@@ -26,6 +26,22 @@ app.get(BASE_API_PATH + "/builders/loadInitialData", function (req, res){
     	"builder": "williams",
     	"pole": 12,
     	"victory":12
+    },
+    
+    {
+    	"country": "germany",
+    	"year": 1998, 
+    	"builder": "mercedes",
+    	"pole": 12,
+    	"victory":9
+    },
+    
+    {
+    	"country": "italy",
+    	"year": 1999, 
+    	"builder": "ferrari",
+    	"pole": 3,
+    	"victory":6
     }];
     
     //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
