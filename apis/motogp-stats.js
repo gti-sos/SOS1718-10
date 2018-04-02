@@ -95,7 +95,7 @@ app.get(BASE_API_PATH + "/motogp-stats", (req, res) =>  {
     /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
     /// y despues la coletilla GET /motogp-stats
     console.log(Date() + " - GET /motogp-stats");
-    dbp.find({}).toArray((function(err, motogpStats) {
+    dbp.find({}).toArray(function(err, motogpStats) {
         if(err){
             console.error("WARNING: Error getting fata from DB");
             res.sendStatus(500); /// Internal server error
@@ -103,7 +103,7 @@ app.get(BASE_API_PATH + "/motogp-stats", (req, res) =>  {
             res.send(motogpStats);
         }
         
-    }));
+    });
 });
 
 /////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
