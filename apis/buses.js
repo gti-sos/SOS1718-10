@@ -11,7 +11,7 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
         "year": 2018,
         "month": "november",
         "occupation": 9.3,
-        "transported-traveler": "42792",
+        "transportedTraveler": "42792",
         "country": "spain"
 
     },
@@ -20,7 +20,7 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
         "year": 2018,
         "month": "december",
         "occupation": 6.4,
-        "transported-traveler": "24492",
+        "transportedTraveler": "24492",
         "country": "spain"
     },
     {
@@ -28,7 +28,7 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
         "year": 2018,
         "month": "january",
         "occupation": 1.2,
-        "transported-traveler": "147350",
+        "transportedTraveler": "147350",
         "country": "spain"
 
     },
@@ -37,7 +37,7 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
         "year": 2018,
         "month": "february",
         "occupation": 0.4,
-        "transported-traveler": "1408",
+        "transportedTraveler": "1408",
         "country": "spain"
     },
     {
@@ -45,14 +45,14 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
         "year": 2018,
         "month": "january",
         "occupation": 1.7,
-        "transported-traveler": "917",
+        "transportedTraveler": "917",
         "country": "spain"
     }
 
 ];
 
     
-    //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
+    //BUSCAMOS EN LA BASE DE DATOS Y OBETENEMOS UN ARRAY
     db.find({}).toArray(function(err, buses){
        //SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
        if(err){
@@ -138,7 +138,9 @@ app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
     }
 });
 */
+
 //////////////////////////////////////POST AL CONJUNTO DE RECURSOS(AÑADE UN NUEVO RECURSO)/////////////////////////////////////////////
+
 app.post(BASE_API_PATH + "/buses", (req, res) => {
     var newBuses = req.body;
     if (!newBuses) {
@@ -146,19 +148,16 @@ app.post(BASE_API_PATH + "/buses", (req, res) => {
         res.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /buses with body: " + JSON.stringify(newBuses, 2, null));
-        if(!newBuses.community || !newBuses.year || !newBuses.month || !newBuses.occupation || !newBuses.transported-traveler|| !newBuses.country){
+        if(!newBuses.community || !newBuses.year || !newBuses.month || !newBuses.occupation || !newBuses.transportedTraveler|| !newBuses.country){
             console.log("WARNING: The newBuses " + JSON.stringify(newBuses, 2, null) + "is not well-formed, sending 422...");
             res.sendStatus(422); //unprocessable entity
         }else{
-            db.find({}).toArray(function (err, buses){
+            db.find({"community":newBuses.community}).toArray((err, buses)=>{
                 if(err){
                     console.log("WARNING: Error getting data from DB");
                     res.sendStatus(500);//internal server error
-                }else{//MIRAMOS QUE NO ESTE YA EN LA BASE DE DATOS
-                    var busesBeforeInsertion = buses.filter((bus)=>{
-                        return (bus.community.localeCompare(newBuses.community, "en", {'sensitivity' : 'base'}) == 0);
-                    });
-                    if(busesBeforeInsertion.length > 0){
+                }else{
+                    if(buses.length > 0){
                         console.log("WARNING: The bus " + JSON.stringify(newBuses, 2, null) + " already exists, sending 409...");
                         res.sendStatus(409);
                     }else{
