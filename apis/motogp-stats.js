@@ -120,9 +120,9 @@ app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
                 res.sendStatus(500); /// internal server error
             }else{
                 if(filteredMotogpStats.length > 0){
-                    var motogpStats = filteredMotogpStats[0];
-                    console.log(" INFO: Sending motogp-stats: " + JSON.stringify(motogpStats, 2, null));
-                    res.send(motogpStats);
+                    console.log(" INFO: Sending motogp-stats: " + JSON.stringify(filteredMotogpStats[0], 2, null));
+                    res.send(filteredMotogpStats[0]);
+                    res.sendStatus(200);
                 }else{
                     console.log("WARNING: There are not any contact with motogp-stats" + year);
                     res.sendStatus(404); /// not found
