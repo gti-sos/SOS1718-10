@@ -4,7 +4,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
 
 
 
-    ///////////////////////////////////////7/INICIALIZAR EL CONJUNTO////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////INICIALIZAR EL CONJUNTO////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders/loadInitialData", function(req, res) {
         var inicializacion = [{
                 "country": "italy",
@@ -61,8 +61,9 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                 }
                 else {
                     //SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
-                    res.sendStatus(201); //created!
                     dbd.insert(inicializacion);
+                    res.sendStatus(201); //created!
+                    
 
                     console.log("INFO: DataBase initialized.");
                 }
@@ -95,7 +96,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
         }
         else {
             console.log(Date() + " - GET /builders/" + year);
-            dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders)=>{
+            dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
                 console.log("MOSTRANDO filteredBuilders" + filteredBuilders);
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
@@ -120,32 +121,31 @@ exports.register = function(app, dbd, BASE_API_PATH) {
     //////////////////////////////////////POST AL CONJUNTO DE RECURSOS(AÑADE UN NUEVO RECURSO)/////////////////////////////////////////////
     app.post(BASE_API_PATH + "/builders", (req, res) => {
         var newBuilder = req.body;
-        var year = newBuilder.year;
         if (!newBuilder) {
             console.log("WARNING: New POST request to /builders/ without builders, sending 400...");
             res.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New POST request to /builders with body: " + JSON.stringify(newBuilder, 2, null));
+            console.log("INFO: New POST request to /builders with body: " + newBuilder);
             if (!newBuilder.country || !newBuilder.year || !newBuilder.builder || !newBuilder.pole || !newBuilder.victory) {
-                console.log("WARNING: The newBuilder " + JSON.stringify(newBuilder, 2, null) + "is not well-formed, sending 422...");
+                console.log("WARNING: The newBuilder " + newBuilder + "is not well-formed, sending 422...");
                 res.sendStatus(422); //unprocessable entity
             }
             else {
-                dbd.find({"year": parseInt(year)}).toArray(function(err, filteredBuilders) {
+                dbd.find({ "year": newBuilder.year}).toArray((err, filteredBuilders)=>{
                     if (err) {
                         console.log("WARNING: Error getting data from DB");
                         res.sendStatus(500); //internal server error
                     }
                     else { //MIRAMOS QUE NO ESTE YA EN LA BASE DE DATOS
                         if (filteredBuilders.length > 0) {
-                            console.log("WARNING: The builder " + JSON.stringify(newBuilder, 2, null) + " already exists, sending 409...");
+                            console.log("WARNING: The builder " + newBuilder + " already exists, sending 409...");
                             res.sendStatus(409);
                         }
                         else {
-                            console.log("INFO: Adding builder " + JSON.stringify(newBuilder, 2, null));
-                            res.sendStatus(201); //Created
+                            console.log("INFO: Adding builder " + newBuilder);
                             dbd.insert(newBuilder);
+                            res.sendStatus(201);
                         }
                     }
                 });
