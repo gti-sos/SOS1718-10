@@ -4,11 +4,11 @@ var bodyParser = require("body-parser");
 
 /////////////////////////MÓDULOS DE APIS//////////////////////////
 ///////API DAVID///////////////////
-var apiBuilders = require("./apis/builders.js");
+var apiBuilders = require( __dirname + "/apis/builders.js");
 ///////API PACO/////////////////////
-var apiMotogpStats = require("./apis/motogp-stats.js");
+var apiMotogpStats = require( __dirname + "/apis/motogp-stats.js");
 ///////API VICTOR//////////////////
-var apiBuses = require ("./apis/buses.js");
+var apiBuses = require ( __dirname + "/apis/buses.js");
 
 
 
@@ -50,7 +50,7 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
     apiBuilders.register(app, dbd, BASE_API_PATH);
     apiMotogpStats.register(app, dbp, BASE_API_PATH);
-    apiBuses.register(app, db, BASE_API_PATH);
+  //  apiBuses.register(app, db, BASE_API_PATH);
     
      app.listen(port, () => {
         console.log("Server Ready on port" + port + "!");
