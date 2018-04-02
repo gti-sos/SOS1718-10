@@ -103,7 +103,7 @@ app.get(BASE_API_PATH + "/motogp-stats", (req, res) =>  {
             res.send(motogpStats);
         }
         
-    }))
+    }));
 });
 
 /////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
@@ -255,7 +255,6 @@ app.put(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
 
     res.sendStatus(200);
 });
-
 }
 var initialMotogpStats = [{
         "year": 2017,
