@@ -96,9 +96,10 @@ app.get(BASE_API_PATH + "/builders/:year", (req, res) => {
                    var builders = filteredBuilders[0];
                    console.log("INFO: Sending builders: " + JSON.stringify(builders, 2, null));
                    res.send(builders);
+                   res.sendStatus(200);
                }else{
                    console.log("WARNING: There are not any contact with builder " + year);
-                    res.sendStatus(404); // not found
+                   res.sendStatus(404); // not found
                }
            }
         });
