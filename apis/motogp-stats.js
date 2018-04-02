@@ -156,21 +156,18 @@ exports.register = function(app, dbp, BASE_API_PATH) {
         }
         else {
             console.log("INFO: New POST request to /motogp-stats with body: " + JSON.stringify(newPilot, 2, null));
-            if (!newPilot.year || newPilot.pilot || newPilot.country || newPilot.age || newPilot.score) {
+            if (!newPilot.year || !newPilot.pilot || !newPilot.country || !newPilot.age || !newPilot.score) {
                 console.log("WARNING: The newPilot " + JSON.stringify(newPilot, 2, null) + "is not well-formed, sending 422...");
                 res.sendStatus(422); /// unprocessable entity
             }
             else {
-                dbp.find({}).toArray(function(err, motogpStats) {
+                dbp.find({ "year": newPilot.year}).toArray((err, filteredPilots)=> {
                     if (err) {
                         console.log("WARNING: Error getting data from DB");
                         res.sendStatus(500); /// internal server error
                     }
                     else { /// MIRAMOS QUE NO ESTE YA EN LA BASE DE DATOS
-                        var pilotBeforeInsertion = motogpStats.filter((pilot) => {
-                            return (pilot.year.localeCompare(newPilot.year, "en", { 'sensitivity': 'base' }) == 0);
-                        });
-                        if (pilotBeforeInsertion.length > 0) {
+                        if (filteredPilots.length > 0) {
                             console.log("WARNING: The pilot " + JSON.stringify(newPilot, 2, null) + "already exists, sending 409...");
                             res.sendStatus(409);
                         }
