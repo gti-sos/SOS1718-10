@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 
 /////////////////////////MÓDULOS DE APIS//////////////////////////
 ///////API DAVID///////////////////
-var apiBuilders = require( __dirname + "/apis/builders.js");
+var apiBuilders = require( "./apis/builders.js");
 ///////API PACO/////////////////////
 var apiMotogpStats = require( __dirname + "/apis/motogp-stats.js");
 ///////API VICTOR//////////////////

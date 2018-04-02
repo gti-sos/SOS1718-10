@@ -78,7 +78,7 @@ app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function(req, res) {
             /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
             if(motogpStats.length > 0){
                 console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
-                         res.sendStatus(409); //Already Data
+                res.sendStatus(409); //Already Data
             }else{
                 /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
                 dbp.insert(inicializacion);
