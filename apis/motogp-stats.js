@@ -107,7 +107,7 @@ app.get(BASE_API_PATH + "/motogp-stats", (req, res) =>  {
 });
 
 /////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
-app.get(BASE_API_PATH + "/motogp-stats/year", (req, res) => {
+app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
     var year = req.params.year;
     if(!year){
         console.log("WARNING: New GET request to /motogp-stats/:year without season, sending 400...");
