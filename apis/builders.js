@@ -95,18 +95,18 @@ exports.register = function(app, dbd, BASE_API_PATH) {
         }
         else {
             console.log(Date() + " - GET /builders/" + year);
-            dbd.find({ "year": year }).toArray(function(err, filteredBuilders) {
+            dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders)=>{
                 console.log("MOSTRANDO filteredBuilders" + filteredBuilders);
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     res.sendStatus(500); // internal server error
+                    return
                 }
                 else {
                     if (filteredBuilders.length > 0) {
-                        var builders = filteredBuilders[0];
-                        console.log("INFO: Sending builders: " + JSON.stringify(builders, 2, null));
-                        res.sendStatus(200);
-                        res.send(builders);
+                        var build = filteredBuilders[0];
+                        console.log("INFO: Sending builders: " + JSON.stringify(build, 2, null));
+                        res.send(build);
                     }
                     else {
                         console.log("WARNING: There are not any contact with builder " + year);
@@ -132,7 +132,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                 res.sendStatus(422); //unprocessable entity
             }
             else {
-                dbd.find({ year: year }).toArray(function(err, filteredBuilders) {
+                dbd.find({"year": parseInt(year)}).toArray(function(err, filteredBuilders) {
                     if (err) {
                         console.log("WARNING: Error getting data from DB");
                         res.sendStatus(500); //internal server error
