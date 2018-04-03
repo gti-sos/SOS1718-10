@@ -230,28 +230,41 @@ exports.register = function(app, dbd, BASE_API_PATH) {
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
     app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
         var year = req.params.year;
-        var builder = req.body;
-
+        var updatedBuilder= req.body;
+        
         console.log(Date() + " - PUT /builders/" + year);
-
-        //db.update({"year": builder.year}, builder, (err,numUpdate)=>{
-        //console.log("Update " + numUpdate);
-        //})
-
-        if (year != builder.year) {
-            res.sendStatus(409);
-            console.warn(Date() + " - Hacking attempt!");
-            return;
+        
+        if (!updatedBuilder) {
+            console.log("WARNING: New PUT request to /builders/ without builder, sending 400...");
+            res.sendStatus(400); // bad request
+            return
+        }else{
+            console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
+            if(updatedBuilder.year!=year){
+                console.log("WARNING: New PUT request to /lfppichichitrophy/ with diferent season, sending 400...");
+                res.sendStatus(400); // bad request
+        
+            }else{
+                dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        res.sendStatus(500); // internal server error
+                        return
+                    }else{
+                        if (filteredBuilders.length > 0) {
+                            dbd.update({"year": parseInt(year)}, updatedBuilder);
+                            res.sendStatus(200);//Modified
+                        }
+                        else {
+                            console.log("WARNING: There are not any contact with builder " + year);
+                            res.sendStatus(404); // not found
+        
+                        }
+                    }
+        
+                });
+            }    
         }
-
-        initialBuilders = initialBuilders.map((c) => {
-            if (c.year == builder.year)
-                return builder;
-            else
-                return c;
-        });
-
-        res.sendStatus(200);
     });
 
 }
