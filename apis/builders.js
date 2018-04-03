@@ -63,7 +63,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                     //SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
                     dbd.insert(inicializacion);
                     res.sendStatus(201); //created!
-                    
+
 
                     console.log("INFO: DataBase initialized.");
                 }
@@ -132,7 +132,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                 res.sendStatus(422); //unprocessable entity
             }
             else {
-                dbd.find({ "year": newBuilder.year}).toArray((err, filteredBuilders)=>{
+                dbd.find({ "year": newBuilder.year }).toArray((err, filteredBuilders) => {
                     if (err) {
                         console.log("WARNING: Error getting data from DB");
                         res.sendStatus(500); //internal server error
@@ -193,24 +193,30 @@ exports.register = function(app, dbd, BASE_API_PATH) {
     app.delete(BASE_API_PATH + "/builders/:year", (req, res) => {
         var yearToRemove = req.params.year;
         if (!yearToRemove) {
+            console.log("Entra 1");
             console.log("WARNING: New GET request to /builders/:year without season, sending 400...");
             res.sendStatus(400); // bad request
         }
         else {
+            console.log("Entra 2");
             console.log(Date() + " - DELETE /builders/" + yearToRemove);
-            dbd.remove({ year: yearToRemove }, {}, function(err, result) {
+            dbd.remove({ "year": parseInt(yearToRemove) }, {}, (err, result) => {
                 var numRemoved = JSON.parse(result);
                 if (err) {
+                    console.log("Entra 3");
                     console.error("WARNING: Error removing data from DB");
                     res.sendStatus(500); //Internal server error
                 }
                 else {
+                    console.log("Entra 4");
                     console.log("INFO: builder removed: " + numRemoved);
-                    if (numRemoved.n === 1) {
+                    if (numRemoved.n == 1) {
+                        console.log("Entra 5");
                         console.log("INFO: The builder with season " + yearToRemove + " has been succesfully deleted, sending 204...");
                         res.sendStatus(204); // no content
                     }
                     else {
+                        console.log("Entra 6");
                         console.log("WARNING: There are no builders to delete");
                         res.sendStatus(404); // not found
                     }
