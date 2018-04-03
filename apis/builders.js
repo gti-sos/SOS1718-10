@@ -241,7 +241,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
         }else{
             console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
             if(updatedBuilder.year!=year){
-                console.log("WARNING: New PUT request to /lfppichichitrophy/ with diferent season, sending 400...");
+                console.log("WARNING: New PUT request to /builders/ with diferent season, sending 400...");
                 res.sendStatus(400); // bad request
         
             }else{

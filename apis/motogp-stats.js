@@ -161,7 +161,7 @@ exports.register = function(app, dbp, BASE_API_PATH) {
                 res.sendStatus(422); /// unprocessable entity
             }
             else {
-                dbp.find({ "year": newPilot.year}).toArray((err, filteredPilots)=> {
+                dbp.find({ "year": newPilot.year }).toArray((err, filteredPilots) => {
                     if (err) {
                         console.log("WARNING: Error getting data from DB");
                         res.sendStatus(500); /// internal server error
@@ -220,7 +220,7 @@ exports.register = function(app, dbp, BASE_API_PATH) {
         }
         else {
             console.log(Date() + " - DELETE /motogp-stats/" + yearToRemove);
-            dbp.remove({ "year": parseInt(yearToRemove) }, {},(err, result)=> {
+            dbp.remove({ "year": parseInt(yearToRemove) }, {}, (err, result) => {
                 var numRemoved = JSON.parse(result);
                 if (err) {
                     console.error("WARNING: Error removing data from DB");
@@ -251,27 +251,40 @@ exports.register = function(app, dbp, BASE_API_PATH) {
     ///////////////////////////////////////// PUT A UN RECURSO (ACTUALIZA EL RECURSO) ///////////////////////////////////////////////////////
     app.put(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
         var year = req.params.year;
-        var pilot = req.body;
+        var updatePilot = req.body;
 
         console.log(Date() + " - PUT /motogp-stats/" + year);
 
-        //db.update({"year": pilot.year}, pilot, (err,numUpdate)=>{
-        //console.log("Update " + numUpdate);
-        //})
-
-        if (year != pilot.year) {
-            res.sendStatus(409);
-            console.warn(Date() + " - Hacking attempt!");
+        if (!updatePilot) {
+            console.log("WARNING: New PUT requst to /motogp-stats/ without builder, sending 400..");
+            res.sendStatus(400); ///bad request
             return;
         }
-
-        initialMotogpStats = initialMotogpStats.map((c) => {
-            if (c.year == pilot.year)
-                return pilot;
-            else
-                return c;
-        });
-
-        res.sendStatus(200);
+        else {
+            console.log("INFO: New PUT request to /motogp-stats/" + year + "with data" + updatePilot);
+            if (updatePilot.year != year) {
+                console.log("WARNING: New PUT request to /motogp-stats/ with diferent season, sending 400..");
+                res.sendStatus(400); /// bad request
+            }
+            else {
+                dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        res.sendStatus(500); /// internal server error
+                        return
+                    }
+                    else {
+                        if (filteredPilots.length > 0) {
+                            dbp.update({ "year": parseInt(year) }, updatePilot);
+                            res.sendStatus(200); /// Modifica!
+                        }
+                        else {
+                            console.log("WARNING: there are not any contact with pilot" + year);
+                            res.sendStatus(404); /// not found
+                        }
+                    }
+                });
+            }
+        }
     });
 }
