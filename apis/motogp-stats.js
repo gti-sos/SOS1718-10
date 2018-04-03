@@ -220,7 +220,7 @@ exports.register = function(app, dbp, BASE_API_PATH) {
         }
         else {
             console.log(Date() + " - DELETE /motogp-stats/" + yearToRemove);
-            dbp.remove({ year: yearToRemove }, {}, function(err, result) {
+            dbp.remove({ "year": parseInt(yearToRemove) }, {},(err, result)=> {
                 var numRemoved = JSON.parse(result);
                 if (err) {
                     console.error("WARNING: Error removing data from DB");
