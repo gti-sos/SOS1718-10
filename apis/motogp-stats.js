@@ -264,7 +264,7 @@ exports.register = function(app, dbp, BASE_API_PATH) {
             console.log("INFO: New PUT request to /motogp-stats/" + year + "with data" + updatePilot);
             if (updatePilot.year != year) {
                 console.log("WARNING: New PUT request to /motogp-stats/ with diferent season, sending 400..");
-                res.sendStatus(400); /// bad request
+                res.sendStatus(409); /// conflict
             }
             else {
                 dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
