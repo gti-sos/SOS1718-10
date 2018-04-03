@@ -216,34 +216,42 @@ app.delete(BASE_API_PATH + "/buses/:community", (req, res) => {
 ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
 
 app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
-    var community = req.params.community;
-    var bus = req.body;
+            var community = req.params.community;
+            var updatedBuses = req.body;
 
-    console.log(Date() + " - PUT /buses/" + community);
-    
-    //db.update({"community": bus.community}, bus, (err,numUpdate)=>{
-        //console.log("Update " + numUpdate);
-    //})
+            console.log(Date() + " - PUT /buses/" + community);
 
-    if (community != bus.community) {
-        res.sendStatus(409);
-        console.warn(Date() + " - Hacking attempt!");
-        return;
-    }
+            if (!updatedBuses || updatedBuses.community != community) {
+                console.log("WARNING: New PUT request to /buses/ without bus or with different year sending 400...");
+                res.sendStatus(400); // bad request
+                return
+            }
+            else {
+                console.log("INFO: New PUT request to /buses/" + community + " with data " + updatedBuses);
+                db.find({ "community": community }).toArray((err, filteredBuses) => {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        res.sendStatus(500); // internal server error
+                        return
+                    }
+                    else {
+                        if (filteredBuses.length > 0) {
+                            db.update({ "community": community }, updatedBuses);
+                            console.log("si da fallo lo modifica");
+                            res.sendStatus(200); //Modified
+                        }
+                        else {
+                            console.log("WARNING: There are not any contact with bus " + community);
+                            res.sendStatus(404); // not found
 
-    initialbuses = initialbuses.map((c) => {
-        if (c.community == bus.community)
-            return bus;
-        else
-            return c;
+                        }
+                    }
+
+                });
+            }
     });
 
-    res.sendStatus(200);
-});
-    
 }
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
