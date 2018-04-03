@@ -229,21 +229,6 @@ exports.register = function(app, dbd, BASE_API_PATH) {
 
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
     app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
-<<<<<<< HEAD
-        var year = req.params.year;
-        var updatedBuilder= req.body;
-        
-        console.log(Date() + " - PUT /builders/" + year);
-        
-        if (!updatedBuilder) {
-            console.log("WARNING: New PUT request to /builders/ without builder, sending 400...");
-            res.sendStatus(400); // bad request
-            return
-        }else{
-            console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
-            if(updatedBuilder.year!=year){
-                console.log("WARNING: New PUT request to /builders/ with diferent season, sending 400...");
-=======
             var year = req.params.year;
             var updatedBuilder = req.body;
 
@@ -251,7 +236,6 @@ exports.register = function(app, dbd, BASE_API_PATH) {
 
             if (!updatedBuilder || updatedBuilder.year != year) {
                 console.log("WARNING: New PUT request to /builders/ without builder or with different year sending 400...");
->>>>>>> refs/remotes/origin/master
                 res.sendStatus(400); // bad request
                 return
             }
