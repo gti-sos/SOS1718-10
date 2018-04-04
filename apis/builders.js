@@ -3,6 +3,18 @@ var exports = module.exports = {};
 exports.register = function(app, dbd, BASE_API_PATH) {
 
 
+    //Funcion paginacion
+    var insertar = function(elementos, array, limit, offset) {
+        var i = offset;
+        var j = limit;
+        while (j > 0) {
+            array.push(elementos[i]);
+            j--;
+            i++;
+        }
+        return elementos;
+    }
+
 
     ////////////////////////////////////////INICIALIZAR EL CONJUNTO////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders/loadInitialData", function(req, res) {
@@ -76,15 +88,68 @@ exports.register = function(app, dbd, BASE_API_PATH) {
         //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
         //y despues la coletilla GET /builders
         console.log(Date() + " - GET /builders");
-        dbd.find({}).toArray(function(err, builders) {
-            if (err) {
-                console.error("WARNING: Error getting data from DB");
-                res.sendStatus(500); //Internal server error
-            }
-            else {
-                res.send(builders);
-            }
-        });
+
+        //variables de búsqueda
+        var url = req.query;
+        var country = url.country;
+        var year = url.year;
+        var builder = url.builder;
+        var pole = url.pole;
+        var victory = url.victory;
+
+        //variables de paginación
+        var limit = parseInt(url.limit);
+        var offset = parseInt(url.offset);
+        var elementos = [];
+
+
+        if (limit > 0 && offset >= 0){
+            console.log("INFO: New GET request to /builders");
+            dbd.find({}).skip(offset).limit(limit).toArray((err, builders) => {
+                if (err){
+                    console.error("WARNING: Error getting data from DB");
+                    res.sendStatus(500); //Internal server error
+                }else{
+                    var filtered = builders.filter((param) => {
+                        if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
+                            (builder == undefined || param.builder == builder) && (pole = undefined || param.pole == pole) &&
+                            (victory == undefined || param.victory == victory)) {
+                            return param;
+                        }
+                    });
+                }if (filtered.length > 0) {
+                    elementos = insertar(filtered, elementos, limit, offset);
+                    res.send(elementos);
+                }else{
+                    console.log("WARNING: Error getting data from DB");
+                    res.sendStatus(404); //Not found
+                }
+            });
+        }else {
+            console.log("ENTRA");
+            dbd.find({}).toArray(function(err, builders) {
+                if (err){
+                    console.error("WARNING: Error getting data from DB");
+                    res.sendStatus(500); //Internal server error
+                }else{
+                    var filtered = builder.filter((param) => {
+
+                        if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
+                            (builder == undefined || param.builder == builder) && (pole = undefined || param.pole == pole) &&
+                            (victory == undefined || param.victory == victory)) {
+                            return param;
+                        }
+                    });
+                }
+
+                if (filtered.length > 0) {
+                    console.log("INFO: Sending stat: " + filtered);
+                    res.send(filtered);
+                }else {
+                    res.send(builders);
+                }
+            });
+        }
     });
 
     //GET a un recurso
@@ -229,44 +294,45 @@ exports.register = function(app, dbd, BASE_API_PATH) {
 
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
     app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
-            var year = req.params.year;
-            var updatedBuilder = req.body;
+        var year = req.params.year;
+        var updatedBuilder = req.body;
 
-            console.log(Date() + " - PUT /builders/" + year);
+        console.log(Date() + " - PUT /builders/" + year);
 
-            if (!updatedBuilder) {
-                console.log("WARNING: New PUT request to /builders/ without builder sending 400...");
-                res.sendStatus(400); // bad request
-                return
+        if (!updatedBuilder) {
+            console.log("WARNING: New PUT request to /builders/ without builder sending 400...");
+            res.sendStatus(400); // bad request
+            return
+        }
+        else {
+            if (updatedBuilder.year != year) {
+                console.log("WARNING: New put to /builders/ with year modified");
+                res.sendStatus(404); //conflict
             }
             else {
-                if(updatedBuilder.year != year){
-                    console.log("WARNING: New put to /builders/ with year modified");
-                    res.sendStatus(404);//conflict
-                }else{
-                    console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
-                    dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
-                        if (err) {
-                            console.error('WARNING: Error getting data from DB');
-                            res.sendStatus(500); // internal server error
-                            return
+                console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
+                dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        res.sendStatus(500); // internal server error
+                        return
+                    }
+                    else {
+                        if (filteredBuilders.length > 0) {
+                            dbd.update({ "year": parseInt(year) }, updatedBuilder);
+                            console.log("auqn da fallo lo modifica");
+                            res.sendStatus(200); //Modified
                         }
                         else {
-                            if (filteredBuilders.length > 0) {
-                                dbd.update({ "year": parseInt(year) }, updatedBuilder);
-                                console.log("auqn da fallo lo modifica");
-                                res.sendStatus(200); //Modified
-                            }
-                            else {
-                                console.log("WARNING: There are not any contact with builder " + year);
-                                res.sendStatus(404); // not found
-    
-                            }
+                            console.log("WARNING: There are not any contact with builder " + year);
+                            res.sendStatus(404); // not found
+
                         }
-    
-                    });
-                }
+                    }
+
+                });
             }
+        }
     });
 
 }
