@@ -4,91 +4,94 @@ exports.register = function(app, dbp, BASE_API_PATH) {
 
     /////////////////////////////////////// INICIALIZAR EL CONJUNTO ///////////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function(req, res) {
-        var inicializacion = [{
-                "year": 2017,
-                "pilot": "marc-marquez",
-                "country": "spain",
-                "score": 298,
-                "age": 24
-            },
-            {
-                "year": 2016,
-                "pilot": "marc-marquez",
-                "country": "spain",
-                "score": 298,
-                "age": 23
-            },
-            {
-                "year": 2015,
-                "pilot": "jorge-lorezo",
-                "country": "spain",
-                "score": 330,
-                "age": 28
-            },
-            {
-                "year": 2014,
-                "pilot": "marc-marquez",
-                "country": "spain",
-                "score": 362,
-                "age": 21
-            },
-            {
-                "year": 2013,
-                "pilot": "marc-marquez",
-                "country": "spain",
-                "score": 334,
-                "age": 20
-            },
-            {
-                "year": 2012,
-                "pilot": "jorge-lorezo",
-                "country": "spain",
-                "score": 350,
-                "age": 25
-            },
-            {
-                "year": 2011,
-                "pilot": "casey-stoner",
-                "country": "australia",
-                "score": 350,
-                "age": 25
-            },
-            {
-                "year": 2010,
-                "pilot": "jorge-lorezo",
-                "country": "spain",
-                "score": 383,
-                "age": 23
-            },
-            {
-                "year": 2009,
-                "pilot": "valentino-rossi",
-                "country": "italy",
-                "score": 306,
-                "age": 30
-            }
-        ];
+        if (checkApiKeyFunction(request, response) == true) {
+            var inicializacion = [{
+                    "year": 2017,
+                    "pilot": "marc-marquez",
+                    "country": "spain",
+                    "score": 298,
+                    "age": 24
+                },
+                {
+                    "year": 2016,
+                    "pilot": "marc-marquez",
+                    "country": "spain",
+                    "score": 298,
+                    "age": 23
+                },
+                {
+                    "year": 2015,
+                    "pilot": "jorge-lorezo",
+                    "country": "spain",
+                    "score": 330,
+                    "age": 28
+                },
+                {
+                    "year": 2014,
+                    "pilot": "marc-marquez",
+                    "country": "spain",
+                    "score": 362,
+                    "age": 21
+                },
+                {
+                    "year": 2013,
+                    "pilot": "marc-marquez",
+                    "country": "spain",
+                    "score": 334,
+                    "age": 20
+                },
+                {
+                    "year": 2012,
+                    "pilot": "jorge-lorezo",
+                    "country": "spain",
+                    "score": 350,
+                    "age": 25
+                },
+                {
+                    "year": 2011,
+                    "pilot": "casey-stoner",
+                    "country": "australia",
+                    "score": 350,
+                    "age": 25
+                },
+                {
+                    "year": 2010,
+                    "pilot": "jorge-lorezo",
+                    "country": "spain",
+                    "score": 383,
+                    "age": 23
+                },
+                {
+                    "year": 2009,
+                    "pilot": "valentino-rossi",
+                    "country": "italy",
+                    "score": 306,
+                    "age": 30
+                }
+            ];
 
-        /// BUSCAMOS EN LA BASE DE DATOS Y OBTENEMOS UN ARRAY
-        dbp.find({}).toArray(function(err, motogpStats) {
-            /// SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
-            if (err) {
-                res.sendStatus(500);
-            }
-            else {
-                /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
-                if (motogpStats.length > 0) {
-                    console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
-                    res.sendStatus(409); //Already Data
+            /// BUSCAMOS EN LA BASE DE DATOS Y OBTENEMOS UN ARRAY
+            dbp.find({}).toArray(function(err, motogpStats) {
+                /// SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
+                if (err) {
+                    res.sendStatus(500); /// Internal server error
                 }
                 else {
-                    /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
-                    dbp.insert(inicializacion);
-                    res.sendStatus(201); //created!
-                    console.log(" INFO: DataBase initialized. ");
+                    /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
+                    if (motogpStats.length > 0) {
+                        console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
+                        res.sendStatus(409); //Already Data
+                    }
+                    else {
+                        /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
+                        dbp.insert(inicializacion);
+                        res.sendStatus(201); //created!
+                        console.log(" INFO: DataBase initialized. ");
+                    }
                 }
-            }
-        });
+            });
+
+        }
     });
 
     ///////////////////////////////////////// GET AL CONJUNTO DE RECURSOS /////////////////////////////////////////////
