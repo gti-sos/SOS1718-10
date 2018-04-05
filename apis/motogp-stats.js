@@ -2,96 +2,106 @@ var exports = module.exports = {};
 
 exports.register = function(app, dbp, BASE_API_PATH) {
 
+    ///FUNCION PAGINACION
+    var insert = function(elementos, array, limit, offset) {
+        var i = offset;
+        var j = limit;
+        while (j > 0) {
+            array.push(elementos[i]);
+            j--;
+            i++;
+        }
+        return elementos;
+    }
+
     /////////////////////////////////////// INICIALIZAR EL CONJUNTO ///////////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/motogp-stats/loadInitialData", function(req, res) {
-        if (checkApiKeyFunction(request, response) == true) {
-            var inicializacion = [{
-                    "year": 2017,
-                    "pilot": "marc-marquez",
-                    "country": "spain",
-                    "score": 298,
-                    "age": 24
-                },
-                {
-                    "year": 2016,
-                    "pilot": "marc-marquez",
-                    "country": "spain",
-                    "score": 298,
-                    "age": 23
-                },
-                {
-                    "year": 2015,
-                    "pilot": "jorge-lorezo",
-                    "country": "spain",
-                    "score": 330,
-                    "age": 28
-                },
-                {
-                    "year": 2014,
-                    "pilot": "marc-marquez",
-                    "country": "spain",
-                    "score": 362,
-                    "age": 21
-                },
-                {
-                    "year": 2013,
-                    "pilot": "marc-marquez",
-                    "country": "spain",
-                    "score": 334,
-                    "age": 20
-                },
-                {
-                    "year": 2012,
-                    "pilot": "jorge-lorezo",
-                    "country": "spain",
-                    "score": 350,
-                    "age": 25
-                },
-                {
-                    "year": 2011,
-                    "pilot": "casey-stoner",
-                    "country": "australia",
-                    "score": 350,
-                    "age": 25
-                },
-                {
-                    "year": 2010,
-                    "pilot": "jorge-lorezo",
-                    "country": "spain",
-                    "score": 383,
-                    "age": 23
-                },
-                {
-                    "year": 2009,
-                    "pilot": "valentino-rossi",
-                    "country": "italy",
-                    "score": 306,
-                    "age": 30
-                }
-            ];
+        var inicializacion = [{
+                "year": 2017,
+                "pilot": "marc-marquez",
+                "country": "spain",
+                "score": 298,
+                "age": 24
+            },
+            {
+                "year": 2016,
+                "pilot": "marc-marquez",
+                "country": "spain",
+                "score": 298,
+                "age": 23
+            },
+            {
+                "year": 2015,
+                "pilot": "jorge-lorezo",
+                "country": "spain",
+                "score": 330,
+                "age": 28
+            },
+            {
+                "year": 2014,
+                "pilot": "marc-marquez",
+                "country": "spain",
+                "score": 362,
+                "age": 21
+            },
+            {
+                "year": 2013,
+                "pilot": "marc-marquez",
+                "country": "spain",
+                "score": 334,
+                "age": 20
+            },
+            {
+                "year": 2012,
+                "pilot": "jorge-lorezo",
+                "country": "spain",
+                "score": 350,
+                "age": 25
+            },
+            {
+                "year": 2011,
+                "pilot": "casey-stoner",
+                "country": "australia",
+                "score": 350,
+                "age": 25
+            },
+            {
+                "year": 2010,
+                "pilot": "jorge-lorezo",
+                "country": "spain",
+                "score": 383,
+                "age": 23
+            },
+            {
+                "year": 2009,
+                "pilot": "valentino-rossi",
+                "country": "italy",
+                "score": 306,
+                "age": 30
+            }
+        ];
 
-            /// BUSCAMOS EN LA BASE DE DATOS Y OBTENEMOS UN ARRAY
-            dbp.find({}).toArray(function(err, motogpStats) {
-                /// SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
-                if (err) {
-                    res.sendStatus(500); /// Internal server error
+        /// BUSCAMOS EN LA BASE DE DATOS Y OBTENEMOS UN ARRAY
+        dbp.find({}).toArray(function(err, motogpStats) {
+            /// SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
+            if (err) {
+                res.sendStatus(500); /// Internal server error
+            }
+            else {
+                /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
+                if (motogpStats.length > 0) {
+                    console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
+                    res.sendStatus(409); //Already Data
                 }
                 else {
-                    /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
-                    if (motogpStats.length > 0) {
-                        console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
-                        res.sendStatus(409); //Already Data
-                    }
-                    else {
-                        /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
-                        dbp.insert(inicializacion);
-                        res.sendStatus(201); //created!
-                        console.log(" INFO: DataBase initialized. ");
-                    }
-                }
-            });
+                    /// SI LA BASE DE DATOS ESTÁ VACÍA LA INICIALIZAMOS
+                    dbp.insert(inicializacion);
+                    res.sendStatus(201); //created!
 
-        }
+                    console.log(" INFO: DataBase initialized. ");
+                }
+            }
+        });
     });
 
     ///////////////////////////////////////// GET AL CONJUNTO DE RECURSOS /////////////////////////////////////////////
@@ -100,21 +110,80 @@ exports.register = function(app, dbp, BASE_API_PATH) {
         /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
         /// y despues la coletilla GET /motogp-stats
         console.log(Date() + " - GET /motogp-stats");
-        dbp.find({}).toArray(function(err, motogpStats) {
-            if (err) {
-                console.error("WARNING: Error getting fata from DB");
-                res.sendStatus(500); /// Internal server error
-            }
-            else {
-                res.send(motogpStats.map((m) => {
-                    delete m._id;
-                    return m;
-                }));
-            }
 
-        });
+        /// variables de búsqueda
+        var url = req.query;
+        var year = url.year;
+        var pilot = url.pilot;
+        var country = url.country;
+        var score = url.score;
+        var age = url.age;
 
+        /// variables de paginacion
+
+        var limit = parseInt(url.limit);
+        var offset = parseInt(url.offset);
+        var elementos = [];
+
+        if (limit > 0 && offset >= 0) {
+            console.log("INFO: New GET request to /motogp-stats");
+            dbp.find({}).skip(offset).limit(limit).toArray((err, motogpStats) => {
+                if (err) {
+                    console.error("WARNING: Error getting fata from DB");
+                    res.sendStatus(500); /// Internal server error
+                }
+                else {
+                    var filtered = motogpStats.filter((param) => {
+                        if ((year == undefined || param.year == year) && (pilot == undefined || param.pilot == pilot) &&
+                            (country == undefined || param.country == country) && (score == undefined || param.score == score) &&
+                            (age == undefined || param.age == age)) {
+                            return param;
+                        }
+                    });
+                }
+                if (filtered.length > 0) {
+                    elementos = insert(filtered, elementos, limit, offset);
+                    res.send(elementos);
+                }
+                else {
+                    console.log("WARNING: Error getting data from DB");
+                    res.sendStatus(404); /// Not found
+                    return
+                }
+            });
+        }
+        else {
+            dbp.find({}).toArray(function(err, motogpStats) {
+                if (err) {
+                    console.error("WARNING: Error getting data from DB");
+                    res.sendStatus(500); /// Internal server error
+                    return
+                }
+                else {
+                    var filtered = motogpStats.filter((param) => {
+                        if ((year == undefined || param.year == year) && (pilot == undefined || param.pilot == pilot) &&
+                            (country == undefined || param.country == country) && (score == undefined || param.score == score) &&
+                            (age == undefined || param.age == age)) {
+                            return param;
+                        }
+
+                    });
+                }
+
+                if (filtered.length > 0) {
+                    console.log("INFO: Sending stat: " + filtered);
+                    res.send(filtered);
+                }
+                else {
+                    res.send(motogpStats.map((m) => {
+                        delete m._id;
+                        return m;
+                    }));
+                }
+            });
+        }
     });
+
 
     /////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
