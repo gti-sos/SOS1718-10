@@ -60,7 +60,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
         ];
 
         //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
-        dbd.find({}).toArray(function(err, builders) {
+        dbd.find({}).toArray((err, builders)=> {
             //SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
             if (err) {
                 res.sendStatus(500);
@@ -126,13 +126,12 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                 }
             });
         }else {
-            console.log("ENTRA");
             dbd.find({}).toArray(function(err, builders) {
                 if (err){
                     console.error("WARNING: Error getting data from DB");
                     res.sendStatus(500); //Internal server error
                 }else{
-                    var filtered = builder.filter((param) => {
+                    var filtered = builders.filter((param) => {
 
                         if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
                             (builder == undefined || param.builder == builder) && (pole = undefined || param.pole == pole) &&
