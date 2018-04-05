@@ -143,7 +143,10 @@ exports.register = function(app, dbp, BASE_API_PATH) {
                 }
                 if (filtered.length > 0) {
                     elementos = insert(filtered, elementos, limit, offset);
-                    res.send(elementos);
+                    res.send(elementos.map((m) => {
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     console.log("WARNING: Error getting data from DB");
@@ -172,7 +175,10 @@ exports.register = function(app, dbp, BASE_API_PATH) {
 
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
-                    res.send(filtered);
+                    res.send(filtered.map((m) => {
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     res.send(motogpStats.map((m) => {
