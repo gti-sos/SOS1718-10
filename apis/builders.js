@@ -107,22 +107,24 @@ exports.register = function(app, dbd, BASE_API_PATH) {
             console.log("INFO: New GET request to /builders");
             dbd.find({}).skip(offset).limit(limit).toArray((err, builders) => {
                 if (err){
-                    console.error("WARNING: Error getting data from DB");
+                    console.error("WARNING 1: Error getting data from DB");
                     res.sendStatus(500); //Internal server error
                 }else{
                     var filtered = builders.filter((param) => {
                         if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
-                            (builder == undefined || param.builder == builder) && (pole = undefined || param.pole == pole) &&
+                            (builder == undefined || param.builder == builder) && (pole == undefined || param.pole == pole) &&
                             (victory == undefined || param.victory == victory)) {
                             return param;
                         }
                     });
+                    console.log("haciendo el filter" + filtered);
                 }if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, limit, offset);
                     res.send(elementos);
                 }else{
-                    console.log("WARNING: Error getting data from DB");
+                    console.log("WARNING 2: Error getting data from DB");
                     res.sendStatus(404); //Not found
+                    return
                 }
             });
         }else {
@@ -130,6 +132,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                 if (err){
                     console.error("WARNING: Error getting data from DB");
                     res.sendStatus(500); //Internal server error
+                    return
                 }else{
                     var filtered = builders.filter((param) => {
 
