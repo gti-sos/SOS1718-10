@@ -181,10 +181,7 @@ exports.register = function(app, dbp, BASE_API_PATH) {
                     }));
                 }
                 else {
-                    res.send(motogpStats.map((m) => {
-                        delete m._id;
-                        return m;
-                    }));
+                    res.sendStatus(404); ///Not Found
                 }
             });
         }
