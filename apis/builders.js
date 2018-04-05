@@ -137,7 +137,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                     var filtered = builders.filter((param) => {
 
                         if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
-                            (builder == undefined || param.builder == builder) && (pole = undefined || param.pole == pole) &&
+                            (builder == undefined || param.builder == builder) && (pole == undefined || param.pole == pole) &&
                             (victory == undefined || param.victory == victory)) {
                             return param;
                         }
