@@ -44,12 +44,11 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     
     // APIKEY
 var API_KEY = "davvicfra";
-
 // Helper method to check for apikey
-var checkApiKeyFunction = (req, res) => {
+var checkApiKeyFunction = function(req, res){
     if (!req.query.apikey) {
         console.error('WARNING: No apikey was sent!');
-        req.sendStatus(401);
+        res.sendStatus(401);
         return false;
     }
     if (req.query.apikey !== API_KEY) {

@@ -84,7 +84,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     /////////////////////////////////////////GET AL CONJUNTO DE RECURSOS/////////////////////////////////////////////
-    app.get(BASE_API_PATH + "/builders", (req, res) => {
+    app.get(BASE_API_PATH + "/builders", function(req, res) {
         if(!checkApiKeyFunction(req, res)) return;
         //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
         //y despues la coletilla GET /builders
