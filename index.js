@@ -48,9 +48,27 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     });*/
 
     /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
-    apiBuilders.register(app, dbd, BASE_API_PATH);
-    apiMotogpStats.register(app, dbp, BASE_API_PATH);
-    apiBuses.register(app, db, BASE_API_PATH);
+    apiBuilders.register(app, dbd, BASE_API_PATH, checkApiKeyFunction);
+    apiMotogpStats.register(app, dbp, BASE_API_PATH, checkApiKeyFunction);
+    apiBuses.register(app, db, BASE_API_PATH, checkApiKeyFunction);
+    
+    // APIKEY
+var API_KEY = "davvicfra";
+
+// Helper method to check for apikey
+var checkApiKeyFunction = function(request, response) {
+    if (!request.query.apikey) {
+        console.error('WARNING: No apikey was sent!');
+        response.sendStatus(401);
+        return false;
+    }
+    if (request.query.apikey !== API_KEY) {
+        console.error('WARNING: Incorrect apikey was used!');
+        response.sendStatus(403);
+        return false;
+    }
+    return true;
+};
     
      app.listen(port, () => {
         console.log("Server Ready on port" + port + "!");
