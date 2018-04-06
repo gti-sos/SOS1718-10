@@ -10,7 +10,7 @@ var apiMotogpStats = require( __dirname + "/apis/motogp-stats.js");
 ///////API VICTOR//////////////////
 var apiBuses = require ( __dirname + "/apis/buses.js");
 
-
+var security = require("./security.js")
 
 var app = express();
 app.use(bodyParser.json());
@@ -38,26 +38,9 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
 
     /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
-    apiBuilders.register(app, dbd, BASE_API_PATH, checkApiKeyFunction);
-    apiMotogpStats.register(app, dbp, BASE_API_PATH, checkApiKeyFunction);
-    apiBuses.register(app, db, BASE_API_PATH, checkApiKeyFunction);
-    
-    // APIKEY
-var API_KEY = "davvicfra";
-// Helper method to check for apikey
-var checkApiKeyFunction = function(req, res){
-    if (!req.query.apikey) {
-        console.error('WARNING: No apikey was sent!');
-        res.sendStatus(401);
-        return false;
-    }
-    if (req.query.apikey !== API_KEY) {
-        console.error('WARNING: Incorrect apikey was used!');
-        res.sendStatus(403);
-        return false;
-    }
-    return true;
-};
+    apiBuilders.register(app, dbd, BASE_API_PATH, security.checkApiKeyFunction);
+    apiMotogpStats.register(app, dbp, BASE_API_PATH, security.checkApiKeyFunction);
+    apiBuses.register(app, db, BASE_API_PATH, security.checkApiKeyFunction);
     
      app.listen(port, () => {
         console.log("Server Ready on port" + port + "!");
