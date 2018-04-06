@@ -1,6 +1,6 @@
 var exports = module.exports ={};
 
-exports.register = function(app, db, BASE_API_PATH){
+exports.register = function(app, db, BASE_API_PATH,checkApiKeyFunction){
 
 
 //////////////FUNCION PAGINACION///////////////////////////////////////////////
