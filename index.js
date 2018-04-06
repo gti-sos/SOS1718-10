@@ -22,6 +22,7 @@ var mdbURL = "mongodb://dbbuses:12345@ds121118.mlab.com:21118/sos1718-10-sandbox
 
 var port = (process.env.PORT || 1607);
 var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH_SECURE = "/api/v1/security";
 
 MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     
@@ -51,5 +52,12 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     console.log("Server setting up....");
 });
 
+
+     ////// probando //////
+     
+    app.get(BASE_API_PATH_SECURE , (req,res) => {
+    if(!security.checkApiKeyFunction(req,res))return;
+    });
+    
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -366,6 +366,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
     });
 
 
+    
  /////////////////////////////////////// INICIALIZAR EL CONJUNTO ///////////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH_SECURE + "/motogp-stats/loadInitialData", function(req, res) {
     if(checkApiKeyFunction(req,res)==true){
