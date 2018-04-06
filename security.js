@@ -1,5 +1,9 @@
+var express = require("express");
+var app = express();
 var security = {};
 module.exports = security;
+app.use("/", express.static(__dirname + "/public_security"));
+var BASE_API_PATH_SECURE = "/api/v1/security";
 var api_key = "davvicfra";
 
 security.checkApiKeyFunction = function(req,res) {
