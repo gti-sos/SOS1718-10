@@ -3,6 +3,20 @@ var exports = module.exports ={};
 exports.register = function(app, db, BASE_API_PATH){
 
 
+//////////////FUNCION PAGINACION///////////////////////////////////////////////
+
+ var insertar = function(elementos, array, limit, offset) {
+        var i = offset;
+        var j = limit;
+        while (j > 0) {
+            array.push(elementos[i]);
+            j--;
+            i++;
+        }
+        return elementos;
+    }
+
+
 ////////////////////VICTOR//////////////////////////////////////////////////////
 
 app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
@@ -70,22 +84,88 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
            }
        }
     });
-});              
+});        
+
 
 /////////////////////////////////////////GET AL CONJUNTO DE RECURSOS/////////////////////////////////////////////
+
+
 app.get(BASE_API_PATH + "/buses", (req, res) => {
     //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
     //y despues la coletilla GET /buses
+    
     console.log(Date() + " - GET /buses");
-    db.find({}).toArray(function(err, buses){
-        if(err){
-            console.error("WARNING: Error getting data from DB");
-            res.sendStatus(500);//Internal server error
-        }else{
-            res.send(buses);
+    
+     //variables de búsqueda
+     
+        var url = req.query;
+        var community = url.community;
+        var year = url.year;
+        var month = url.month;
+        var occupation = url.occupation;
+        var transportedTraveler = url.transportedTraveler;
+        var country = url.country;
+
+        //variables de paginación
+        
+        var limit = parseInt(url.limit);
+        var offset = parseInt(url.offset);
+        var elementos = [];
+
+
+        if (limit > 0 && offset >= 0){
+            console.log("INFO: New GET request to /buses");
+            db.find({}).skip(offset).limit(limit).toArray((err, buses) => {
+                if (err){
+                    console.error("WARNING 1: Error getting data from DB");
+                    res.sendStatus(500); //Internal server error
+                }else{
+                    var filtered = buses.filter((param) => {
+                        if ((community == undefined || param.community == community) && (year == undefined || param.year == year) &&
+                            (month == undefined || param.month == month) && (occupation == undefined || param.occupation == occupation) &&
+                            (transportedTraveler == undefined || param.transportedTraveler == transportedTraveler) &&
+                            (country == undefined || param.country == country)) {
+                            return param;
+                        }
+                    });
+                    console.log("haciendo el filter" + filtered);
+                }if (filtered.length > 0) {
+                    elementos = insertar(filtered, elementos, limit, offset);
+                    res.send(elementos);
+                }else{
+                    console.log("WARNING 2: Error getting data from DB");
+                    res.sendStatus(404); //Not found
+                    return
+                }
+            });
+        }else {
+            db.find({}).toArray(function(err, buses) {
+                if (err){
+                    console.error("WARNING: Error getting data from DB");
+                    res.sendStatus(500); //Internal server error
+                    return
+                }else{
+                    var filtered = buses.filter((param) => {
+
+                        if ((community == undefined || param.community == community) && (year == undefined || param.year == year) &&
+                            (month == undefined || param.month == month) && (occupation == undefined || param.occupation == occupation) &&
+                            (transportedTraveler == undefined || param.transportedTraveler == transportedTraveler) &&
+                            (country == undefined || param.country == country)) {
+                            return param;
+                        }
+                    });
+                }
+
+                if (filtered.length > 0) {
+                    console.log("INFO: Sending stat: " + filtered);
+                    res.send(filtered);
+                }else {
+                    res.send(buses);
+                }
+            });
         }
     });
-});
+    
 
 //GET a un recurso
 
@@ -216,19 +296,24 @@ app.delete(BASE_API_PATH + "/buses/:community", (req, res) => {
 ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
 
 app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
-            var community = req.params.community;
-            var updatedBuses = req.body;
+        var community = req.params.community;
+        var updatedBuses = req.body;
 
-            console.log(Date() + " - PUT /buses/" + community);
+        console.log(Date() + " - PUT /buses/" + community);
 
-            if (!updatedBuses || updatedBuses.community != community) {
-                console.log("WARNING: New PUT request to /buses/ without bus or with different year sending 400...");
-                res.sendStatus(400); // bad request
-                return
+        if (!updatedBuses) {
+            console.log("WARNING: New PUT request to /buses/ without builder sending 400...");
+            res.sendStatus(400); // bad request
+            return
+        }
+        else {
+            if (updatedBuses.community != community) {
+                console.log("WARNING: New put to /buses/ with community modified");
+                res.sendStatus(404); //conflict
             }
             else {
                 console.log("INFO: New PUT request to /buses/" + community + " with data " + updatedBuses);
-                db.find({ "community": community }).toArray((err, filteredBuses) => {
+                db.find({ "community":community }).toArray((err, filteredBuses) => {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         res.sendStatus(500); // internal server error
@@ -236,12 +321,12 @@ app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
                     }
                     else {
                         if (filteredBuses.length > 0) {
-                            db.update({ "community": community }, updatedBuses);
-                            console.log("si da fallo lo modifica");
+                            db.update({ "community":community }, updatedBuses);
+                            console.log("aunque da fallo lo modifica");
                             res.sendStatus(200); //Modified
                         }
                         else {
-                            console.log("WARNING: There are not any contact with bus " + community);
+                            console.log("WARNING: There are not any contact with buses " + community);
                             res.sendStatus(404); // not found
 
                         }
@@ -249,9 +334,11 @@ app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
 
                 });
             }
+        }
     });
 
 }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
