@@ -36,16 +36,6 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     var dbd = database.collection("builders");
     var dbp = database.collection("motogp-stats");
 
-   /* db.find({}).toArray((err, buses) => {
-        if (buses.lenght == 0) {
-            console.log("Empty DB");
-            db.insert(initialBuses);
-
-        }
-        else {
-            console.log("DB initialized with " + buses.lenght + "buses");
-        }
-    });*/
 
     /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
     apiBuilders.register(app, dbd, BASE_API_PATH, checkApiKeyFunction);
