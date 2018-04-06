@@ -20,6 +20,8 @@ exports.register = function(app, db, BASE_API_PATH,checkApiKeyFunction){
 ////////////////////VICTOR//////////////////////////////////////////////////////
 
 app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
+    if (!checkApiKeyFunction(req, res)) return;
+    
      var inicializacion = [{
 		"community": "madrid",
         "year": 2018,
@@ -91,6 +93,9 @@ app.get(BASE_API_PATH + "/buses/loadInitialData", function (req, res){
 
 
 app.get(BASE_API_PATH + "/buses", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
     //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
     //y despues la coletilla GET /buses
     
@@ -171,6 +176,9 @@ app.get(BASE_API_PATH + "/buses", (req, res) => {
 
 
 app.get(BASE_API_PATH + "/buses/:community",(req,res)=>{
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
    var community = req.params.community;
    console.log(Date() + " - GET /buses/" + community);
 
@@ -194,6 +202,9 @@ app.get(BASE_API_PATH + "/buses/:community",(req,res)=>{
 //////////////////////////////////////POST AL CONJUNTO DE RECURSOS(AÑADE UN NUEVO RECURSO)/////////////////////////////////////////////
 
 app.post(BASE_API_PATH + "/buses", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
     var newBuses = req.body;
     if (!newBuses) {
         console.log("WARNING: New POST request to /buses/ without buses, sending 400...");
@@ -227,6 +238,9 @@ app.post(BASE_API_PATH + "/buses", (req, res) => {
 
 
 app.post(BASE_API_PATH + "/buses/:community", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
     var community = req.params.community;
     console.log(Date() + " - POST /buses/" + community);
     res.sendStatus(405);
@@ -235,6 +249,9 @@ app.post(BASE_API_PATH + "/buses/:community", (req, res) => {
 /////////////////////////////////////PUT AL CONJUNTO DE RECURSOS(405 METODO NO PERMITIDO)//////////////////////////////////////////
 
 app.put(BASE_API_PATH + "/buses", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
     console.log(Date() + " - PUT /buses");
     //Method not allowed
     res.sendStatus(405);
@@ -244,6 +261,9 @@ app.put(BASE_API_PATH + "/buses", (req, res) => {
 
 
 app.delete(BASE_API_PATH + "/buses", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
     console.log(Date() + " - DELETE /buses");
     db.remove({}, {multi:true}, function(err, result){
         var numRemoved = JSON.parse(result);
@@ -266,6 +286,9 @@ app.delete(BASE_API_PATH + "/buses", (req, res) => {
 
 
 app.delete(BASE_API_PATH + "/buses/:community", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
     var communityToRemove = req.params.community;
     if (!communityToRemove) {
         console.log("WARNING: New GET request to /buses/:community without season, sending 400...");
@@ -296,6 +319,9 @@ app.delete(BASE_API_PATH + "/buses/:community", (req, res) => {
 ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
 
 app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
+    
+    if (!checkApiKeyFunction(req, res)) return;
+    
         var community = req.params.community;
         var updatedBuses = req.body;
 
