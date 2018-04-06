@@ -95,8 +95,7 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
 
 
     app.get(BASE_API_PATH + "/buses", (req, res) => {
-
-        if (!checkApiKeyFunction(req, res)) return;
+        if(!checkApiKeyFunction(req, res)) return;
 
         //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
         //y despues la coletilla GET /buses

@@ -1,13 +1,13 @@
 var exports = module.exports = {};
 
-exports.register = function(app, dbd, BASE_API_PATH) {
+exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
 
     //Funcion paginacion
-    var insertar = function(elementos, array, limit, offset) {
-        var i = offset;
-        var j = limit;
-        while (j > 0) {
+    var insertar = function(elementos, array, from, to) {
+        var i = from;
+        var j = to;
+        while (i < j & j <= elementos.length){
             array.push(elementos[i]);
             j--;
             i++;
@@ -85,6 +85,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
 
     /////////////////////////////////////////GET AL CONJUNTO DE RECURSOS/////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders", (req, res) => {
+        if(!checkApiKeyFunction(req, res)) return;
         //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
         //y despues la coletilla GET /builders
         console.log(Date() + " - GET /builders");
@@ -98,14 +99,14 @@ exports.register = function(app, dbd, BASE_API_PATH) {
         var victory = url.victory;
 
         //variables de paginación
-        var limit = parseInt(url.limit);
-        var offset = parseInt(url.offset);
+        var to = parseInt(url.to);
+        var from = parseInt(url.from);
         var elementos = [];
 
 
-        if (limit > 0 && offset >= 0){
+        if (from > 0 && to > 0){
             console.log("INFO: New GET request to /builders");
-            dbd.find({}).skip(offset).limit(limit).toArray((err, builders) => {
+            dbd.find({}).skip(from).limit(to).toArray((err, builders) => {
                 if (err){
                     console.error("WARNING 1: Error getting data from DB");
                     res.sendStatus(500); //Internal server error
@@ -119,7 +120,7 @@ exports.register = function(app, dbd, BASE_API_PATH) {
                     });
                     console.log("haciendo el filter" + filtered);
                 }if (filtered.length > 0) {
-                    elementos = insertar(filtered, elementos, limit, offset);
+                    elementos = insertar(filtered, elementos, from, to);
                     res.send(elementos);
                 }else{
                     console.log("WARNING 2: Error getting data from DB");
