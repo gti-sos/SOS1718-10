@@ -59,7 +59,8 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 app.get(BASE_API_PATH_SECURE, (req, res) => {
     if (!security.checkApiKeyFunction(req, res)) return;
     console.log(Date() + " - GET /security");
-    res.send(app.use("/", express.static(__dirname + "/public_security")));
+    res.render(app.use("/", express.static(__dirname + "/public_security")));
+    console.log("A pasao churrita")
     
 });
 
