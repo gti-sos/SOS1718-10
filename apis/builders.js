@@ -7,7 +7,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     var insertar = function(elementos, array, from, to) {
         var i = from;
         var j = to;
-        while (i < j & j <= elementos.length){
+        while (i < j & j <= elementos.length) {
             array.push(elementos[i]);
             j--;
             i++;
@@ -60,7 +60,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         ];
 
         //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
-        dbd.find({}).toArray((err, builders)=> {
+        dbd.find({}).toArray((err, builders) => {
             //SI HAY ALGUN ERROR EN EL SERVIDOR, LANZAR ERROR
             if (err) {
                 res.sendStatus(500);
@@ -85,7 +85,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     /////////////////////////////////////////GET AL CONJUNTO DE RECURSOS/////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders", function(req, res) {
-        if(!checkApiKeyFunction(req, res)) return;
+        // if(!checkApiKeyFunction(req, res)) return;
         //Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor 
         //y despues la coletilla GET /builders
         console.log(Date() + " - GET /builders");
@@ -104,13 +104,14 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         var elementos = [];
 
 
-        if (from > 0 && to > 0){
+        if (from > 0 && to > 0) {
             console.log("INFO: New GET request to /builders");
             dbd.find({}).skip(from).limit(to).toArray((err, builders) => {
-                if (err){
+                if (err) {
                     console.error("WARNING 1: Error getting data from DB");
                     res.sendStatus(500); //Internal server error
-                }else{
+                }
+                else {
                     var filtered = builders.filter((param) => {
                         if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
                             (builder == undefined || param.builder == builder) && (pole == undefined || param.pole == pole) &&
@@ -119,22 +120,26 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                         }
                     });
                     console.log("haciendo el filter" + filtered);
-                }if (filtered.length > 0) {
+                }
+                if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, from, to);
                     res.send(elementos);
-                }else{
+                }
+                else {
                     console.log("WARNING 2: Error getting data from DB");
                     res.sendStatus(404); //Not found
                     return
                 }
             });
-        }else {
+        }
+        else {
             dbd.find({}).toArray(function(err, builders) {
-                if (err){
+                if (err) {
                     console.error("WARNING: Error getting data from DB");
                     res.sendStatus(500); //Internal server error
                     return
-                }else{
+                }
+                else {
                     var filtered = builders.filter((param) => {
 
                         if ((country == undefined || param.country == country) && (year == undefined || param.year == year) &&
@@ -148,7 +153,8 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
                     res.send(filtered);
-                }else {
+                }
+                else {
                     res.send(builders);
                 }
             });
@@ -297,20 +303,15 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
     app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
-        var year = req.params.year;
-        var updatedBuilder = req.body;
+            var year = req.params.year;
+            var updatedBuilder = req.body;
 
-        console.log(Date() + " - PUT /builders/" + year);
+            console.log(Date() + " - PUT /builders/" + year);
 
-        if (!updatedBuilder) {
-            console.log("WARNING: New PUT request to /builders/ without builder sending 400...");
-            res.sendStatus(400); // bad request
-            return
-        }
-        else {
-            if (updatedBuilder.year != year) {
-                console.log("WARNING: New put to /builders/ with year modified");
-                res.sendStatus(404); //conflict
+            if (!updatedBuilder || updatedBuilder.year != year) {
+                console.log("WARNING: New PUT request to /builders/ without builder or with year modified sending 400...");
+                res.sendStatus(400); // bad request
+                return
             }
             else {
                 console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
