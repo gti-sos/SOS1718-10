@@ -184,7 +184,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                         res.send(build);
                     }
                     else {
-                        console.log("WARNING: There are not any contact with builder " + year);
+                        console.log("WARNING: There are not any contact with year " + year);
                         res.sendStatus(404); // not found
                     }
                 }
@@ -336,7 +336,6 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
                 });
             }
-        }
     });
 
 }
