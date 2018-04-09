@@ -222,7 +222,7 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
             console.log("INFO: New POST request to /buses with body: " + JSON.stringify(newBuses, 2, null));
             if (!newBuses.community || !newBuses.year || !newBuses.month || !newBuses.occupation || !newBuses.transportedTraveler || !newBuses.country) {
                 console.log("WARNING: The newBuses " + JSON.stringify(newBuses, 2, null) + "is not well-formed, sending 422...");
-                res.sendStatus(422); //unprocessable entity
+                res.sendStatus(400); //unprocessable entity
             }
             else {
                 db.find({ "community": newBuses.community }).toArray((err, buses) => {
