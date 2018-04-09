@@ -207,7 +207,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             console.log("INFO: New POST request to /builders with body: " + newBuilder);
             if (!newBuilder.country || !newBuilder.year || !newBuilder.builder || !newBuilder.pole || !newBuilder.victory) {
                 console.log("WARNING: The newBuilder " + newBuilder + "is not well-formed, sending 422...");
-                res.sendStatus(422); //unprocessable entity
+                res.sendStatus(400); //bad request
             }
             else {
                 dbd.find({ "year": newBuilder.year }).toArray((err, filteredBuilders) => {
