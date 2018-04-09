@@ -183,28 +183,34 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
     //GET a un recurso
 
 
-    app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
-
-        //if (!checkApiKeyFunction(req, res)) return;
-
+     app.get(BASE_API_PATH + "/buses/:community", (req, res) => {
         var community = req.params.community;
-        console.log(Date() + " - GET /buses/" + community);
-
         if (!community) {
-            console.log("warning : new Get req");
-            res.sendStatus(400);
+            console.log("WARNING: New GET request to /buses/:community without season, sending 400...");
+            res.sendStatus(400); // bad request
         }
-        db.find({ "community": community }).toArray((err, buses) => {
-            if (err) {
-                console.error("Error accesing DB");
-                res.sendStatus(500);
-                return;
-            }
-            res.send(buses.map((c) => {
-                delete c._id;
-                return c;
-            })[0]);
-        });
+        else {
+            console.log(Date() + " - GET /buses/" + community);
+            db.find({ "community": community }).toArray((err, filteredBuses) => {
+                console.log("MOSTRANDO filteredBuilders" + filteredBuses);
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    res.sendStatus(500); // internal server error
+                    return
+                }
+                else {
+                    if (filteredBuses.length > 0) {
+                        var build = filteredBuses[0];
+                        console.log("INFO: Sending builders: " + JSON.stringify(build, 2, null));
+                        res.send(build);
+                    }
+                    else {
+                        console.log("WARNING: There are not any contact with community " + community);
+                        res.sendStatus(404); // not found
+                    }
+                }
+            });
+        }
     });
 
     //////////////////////////////////////POST AL CONJUNTO DE RECURSOS(AÑADE UN NUEVO RECURSO)/////////////////////////////////////////////
