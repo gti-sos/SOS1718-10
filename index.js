@@ -15,6 +15,7 @@ var security = require("./security.js")
 var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));
+app.use("/secure", express.static(__dirname + "/public_security"));
 
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
@@ -51,17 +52,6 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
     });
 
     console.log("Server setting up....");
-});
-
-
-////// probando //////
-
-app.get(BASE_API_PATH_SECURE, (req, res) => {
-    if (!security.checkApiKeyFunction(req, res)) return;
-    console.log(Date() + " - GET /security");
-    res.send(app.use("/", express.static(__dirname + "/public_security")));
-    console.log("A pasao churrita")
-    
 });
 
 
