@@ -16,7 +16,9 @@ var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));
 app.use("/secure", express.static(__dirname + "/public_security"));
-
+app.use("/buses", express.static(__dirname + "/public_buses"));
+app.use("/builders", express.static(__dirname + "/public_builders"));
+app.use("/motogp-stats", express.static(__dirname + "/public_motogp"));
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
 var MongoClient = require("mongodb").MongoClient;
