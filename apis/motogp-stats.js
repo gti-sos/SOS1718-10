@@ -92,7 +92,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             else {
                 /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
                 if (motogpStats.length > 0) {
-                    console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
+                    console.log(' INFO: DBP has ' + motogpStats.length + ' results ');
                     res.sendStatus(409); //Already Data
                 }
                 else {
