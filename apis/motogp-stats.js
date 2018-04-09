@@ -332,37 +332,32 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
 
         console.log(Date() + " - PUT /motogp-stats/" + year);
 
-        if (!updatePilot) {
+        if (!updatePilot || updatePilot.year != year) {
             console.log("WARNING: New PUT requst to /motogp-stats/ without builder, sending 400..");
             res.sendStatus(400); ///bad request
             return;
         }
         else {
             console.log("INFO: New PUT request to /motogp-stats/" + year + "with data" + updatePilot);
-            if (updatePilot.year != year) {
-                console.log("WARNING: New PUT request to /motogp-stats/ with diferent season, sending 400..");
-                res.sendStatus(409); /// conflict
-            }
-            else {
-                dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
-                    if (err) {
-                        console.error('WARNING: Error getting data from DB');
-                        res.sendStatus(500); /// internal server error
-                        return
+            dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    res.sendStatus(500); /// internal server error
+                    return
+                }
+                else {
+                    if (filteredPilots.length > 0) {
+                        dbp.update({ "year": parseInt(year) }, updatePilot);
+                        res.sendStatus(200); /// Modifica!
                     }
                     else {
-                        if (filteredPilots.length > 0) {
-                            dbp.update({ "year": parseInt(year) }, updatePilot);
-                            res.sendStatus(200); /// Modifica!
-                        }
-                        else {
-                            console.log("WARNING: there are not any contact with pilot" + year);
-                            res.sendStatus(404); /// not found
-                        }
+                        console.log("WARNING: there are not any contact with pilot" + year);
+                        res.sendStatus(404); /// not found
                     }
-                });
-            }
+                }
+            });
         }
+        
     });
 
 
@@ -686,43 +681,38 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     ///////////////////////////////////////// PUT A UN RECURSO (ACTUALIZA EL RECURSO) ///////////////////////////////////////////////////////
-    app.put(BASE_API_PATH_SECURE + "/motogp-stats/:year", (req, res) => {
+    app.put(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
         if(!checkApiKeyFunction(req,res))return;
         var year = req.params.year;
         var updatePilot = req.body;
 
         console.log(Date() + " - PUT /motogp-stats/" + year);
 
-        if (!updatePilot) {
+        if (!updatePilot || updatePilot.year != year) {
             console.log("WARNING: New PUT requst to /motogp-stats/ without builder, sending 400..");
             res.sendStatus(400); ///bad request
             return;
         }
         else {
             console.log("INFO: New PUT request to /motogp-stats/" + year + "with data" + updatePilot);
-            if (updatePilot.year != year) {
-                console.log("WARNING: New PUT request to /motogp-stats/ with diferent season, sending 400..");
-                res.sendStatus(409); /// conflict
-            }
-            else {
-                dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
-                    if (err) {
-                        console.error('WARNING: Error getting data from DB');
-                        res.sendStatus(500); /// internal server error
-                        return
+            dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    res.sendStatus(500); /// internal server error
+                    return
+                }
+                else {
+                    if (filteredPilots.length > 0) {
+                        dbp.update({ "year": parseInt(year) }, updatePilot);
+                        res.sendStatus(200); /// Modifica!
                     }
                     else {
-                        if (filteredPilots.length > 0) {
-                            dbp.update({ "year": parseInt(year) }, updatePilot);
-                            res.sendStatus(200); /// Modifica!
-                        }
-                        else {
-                            console.log("WARNING: there are not any contact with pilot" + year);
-                            res.sendStatus(404); /// not found
-                        }
+                        console.log("WARNING: there are not any contact with pilot" + year);
+                        res.sendStatus(404); /// not found
                     }
-                });
-            }
+                }
+            });
         }
+        
     });
 }
