@@ -3,13 +3,14 @@ var BASE_API_PATH_SECURE = "/api/v1/security";
 
 exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
-
-    //Funcion paginacion
-    var insertar = function(elementos, array, from, to) {
-        var i = from;
-        var j = to;
-        while (i < j & j <= elementos.length) {
+ ///FUNCION PAGINACION
+    var insertar = function(elementos, array, offset, limit) {
+        
+        var i = offset;
+        var j = limit;
+        while (j > 0) {
             array.push(elementos[i]);
+            j--;
             i++;
         }
         return elementos;
@@ -97,16 +98,16 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         var victory = url.victory;
 
         //variables de paginación
-        var to = parseInt(url.to);
-        var from = parseInt(url.from);
+        var limit = parseInt(url.limit);
+        var offset = parseInt(url.offset);
         var elementos = [];
 
 
-        if (from > 0 && to > 0) {
+        if (offset > 0 && limit > 0) {
             console.log("INFO: New GET request to /builders");
-            dbd.find({}).skip(from).limit(to).toArray((err, builders) => {
+            dbd.find({}).skip(offset).limit(limit).toArray((err, builders) => {
                 if (err) {
-                    console.error("WARNING 1: Error getting data from DB");
+                    console.error("WARNING 1: Error getting data offset DB");
                     res.sendStatus(500); //Internal server error
                 }
                 else {
@@ -120,14 +121,14 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                     console.log("haciendo el filter" + filtered);
                 }
                 if (filtered.length > 0) {
-                    elementos = insertar(filtered, elementos, from, to);
+                    elementos = insertar(filtered, elementos, offset, limit);
                     res.send(elementos.map((m)=>{
                         delete m._id;
                         return m;
                     }));
                 }
                 else {
-                    console.log("WARNING 2: Error getting data from DB");
+                    console.log("WARNING 2: Error getting data offset DB");
                     res.sendStatus(404); //Not found
                     return
                 }
@@ -136,7 +137,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         else {
             dbd.find({}).toArray(function(err, builders) {
                 if (err) {
-                    console.error("WARNING: Error getting data from DB");
+                    console.error("WARNING: Error getting data offset DB");
                     res.sendStatus(500); //Internal server error
                     return
                 }
@@ -177,7 +178,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
                 console.log("MOSTRANDO filteredBuilders" + filteredBuilders);
                 if (err) {
-                    console.error('WARNING: Error getting data from DB');
+                    console.error('WARNING: Error getting data offset DB');
                     res.sendStatus(500); // internal server error
                     return
                 }
@@ -212,7 +213,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             else {
                 dbd.find({ "year": newBuilder.year }).toArray((err, filteredBuilders) => {
                     if (err) {
-                        console.log("WARNING: Error getting data from DB");
+                        console.log("WARNING: Error getting data offset DB");
                         res.sendStatus(500); //internal server error
                     }
                     else { //MIRAMOS QUE NO ESTE YA EN LA BASE DE DATOS
@@ -251,7 +252,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         dbd.remove({}, { multi: true }, function(err, result) {
             var numRemoved = JSON.parse(result);
             if (err) {
-                console.error("WARNING: Error removing data from DB");
+                console.error("WARNING: Error removing data offset DB");
                 res.sendStatus(500);
             }
             else {
@@ -282,7 +283,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 var numRemoved = JSON.parse(result);
                 if (err) {
                     console.log("Entra 3");
-                    console.error("WARNING: Error removing data from DB");
+                    console.error("WARNING: Error removing data offset DB");
                     res.sendStatus(500); //Internal server error
                 }
                 else {
@@ -321,7 +322,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
             dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
                 if (err) {
-                    console.error('WARNING: Error getting data from DB');
+                    console.error('WARNING: Error getting data offset DB');
                     res.sendStatus(500); // internal server error
                     return
                 }
@@ -431,15 +432,15 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
         //variables de paginación
         var to = parseInt(url.to);
-        var from = parseInt(url.from);
+        var offset = parseInt(url.offset);
         var elementos = [];
 
 
-        if (from > 0 && to > 0) {
+        if (offset > 0 && to > 0) {
             console.log("INFO: New GET request to /builders");
-            dbd.find({}).skip(from).limit(to).toArray((err, builders) => {
+            dbd.find({}).skip(offset).limit(to).toArray((err, builders) => {
                 if (err) {
-                    console.error("WARNING 1: Error getting data from DB");
+                    console.error("WARNING 1: Error getting data offset DB");
                     res.sendStatus(500); //Internal server error
                 }
                 else {
@@ -453,14 +454,14 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                     console.log("haciendo el filter" + filtered);
                 }
                 if (filtered.length > 0) {
-                    elementos = insertar(filtered, elementos, from, to);
+                    elementos = insertar(filtered, elementos, offset, to);
                     res.send(elementos.map((m)=>{
                         delete m._id;
                         return m;
                     }));
                 }
                 else {
-                    console.log("WARNING 2: Error getting data from DB");
+                    console.log("WARNING 2: Error getting data offset DB");
                     res.sendStatus(404); //Not found
                     return
                 }
@@ -469,7 +470,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         else {
             dbd.find({}).toArray(function(err, builders) {
                 if (err) {
-                    console.error("WARNING: Error getting data from DB");
+                    console.error("WARNING: Error getting data offset DB");
                     res.sendStatus(500); //Internal server error
                     return
                 }
@@ -511,7 +512,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
                 console.log("MOSTRANDO filteredBuilders" + filteredBuilders);
                 if (err) {
-                    console.error('WARNING: Error getting data from DB');
+                    console.error('WARNING: Error getting data offset DB');
                     res.sendStatus(500); // internal server error
                     return
                 }
@@ -547,7 +548,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             else {
                 dbd.find({ "year": newBuilder.year }).toArray((err, filteredBuilders) => {
                     if (err) {
-                        console.log("WARNING: Error getting data from DB");
+                        console.log("WARNING: Error getting data offset DB");
                         res.sendStatus(500); //internal server error
                     }
                     else { //MIRAMOS QUE NO ESTE YA EN LA BASE DE DATOS
@@ -589,7 +590,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         dbd.remove({}, { multi: true }, function(err, result) {
             var numRemoved = JSON.parse(result);
             if (err) {
-                console.error("WARNING: Error removing data from DB");
+                console.error("WARNING: Error removing data offset DB");
                 res.sendStatus(500);
             }
             else {
@@ -621,7 +622,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 var numRemoved = JSON.parse(result);
                 if (err) {
                     console.log("Entra 3");
-                    console.error("WARNING: Error removing data from DB");
+                    console.error("WARNING: Error removing data offset DB");
                     res.sendStatus(500); //Internal server error
                 }
                 else {
@@ -659,7 +660,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
             console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
             dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
                 if (err) {
-                    console.error('WARNING: Error getting data from DB');
+                    console.error('WARNING: Error getting data offset DB');
                     res.sendStatus(500); // internal server error
                     return
                 }
