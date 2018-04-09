@@ -10,7 +10,6 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         var j = to;
         while (i < j & j <= elementos.length) {
             array.push(elementos[i]);
-            j--;
             i++;
         }
         return elementos;
@@ -20,22 +19,6 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     ////////////////////////////////////////INICIALIZAR EL CONJUNTO////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders/loadInitialData", function(req, res) {
         var inicializacion = [{
-                "country": "italy",
-                "year": 2004,
-                "builder": "ferrari",
-                "pole": 18,
-                "victory": 15
-            },
-
-            {
-                "country": "germany",
-                "year": 2015,
-                "builder": "mercedes",
-                "pole": 18,
-                "victory": 16
-            },
-
-            {
                 "country": "uk",
                 "year": 1996,
                 "builder": "williams",
@@ -57,8 +40,22 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 "builder": "ferrari",
                 "pole": 3,
                 "victory": 6
-            }
-        ];
+            }, 
+            {
+                "country": "italy",
+                "year": 2004,
+                "builder": "ferrari",
+                "pole": 18,
+                "victory": 15
+            },
+
+            {
+                "country": "germany",
+                "year": 2015,
+                "builder": "mercedes",
+                "pole": 18,
+                "victory": 16
+            }];
 
         //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
         dbd.find({}).toArray((err, builders) => {
@@ -124,7 +121,10 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, from, to);
-                    res.send(elementos);
+                    res.send(elementos.map((m)=>{
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     console.log("WARNING 2: Error getting data from DB");
@@ -153,7 +153,10 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
-                    res.send(filtered);
+                    res.send(filtered.map((m)=>{
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     res.send(builders);
@@ -347,44 +350,43 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     app.get(BASE_API_PATH_SECURE + "/builders/loadInitialData", function(req, res) {
         if (checkApiKeyFunction(req, res) == true) {
             var inicializacion = [{
-                    "country": "italy",
-                    "year": 2004,
-                    "builder": "ferrari",
-                    "pole": 18,
-                    "victory": 15
-                },
+                "country": "uk",
+                "year": 1996,
+                "builder": "williams",
+                "pole": 12,
+                "victory": 12
+            },
 
-                {
-                    "country": "germany",
-                    "year": 2015,
-                    "builder": "mercedes",
-                    "pole": 18,
-                    "victory": 16
-                },
+            {
+                "country": "germany",
+                "year": 1998,
+                "builder": "mercedes",
+                "pole": 12,
+                "victory": 9
+            },
 
-                {
-                    "country": "uk",
-                    "year": 1996,
-                    "builder": "williams",
-                    "pole": 12,
-                    "victory": 12
-                },
+            {
+                "country": "italy",
+                "year": 1999,
+                "builder": "ferrari",
+                "pole": 3,
+                "victory": 6
+            }, 
+            {
+                "country": "italy",
+                "year": 2004,
+                "builder": "ferrari",
+                "pole": 18,
+                "victory": 15
+            },
 
-                {
-                    "country": "germany",
-                    "year": 1998,
-                    "builder": "mercedes",
-                    "pole": 12,
-                    "victory": 9
-                },
-
-                {
-                    "country": "italy",
-                    "year": 1999,
-                    "builder": "ferrari",
-                    "pole": 3,
-                    "victory": 6
-                }
+            {
+                "country": "germany",
+                "year": 2015,
+                "builder": "mercedes",
+                "pole": 18,
+                "victory": 16
+            }
             ];
 
             //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
@@ -452,7 +454,10 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, from, to);
-                    res.send(elementos);
+                    res.send(elementos.map((m)=>{
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     console.log("WARNING 2: Error getting data from DB");
@@ -481,7 +486,10 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
-                    res.send(filtered);
+                    res.send(filtered.map((m)=>{
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     res.send(builders);
