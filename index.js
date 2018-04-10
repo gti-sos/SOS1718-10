@@ -16,12 +16,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));
 app.use("/secure", express.static(__dirname + "/public/security"));
-app.use("/buses", express.static(__dirname + "/public/buses"));
-app.use("/builders", express.static(__dirname + "/public/builders"));
-app.use("/motogp-stats", express.static(__dirname + "/public/motogp"));
-app.use("/buses/secure", express.static(__dirname + "/public/security/buses_security"));
-app.use("/builders/secure", express.static(__dirname + "/public/security/builders_security"));
-app.use("/motogp-stats/secure", express.static(__dirname + "/public/security/motogp_security"));
+app.use("/buses", express.static(__dirname + "/public/public_apis/buses"));
+app.use("/builders", express.static(__dirname + "/public/public_apis/builders"));
+app.use("/motogp-stats", express.static(__dirname + "/public/public_apis/motogp"));
+app.use("/buses/secure", express.static(__dirname + "/public/security/security_apis/buses_security"));
+app.use("/builders/secure", express.static(__dirname + "/public/security/security_apis/builders_security"));
+app.use("/motogp-stats/secure", express.static(__dirname + "/public/security/security_apis/motogp_security"));
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
 var MongoClient = require("mongodb").MongoClient;
