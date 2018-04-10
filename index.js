@@ -15,10 +15,13 @@ var security = require("./security.js")
 var app = express();
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));
-app.use("/secure", express.static(__dirname + "/public_security"));
-app.use("/buses", express.static(__dirname + "/public_buses"));
-app.use("/builders", express.static(__dirname + "/public_builders"));
-app.use("/motogp-stats", express.static(__dirname + "/public_motogp"));
+app.use("/secure", express.static(__dirname + "/public/security"));
+app.use("/buses", express.static(__dirname + "/public/buses"));
+app.use("/builders", express.static(__dirname + "/public/builders"));
+app.use("/motogp-stats", express.static(__dirname + "/public/motogp"));
+app.use("/buses/secure", express.static(__dirname + "/public/buses_security"));
+app.use("/builders/secure", express.static(__dirname + "/public/builders_security"));
+app.use("/motogp-stats/secure", express.static(__dirname + "/public/motogp_security"));
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
 var MongoClient = require("mongodb").MongoClient;
