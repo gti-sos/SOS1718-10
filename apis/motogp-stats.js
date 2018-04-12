@@ -250,6 +250,9 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                         }
                         else {
                             console.log("INFO: Adding pilot " + JSON.stringify(newPilot, 2, null));
+                            var yearInt = parseInt(newPilot.year);
+                            delete newPilot.year;
+                            newPilot.year = yearInt;
                             dbp.insert(newPilot);
                             res.sendStatus(201); /// Created
                         }
