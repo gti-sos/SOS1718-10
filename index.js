@@ -19,9 +19,11 @@ app.use("/secure", express.static(__dirname + "/public/security"));
 app.use("/buses", express.static(__dirname + "/public/public_apis/buses"));
 app.use("/builders", express.static(__dirname + "/public/public_apis/builders"));
 app.use("/motogp-stats", express.static(__dirname + "/public/public_apis/motogp"));
+app.use("/motogp-stats/front", express.static(__dirname + "/public/public_apis/motogp/front_end"));
 app.use("/buses/secure", express.static(__dirname + "/public/security/security_apis/buses_security"));
 app.use("/builders/secure", express.static(__dirname + "/public/security/security_apis/builders_security"));
 app.use("/motogp-stats/secure", express.static(__dirname + "/public/security/security_apis/motogp_security"));
+
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
 var MongoClient = require("mongodb").MongoClient;
