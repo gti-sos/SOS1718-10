@@ -12,12 +12,12 @@
     </thead>
     <tbody>
         <tr>
-            <td><input class="form control" ng-model="newPilot.year"/></td>
-            <td><input class="form control" ng-model="newPilot.pilot"/></td>
-            <td><input class="form control" ng-model="newPilot.country"/></td>
-            <td><input class="form control" ng-model="newPilot.score"/></td>
-            <td><input class="form control" ng-model="newPilot.age"/></td>
-            <td><button class="button btn-primary" ng-click="addPilot()">Add</button></td>
+            <td class="info"><input class="form control" ng-model="newPilot.year" placeholder="Year"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.pilot" placeholder="Pilot"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.country" placeholder="Country"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.score" placeholder="Score"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.age" placeholder="Age"/></td>
+            <td class="info"><button class="button btn-primary" ng-click="addPilot()">Add</button></td>
         </tr>
         <tr ng-repeat="pilot in pilots">
             <td><a href="/motogp-stats/front/#!/pilot/{{pilot.year}}">{{pilot.year}}</a></td>
