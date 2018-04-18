@@ -21,6 +21,15 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
             getPilots();
         });
     }
+    
+    $scope.deleteAll = function(){
+        $http.delete(api).then(function(response){
+            
+            $scope.status = "Status:" + response.status;
+            console.log("Lista Vacia");
+            getPilots();
+        });
+    }
 
     function getPilots() {
         $http.get(api).then(function(response) {

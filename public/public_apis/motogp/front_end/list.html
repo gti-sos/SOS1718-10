@@ -18,6 +18,7 @@
             <td class="info"><input class="form control" ng-model="newPilot.score" placeholder="Score"/></td>
             <td class="info"><input class="form control" ng-model="newPilot.age" placeholder="Age"/></td>
             <td class="info"><button class="button btn-primary" ng-click="addPilot()">Add</button></td>
+            <td><button class="button btn-danger" ng-click="deleteAll()">Delete All</button></td>
         </tr>
         <tr align=center ng-repeat="pilot in pilots">
             <td><a href="/motogp-stats/front/#!/pilot/{{pilot.year}}">{{pilot.year}}</a></td>
