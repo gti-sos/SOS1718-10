@@ -1,0 +1,33 @@
+<table class="table">
+    <thead>
+        <tr align=center>
+            <th><b>Country</b></th>
+            <th><b>Year</b></th>
+            <th><b>Builder</b></th>
+            <th><b>Pole</b></th>
+            <th><b>Victory</b></th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr align=center style="background-color:#C3F3FF">
+            <td class="info"><input class="form co#65E0FFntrol" ng-model="newBuilder.country" placeholder="Country"/></td>
+            <td class="info"><input class="form control" ng-model="newBuilder.year" placeholder="Year"/></td>
+            <td class="info"><input class="form control" ng-model="newBuilder.builder" placeholder="Builder"/></td>
+            <td class="info"><input class="form control" ng-model="newBuilder.pole" placeholder="Pole"/></td>
+            <td class="info"><input class="form control" ng-model="newBuilder.victory" placeholder="Victory"/></td>
+            <td class="info"><button class="button btn-primary" ng-click="addBuilder()">Add</button></td>
+            <td><button class="button btn-danger" ng-click="deleteAll()">Delete All</button></td>
+        </tr>
+        <tr align=center ng-repeat="builder in builders">
+            <td>{{builder.country}} </td>
+            <td><a href="/builders/front/#!/builder/{{builder.year}}">{{builder.year}}</a></td>
+            <td>{{builder.builder}}</td>
+            <td>{{builder.pole}}</td>
+            <td>{{builder.victory}}</td>
+            <td><button class="button btn-danger" ng-click="deleteBuilder(builder.year)">Delete</button></td>
+        </tr>
+        
+    </tbody>
+</table>
+<hr/>

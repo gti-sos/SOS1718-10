@@ -1,0 +1,24 @@
+<table class="table">
+    <thead>
+        <tr align=center>
+            <th><b>Country</b></th>
+            <th><b>Year</b></th>
+            <th><b>Builder</b></th>
+            <th><b>Pole</b></th>
+            <th><b>Victory</b></th>
+        </tr>
+        </tr>
+    </thead>
+    <tbody>
+        <tr align=center style="background-color:#C3F3FF">
+            <td><input class="form control" ng-model="updatedBuilder.country"/></td>
+            <td>{{updatedBuilder.year}}</td>
+            <td><input class="form control" ng-model="updatedBuilder.builder"/></td>
+            <td><input class="form control" ng-model="updatedBuilder.pole"/></td>
+            <td><input class="form control" ng-model="updatedBuilder.victory"/></td>
+            <td><button class="button btn-primary" ng-click="updateBuilder()">Updated</button></td>
+        </tr>
+    </tbody>
+</table>
+<hr/>
+<h8><i>{{status}}</i></h8>
