@@ -1,6 +1,6 @@
 /*global angular*/
 
-angular.module("MotogpStatsApp", ["ngRoute"]).config(function($routeProvider){
+angular.module("MotogpStatsApp-secure", ["ngRoute"]).config(function($routeProvider){
     $routeProvider
     .when("/",{
         templateUrl:"list.html",
