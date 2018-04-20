@@ -1,0 +1,43 @@
+<center>
+        <h1 style="background-color:black">
+            <font color=white>SOS1718-10
+            <p style="float:right"><i>List Pilots</i></p></font>
+            <img src="./img/moto.png" width="75" height="50" style="float:left"></img>
+        </h1>
+</center>
+<table class="table">
+    <thead>
+        <tr align=center>
+            <th><b>Year</b></th>
+            <th><b>Pilot</b></th>
+            <th><b>Country</b></th>
+            <th><b>Score</b></th>
+            <th><b>Age</b></th>
+            <th><b>Action</b></th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        <tr align=center style="background-color:#C3F3FF">
+            <td class="info"><input class="form co#65E0FFntrol" ng-model="newPilot.year" placeholder="Year"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.pilot" placeholder="Pilot"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.country" placeholder="Country"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.score" placeholder="Score"/></td>
+            <td class="info"><input class="form control" ng-model="newPilot.age" placeholder="Age"/></td>
+            <td class="info"><button class="button btn-primary" ng-click="addPilot()">Add</button></td>
+            <td><button class="button btn-danger" ng-click="deleteAll()">Delete All</button></td>
+        </tr>
+        <tr align=center ng-repeat="pilot in pilots">
+            <td><a href="/motogp-stats/front/#!/pilot/{{pilot.year}}">{{pilot.year}}</a></td>
+            <td>{{pilot.pilot}} </td>
+            <td>{{pilot.country}}</td>
+            <td>{{pilot.score}}</td>
+            <td>{{pilot.age}}</td>
+            <td><button class="button btn-danger" ng-click="deletePilot(pilot.year)">Delete</button></td>
+        </tr>
+        
+    </tbody>
+</table>
+<hr/>
+<h8><i>{{status}}</i></h8>
+   
