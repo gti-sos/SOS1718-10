@@ -53,7 +53,7 @@ MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
     /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
     apiBuilders.register(app, dbd, BASE_API_PATH, security.checkApiKeyFunction);
-    apiMotogpStats.register(app, dbp, BASE_API_PATH, BASE_API_PATH_V2, BASE_API_PATH_SECURE, security.checkApiKeyFunction);
+    apiMotogpStats.register(app, dbp, BASE_API_PATH, security.checkApiKeyFunction);
     apiBuses.register(app, db, BASE_API_PATH, security.checkApiKeyFunction);
 
     app.listen(port, () => {
