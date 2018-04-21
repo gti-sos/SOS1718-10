@@ -1,8 +1,8 @@
 /*global angular*/
 
-angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
-    var api = "/api/v1/motogp-stats";
+    var api = "/api/v1/buses";
 
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
@@ -13,8 +13,8 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
 
     function refresh() {
         $http.get(api).then(function successCallback(response) {
-            $scope.pilots = response.data;
-            if ($scope.pilots.isEmpty) {
+            $scope.buses = response.data;
+            if ($scope.buses.isEmpty) {
                 document.getElementById("loadInitialData").disabled = false;
             }
             else {
@@ -22,23 +22,12 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
             }
         }, function errorCallback(response) {
             console.log("Error callback");
-            $scope.pilots = [];
+            $scope.buses = [];
         });
     }
 
-    //PAGINACIÓN
-
-    $scope.offset = 0;
-    $scope.getPaginacion = function() {
-        $http.get(api + "?&limit=" + $scope.limit + "&offset=" + $scope.offset).then(function(response) {
-            $scope.data = JSON.stringify(response.data, null, 2);
-            $scope.pilots = response.data;
-            console.log($scope.data);
-        });
-    };
-
-    $scope.addPilot = function() {
-        $http.post(api, $scope.newPilot).then(function(response) {
+    $scope.addBus = function() {
+        $http.post(api, $scope.newBus).then(function(response) {
 
             $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
@@ -46,8 +35,8 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
         });
     }
 
-    $scope.deletePilot = function(year) {
-        $http.delete(api + "/" + year).then(function(response) {
+    $scope.deleteBus = function(community) {
+        $http.delete(api + "/" + community).then(function(response) {
 
             $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
@@ -64,21 +53,12 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
         });
     }
 
-    function getPilots() {
+    function getBuses() {
         $http.get(api).then(function(response) {
-            $scope.pilots = response.data;
+            $scope.buses = response.data;
         });
     }
 
     refresh();
 
-     //BUSQUEDA
-
-    $scope.search = function() {
-        $http.get(api + "?&year=" + $scope.newPilot.year).then(function(response) {
-            console.log("Muestra el piloto del año: " + $scope.newPilot.year);
-            $scope.data = JSON.stringify(response.data, null, 2);
-            $scope.pilots = response.data;
-        });
-    }
 }]);

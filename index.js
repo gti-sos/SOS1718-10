@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 app.use("/", express.static(path.join(__dirname + "/public")));
 app.use("/secure", express.static(path.join(__dirname + "/public/security")));
 app.use("/buses", express.static(path.join(__dirname + "/public/public_apis/buses")));
+app.use("/buses/front", express.static(path.join(__dirname + "/public/public_apis/buses/front-end")));
 app.use("/builders", express.static(path.join(__dirname + "/public/public_apis/builders")));
 app.use("/builders/front", express.static(path.join(__dirname + "/public/public_apis/builders/front-end")));
 app.use("/motogp-stats", express.static(path.join(__dirname + "/public/public_apis/motogp")));

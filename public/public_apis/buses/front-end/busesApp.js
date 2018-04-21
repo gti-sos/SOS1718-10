@@ -1,12 +1,12 @@
 /*global angular*/
 
-angular.module("MotogpStatsApp", ["ngRoute"]).config(function($routeProvider){
+angular.module("BusesApp", ["ngRoute"]).config(function($routeProvider){
     $routeProvider
     .when("/",{
         templateUrl:"list.html",
         controller: "ListCtrl"
     })
-    .when("/pilot/:year",{
+    .when("/buses/:community",{
         templateUrl:"edit.html",
         controller: "EditCtrl"
      });
