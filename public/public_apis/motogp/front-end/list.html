@@ -7,12 +7,20 @@
 </center>
 <table class="table">
     <thead>
+         <tr>
+            <th class="text-center" style="float:right" ><button class="btn btn-warning" ng-click="loadInitialData()">INITIALIZE</button></th>
+        </tr>
+    </thead>
+</table>
+<table class="table">
+    <thead>     
         <tr align=center style="background-color:#BAFFD6">
             <th class="success"> Introduce LIMIT<input class="form-control" ng-model="limit" placeholder="Limit"/></th>
             <th class="success"> Introduce OFFSET<input class="form-control" ng-model="offset" placeholder="Offset"/></th>
             <th class="success"><button class="btn btn-success" ng-click="getPaginacion()">GET</button></th>
         </tr>
-    </thead>    
+      </thead>
+</table>    
 <table class="table">
     <thead>       
         <tr style="background-color:#EEFCFE">
