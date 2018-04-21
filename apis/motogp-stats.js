@@ -1,5 +1,5 @@
 var exports = module.exports = {};
-var BASE_API_PATH_V2 = "/api/v2";
+var BASE_API_PATH_SECURE = "/api/v1/security";
 
 exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
 
@@ -363,8 +363,11 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
         
     });
     
-    /////////////////////////////////////// INICIALIZAR EL CONJUNTO V2  ////////////////////////////////////////////////////////////
-    app.get(BASE_API_PATH_V2 + "/motogp-stats/loadInitialData", function(req, res) {
+  
+    
+      /////////////////////////////////////// INICIALIZAR EL CONJUNTO SECURE  //////////////////////////////////////////////////////////
+    app.get(BASE_API_PATH_SECURE + "/motogp-stats/loadInitialData", function(req, res) {
+    if(checkApiKeyFunction(req,res)==true){
         var inicializacion = [{
                 "year": 2017,
                 "pilot": "marc-marquez",
@@ -439,7 +442,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             else {
                 /// SI HAY ELEMENTOS EN EL ARRAY, DEVOLVER QUE HAY DATOS EN LA BASE DE DATOS
                 if (motogpStats.length > 0) {
-                    console.log(' INFO: DBP has ' + motogpStats.length + ' results ');
+                    console.log(' INFO: dbp has ' + motogpStats.length + ' results ');
                     res.sendStatus(409); //Already Data
                 }
                 else {
@@ -451,13 +454,15 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                 }
             }
         });
-    });
+    }
+});
 
     ///////////////////////////////////////// GET AL CONJUNTO DE RECURSOS /////////////////////////////////////////////
 
-    app.get(BASE_API_PATH_V2 + "/motogp-stats", (req, res) => {
+    app.get(BASE_API_PATH_SECURE + "/motogp-stats", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
-        /// y despues la coletilla GET /motogp-stats
+        /// y despues la coletilla GET /motogp-stats-secure-secure
         console.log(Date() + " - GET /motogp-stats");
 
         /// variables de búsqueda
@@ -538,7 +543,8 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
 
 
     /////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
-    app.get(BASE_API_PATH_V2 + "/motogp-stats/:year", (req, res) => {
+    app.get(BASE_API_PATH_SECURE + "/motogp-stats/:year", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         var year = req.params.year;
         if (!year) {
             console.log("WARNING: New GET request to /motogp-stats/:year without season, sending 400...");
@@ -572,10 +578,11 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     /////////////////////////////////// POST AL CONJUNTO DE RECURSOS (AÑADE UN NUEVO RECURSO) /////////////////////////////////////////////////
-    app.post(BASE_API_PATH_V2 + "/motogp-stats", (req, res) => {
+    app.post(BASE_API_PATH_SECURE + "/motogp-stats", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         var newPilot = req.body;
         if (!newPilot) {
-            console.log("WARNING: New POST request to /motogp-stats/ without motogp-stats, sending 400...");
+            console.log("WARNING: New POST request to /motogp-stats/ without motogp-stats-secure, sending 400...");
             res.sendStatus(400); /// bad request
         }
         else {
@@ -597,9 +604,6 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                         }
                         else {
                             console.log("INFO: Adding pilot " + JSON.stringify(newPilot, 2, null));
-                            var yearInt = parseInt(newPilot.year);
-                            delete newPilot.year;
-                            newPilot.year = yearInt;
                             dbp.insert(newPilot);
                             res.sendStatus(201); /// Created
                         }
@@ -610,14 +614,16 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     ////////////////////////////////////// PUT AL CONJUNTO DE RECURSOS (405 METODO NO PERMITIDO) /////////////////////////////////////////
-    app.put(BASE_API_PATH_V2 + "/motogp-stats", (req, res) => {
+    app.put(BASE_API_PATH_SECURE + "/motogp-stats", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         console.log(Date() + " - PUT /motogp-stats");
         /// Method not allowed
         res.sendStatus(405);
     });
 
     ///////////////////////////////////// DELETE al conjunto de recursos /////////////////////////////////////////////////////////////////
-    app.delete(BASE_API_PATH_V2 + "/motogp-stats", (req, res) => {
+    app.delete(BASE_API_PATH_SECURE + "/motogp-stats", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         console.log(Date() + " - DELETE /motogp-stats");
         dbp.remove({}, { multi: true }, function(err, result) {
             var numRemoved = JSON.parse(result)
@@ -639,7 +645,8 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     ///////////////////////////////////////// DELETE de un recurso //////////////////////////////////////////////////////////////////
-    app.delete(BASE_API_PATH_V2 + "/motogp-stats/:year", (req, res) => {
+    app.delete(BASE_API_PATH_SECURE + "/motogp-stats/:year", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         var yearToRemove = req.params.year;
         if (!yearToRemove) {
             console.log("WARNIN: New GET request to /motogp-stats/:year without season, sending 400...");
@@ -669,26 +676,28 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     ///////////////////////////////////////// POST A UN RECURSO (405 MÉTODO NO PERMITIDO) ////////////////////////////////////////////////////
-    app.post(BASE_API_PATH_V2 + "/motogp-stats/:year", (req, res) => {
+    app.post(BASE_API_PATH_SECURE + "/motogp-stats/:year", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         var year = req.params.year;
         console.log(Date() + " - POST /motogp-stats/" + year);
         res.sendStatus(405);
     });
 
     ///////////////////////////////////////// PUT A UN RECURSO (ACTUALIZA EL RECURSO) ///////////////////////////////////////////////////////
-    app.put(BASE_API_PATH_V2 + "/motogp-stats/:year", (req, res) => {
+    app.put(BASE_API_PATH_SECURE + "/motogp-stats/:year", (req, res) => {
+        if(!checkApiKeyFunction(req,res))return;
         var year = req.params.year;
         var updatePilot = req.body;
 
-        console.log(Date() + " - PUT /motogp-stats/" + year);
+        console.log(Date() + " - PUT /motogp-stats-secure/" + year);
 
         if (!updatePilot || updatePilot.year != year) {
-            console.log("WARNING: New PUT requst to /motogp-stats/ without builder, sending 400..");
+            console.log("WARNING: New PUT requst to /motogp-stats-secure/ without builder, sending 400..");
             res.sendStatus(400); ///bad request
             return;
         }
         else {
-            console.log("INFO: New PUT request to /motogp-stats/" + year + "with data" + updatePilot);
+            console.log("INFO: New PUT request to /motogp-stats-secure/" + year + "with data" + updatePilot);
             dbp.find({ "year": parseInt(year) }).toArray((err, filteredPilots) => {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');

@@ -644,7 +644,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     });
 
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
-    app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
+    app.put(BASE_API_PATH_SECURE + "/builders/:year", (req, res) => {
         if(!checkApiKeyFunction(req,res))return;
         var year = req.params.year;
         var updatedBuilder = req.body;

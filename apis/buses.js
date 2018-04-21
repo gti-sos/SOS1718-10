@@ -699,7 +699,7 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
 
-    app.put(BASE_API_PATH + "/buses/:community", (req, res) => {
+    app.put(BASE_API_PATH_SECURE + "/buses/:community", (req, res) => {
 
         //if (!checkApiKeyFunction(req, res)) return;
 
