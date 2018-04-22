@@ -34,16 +34,17 @@ angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http
             $scope.pilots = [];
         }
     }
-    
+
     //COMPRUEBA APIKEY
 
-    function checkApiKeyFunction(dato){
-        if(dato == ""){
+    function checkApiKeyFunction(dato) {
+        if (dato == "") {
             alert("Apikey vacía, por favor introduzca una apikey");
-        }else{
-            $http.get($scope.url + "?apikey=" + dato).then(function successCallback(response){
+        }
+        else {
+            $http.get($scope.url + "?apikey=" + dato).then(function successCallback(response) {
                 alert("Apikey correcta");
-            }, function erroCallback(response){
+            }, function erroCallback(response) {
                 alert("Apikey incorrecta, pida la apikey correcta al administrador");
             });
         }
@@ -65,12 +66,24 @@ angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http
     //AÑADIR NUEVO PILOTO
 
     $scope.addPilot = function() {
-        $http.post($scope.url + "?apikey=" + $scope.apikey, $scope.newPilot).then(function(response) {
+        $http.post($scope.url + "?apikey=" + $scope.apikey, $scope.newPilot).then(function successCallback(response) {
 
             $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
             refresh();
+        }, function errorCallback(response) {
+            console.log(response.status);
+            if (response.status == 409) {
+                $scope.status = "Status:" + response.status + ("FAIL: Pilot already exist!");
+            }
+            if (response.status == 422) {
+                $scope.status = "Status:" + response.status + ("FAIL: Pilot does not have expected fields!");
+            }
+            if (response.status == 400) {
+                $scope.status == "Status:" + response.status + ("FAIL: New POST request to /motogp-stats/ without motogp-stats");
+            }
         });
+        refresh();
     }
 
     //DELETE 
@@ -89,8 +102,12 @@ angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http
     $scope.deleteAll = function() {
         $http.delete($scope.url + "?apikey=" + $scope.apikey).then(function(response) {
 
-            $scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status + "(All pilots deleted)";
             console.log("Lista Vacia");
+            refresh();
+        }, function errorCallback(response){
+            $scope.status = "Status:" + response.status + "(FAIL: you can not delete all pilots)";
+            console.log("ERROR");
             refresh();
         });
     }
@@ -101,17 +118,18 @@ angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http
         checkApiKeyFunction($scope.apikey);
         $http.get($scope.url + "?apikey=" + $scope.apikey).then(function successCallback(response) {
             $scope.pilots = response.data;
-            if($scope.pilots.isEmpty){
+            if ($scope.pilots.isEmpty) {
                 document.getElementById("loadInitialData").disabled = false;
-            }else{
+            }
+            else {
                 document.getElementById("loadInitialData").disabled = true;
             }
             console.log("Showing data");
-        },function errorCallback(response){
+        }, function errorCallback(response) {
             $scope.pilots = [];
         });
         refresh();
-        
+
     };
 
     //BUSQUEDA

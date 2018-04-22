@@ -3,6 +3,7 @@
 angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/motogp-stats";
+    $scope.refresh = refresh();
 
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
@@ -38,28 +39,42 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
     };
 
     $scope.addPilot = function() {
-        $http.post(api, $scope.newPilot).then(function(response) {
-
-            $scope.status = "Status:" + response.status;
-            console.log(JSON.stringify((response, null, 2)));
+        $http.post(api, $scope.newPilot).then(function successCallback(response) {
+            $scope.status = "Status:" + response.status + ("Pilot added");
             refresh();
+        },function errorCallback(response){
+            console.log(response.status);
+            if(response.status == 409){
+                $scope.status = "Status:" + response.status + ("FAIL: Pilot already exist!");
+            }
+            if(response.status == 422){
+                $scope.status = "Status:" + response.status + ("FAIL: Pilot does not have expected fields!");
+            }
+            if(response.status == 400){
+                $scope.status == "Status:" + response.status + ("FAIL: New POST request to /motogp-stats/ without motogp-stats" );
+            }
         });
+        refresh();
     }
 
     $scope.deletePilot = function(year) {
         $http.delete(api + "/" + year).then(function(response) {
 
-            $scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status + "(Pilot deleted correctly)";
             console.log(JSON.stringify((response, null, 2)));
             refresh();
         });
     }
 
     $scope.deleteAll = function() {
-        $http.delete(api).then(function(response) {
+        $http.delete(api).then(function successCallback(response) {
 
-            $scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status + "(All pilots deleted)";
             console.log("Lista Vacia");
+            refresh();
+        }, function errorCallback(response){
+            $scope.status = "Status:" + response.status + "(FAIL: you can not delete all pilots)";
+            console.log("ERROR");
             refresh();
         });
     }
