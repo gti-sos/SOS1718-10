@@ -44,6 +44,7 @@ angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http
         else {
             $http.get($scope.url + "?apikey=" + dato).then(function successCallback(response) {
                 alert("Apikey correcta");
+                console.log(dato);
             }, function erroCallback(response) {
                 alert("Apikey incorrecta, pida la apikey correcta al administrador");
             });
