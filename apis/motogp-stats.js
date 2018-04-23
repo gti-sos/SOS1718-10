@@ -35,7 +35,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             },
             {
                 "year": 2015,
-                "pilot": "jorge-lorezo",
+                "pilot": "jorge-lorenzo",
                 "country": "spain",
                 "score": 330,
                 "age": 28
@@ -56,7 +56,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             },
             {
                 "year": 2012,
-                "pilot": "jorge-lorezo",
+                "pilot": "jorge-lorenzo",
                 "country": "spain",
                 "score": 350,
                 "age": 25
@@ -70,7 +70,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             },
             {
                 "year": 2010,
-                "pilot": "jorge-lorezo",
+                "pilot": "jorge-lorenzo",
                 "country": "spain",
                 "score": 383,
                 "age": 23
@@ -380,7 +380,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                 },
                 {
                     "year": 2015,
-                    "pilot": "jorge-lorezo",
+                    "pilot": "jorge-lorenzo",
                     "country": "spain",
                     "score": 330,
                     "age": 28
@@ -401,7 +401,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                 },
                 {
                     "year": 2012,
-                    "pilot": "jorge-lorezo",
+                    "pilot": "jorge-lorenzo",
                     "country": "spain",
                     "score": 350,
                     "age": 25
@@ -415,7 +415,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                 },
                 {
                     "year": 2010,
-                    "pilot": "jorge-lorezo",
+                    "pilot": "jorge-lorenzo",
                     "country": "spain",
                     "score": 383,
                     "age": 23
@@ -733,7 +733,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             },
             {
                 "year": 2015,
-                "pilot": "jorge-lorezo",
+                "pilot": "jorge-lorenzo",
                 "country": "spain",
                 "score": 330,
                 "age": 28
@@ -754,7 +754,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             },
             {
                 "year": 2012,
-                "pilot": "jorge-lorezo",
+                "pilot": "jorge-lorenzo",
                 "country": "spain",
                 "score": 350,
                 "age": 25
@@ -768,7 +768,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             },
             {
                 "year": 2010,
-                "pilot": "jorge-lorezo",
+                "pilot": "jorge-lorenzo",
                 "country": "spain",
                 "score": 383,
                 "age": 23
