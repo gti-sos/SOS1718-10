@@ -309,17 +309,17 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
     app.put(BASE_API_PATH + "/builders/:year", (req, res) => {
         var year = req.params.year;
-        var updatedBuilder = req.body;
+        var updateBuilder = req.body;
 
         console.log(Date() + " - PUT /builders/" + year);
 
-        if (!updatedBuilder || updatedBuilder.year != year) {
+        if (!updateBuilder || updateBuilder.year != year) {
             console.log("WARNING: New PUT request to /builders/ without builder or with year modified sending 400...");
             res.sendStatus(400); // bad request
             return
         }
         else {
-            console.log("INFO: New PUT request to /builders/" + year + " with data " + updatedBuilder);
+            console.log("INFO: New PUT request to /builders/" + year + " with data " + updateBuilder);
             dbd.find({ "year": parseInt(year) }).toArray((err, filteredBuilders) => {
                 if (err) {
                     console.error('WARNING: Error getting data offset DB');
@@ -328,7 +328,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 else {
                     if (filteredBuilders.length > 0) {
-                        dbd.update({ "year": parseInt(year) }, updatedBuilder);
+                        dbd.update({ "year": parseInt(year) }, updateBuilder);
                         console.log("auqn da fallo lo modifica");
                         res.sendStatus(200); //Modified
                     }
