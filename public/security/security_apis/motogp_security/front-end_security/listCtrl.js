@@ -3,7 +3,7 @@
 angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
     $scope.url = "/api/v1/security/motogp-stats";
-    $scope.apikey = "davvicfra";
+    $scope.apikey = "";
     $scope.refresh = refresh();
 
 

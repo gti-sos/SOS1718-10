@@ -24,7 +24,9 @@ app.use("/builders/front", express.static(path.join(__dirname + "/public/public_
 app.use("/motogp-stats", express.static(path.join(__dirname + "/public/public_apis/motogp")));
 app.use("/motogp-stats/front", express.static(path.join(__dirname + "/public/public_apis/motogp/front-end")));
 app.use("/buses/secure", express.static(path.join(__dirname + "/public/security/security_apis/buses_security")));
+app.use("/buses/frontsecure", express.static(path.join(__dirname + "/public/security/security_apis/buses_security/front-end_security")));
 app.use("/builders/secure", express.static(path.join(__dirname + "/public/security/security_apis/builders_security")));
+app.use("/builders/frontsecure", express.static(path.join(__dirname + "/public/security/security_apis/builders_security/front-end_security")));
 app.use("/motogp-stats/secure", express.static(path.join(__dirname + "/public/security/security_apis/motogp_security")));
 app.use("/motogp-stats/frontsecure", express.static(path.join(__dirname + "/public/security/security_apis/motogp_security/front-end_security")));
 
