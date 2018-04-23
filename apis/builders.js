@@ -184,9 +184,11 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 else {
                     if (filteredBuilders.length > 0) {
-                        var build = filteredBuilders[0];
-                        console.log("INFO: Sending builders: " + JSON.stringify(build, 2, null));
-                        res.send(build);
+                        console.log("INFO: Sending builders: " + JSON.stringify(filteredBuilders[0], 2, null));
+                        res.send(filteredBuilders.map((m) =>{
+                            delete m._id;
+                            return m;
+                        })[0]);
                     }
                     else {
                         console.log("WARNING: There are not any contact with year " + year);
