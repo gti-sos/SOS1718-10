@@ -11,11 +11,11 @@
     </thead>
     <tbody>
         <tr align=center style="background-color:#C3F3FF">
-            <td class="info"><input class="form co#65E0FFntrol" ng-model="newBuilder.country" placeholder="Country"/></td>
-            <td class="info"><input class="form control" ng-model="newBuilder.year" placeholder="Year"/></td>
-            <td class="info"><input class="form control" ng-model="newBuilder.builder" placeholder="Builder"/></td>
-            <td class="info"><input class="form control" ng-model="newBuilder.pole" placeholder="Pole"/></td>
-            <td class="info"><input class="form control" ng-model="newBuilder.victory" placeholder="Victory"/></td>
+            <td class="info"><input class="form-control" ng-model="newBuilder.country" placeholder="Country"/></td>
+            <td class="info"><input type = "number" class="form-control" ng-model="newBuilder.year" placeholder="Year"/></td>
+            <td class="info"><input class="form-control" ng-model="newBuilder.builder" placeholder="Builder"/></td>
+            <td class="info"><input type = "number" class="form-control" ng-model="newBuilder.pole" placeholder="Pole"/></td>
+            <td class="info"><input type = "number" class="form-control" ng-model="newBuilder.victory" placeholder="Victory"/></td>
             <td class="info"><button class="button btn-primary" ng-click="addBuilder()">Add</button></td>
             <td><button class="button btn-danger" ng-click="deleteAll()">Delete All</button></td>
         </tr>
@@ -31,3 +31,5 @@
     </tbody>
 </table>
 <hr/>
+
+<h8><i>{{status}}</i></h8>
