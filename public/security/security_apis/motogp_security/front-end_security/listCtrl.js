@@ -114,7 +114,7 @@ angular.module("MotogpStatsApp-secure").controller("ListCtrl", ["$scope", "$http
 
     //GET
 
-    function getPilots() {
+    $scope.getPilots = function(){
         checkApiKeyFunction($scope.apikey);
         $http.get($scope.url + "?apikey=" + $scope.apikey).then(function successCallback(response) {
             $scope.pilots = response.data;
