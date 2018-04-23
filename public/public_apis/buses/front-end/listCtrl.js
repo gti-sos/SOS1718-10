@@ -3,6 +3,7 @@
 angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/buses";
+    $scope.refresh = refresh();
 
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {

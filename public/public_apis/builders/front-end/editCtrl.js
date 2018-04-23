@@ -14,6 +14,7 @@
       }else{
        $http.put(builderURL, $scope.updatedBuilder).then(function(response) {
            $scope.status = "UPDATE method Status: Correctly updated (" + response.status + ")";
+           console.log("probando")
            $location.path("/");
    
      });
