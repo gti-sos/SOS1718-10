@@ -6,6 +6,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
 
       $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
+            $scope.status = "Status:" + response.status + ("Lista inicializada");
             console.log("Load initial data: OK");
             getBuilders();
         });
@@ -33,7 +34,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
 
     $scope.deleteBuilder = function(year) {
         $http.delete(api + "/" + year).then(function(response) {
-            $scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status + ("Elemento borrado");
             console.log(JSON.stringify((response, null, 2)));
             getBuilders();
         });
@@ -42,7 +43,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     $scope.deleteAll = function(){
         $http.delete(api).then(function successCallback(response){
             
-            $scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status + ("Todo borrado");
             console.log("Lista Vacia");
             getBuilders();
         }, function errorCallback(response){
