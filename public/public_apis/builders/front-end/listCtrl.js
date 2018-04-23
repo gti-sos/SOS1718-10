@@ -13,7 +13,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     
     $scope.addBuilder = function() {
         $http.post(api, $scope.newBuilder).then(function successCallback(response) {
-            //$scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
             getBuilders();
             },function errorCallback(response){
@@ -33,7 +33,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
 
     $scope.deleteBuilder = function(year) {
         $http.delete(api + "/" + year).then(function(response) {
-            //$scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
             getBuilders();
         });
@@ -42,7 +42,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     $scope.deleteAll = function(){
         $http.delete(api).then(function successCallback(response){
             
-            //$scope.status = "Status:" + response.status;
+            $scope.status = "Status:" + response.status;
             console.log("Lista Vacia");
             getBuilders();
         }, function errorCallback(response){
