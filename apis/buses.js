@@ -140,7 +140,10 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, limit, offset);
-                    res.send(elementos);
+                    res.send(elementos.map((m) => {
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
                     console.log("WARNING 2: Error getting data from DB");
@@ -170,10 +173,13 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
 
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
-                    res.send(filtered);
+                   res.send(filtered.map((m) => {
+                        delete m._id;
+                        return m;
+                    }));
                 }
                 else {
-                    res.send(buses);
+                    res.sendStatus(404);
                 }
             });
         }
@@ -200,9 +206,11 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 else {
                     if (filteredBuses.length > 0) {
-                        var build = filteredBuses[0];
-                        console.log("INFO: Sending builders: " + JSON.stringify(build, 2, null));
-                        res.send(build);
+                        console.log("INFO: Sending builders: " + JSON.stringify(filteredBuses[0], 2, null));
+                        res.send(filteredBuses.map((m) =>{
+                            delete m._id;
+                            return m;
+                        })[0]);
                     }
                     else {
                         console.log("WARNING: There are not any contact with community " + community);
