@@ -11,7 +11,7 @@
       if(Object.values($scope.updatedBuilder).includes(null)){
           $scope.status = "FAIL: It is necesary to fill in all the fields --> status: (400)";
       }else{
-       $http.put(builderURL, $scope.updatedbuilder).then(function(response) {
+       $http.put(builderURL, $scope.updatedBuilder).then(function(response) {
            $scope.status = "UPDATE method Status: Correctly updated (" + response.status + ")";
            $location.path("/");
    
