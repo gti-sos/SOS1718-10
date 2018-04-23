@@ -329,7 +329,6 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 else {
                     if (filteredBuilders.length > 0) {
                         dbd.update({ "year": parseInt(year) }, updateBuilder);
-                        console.log("auqn da fallo lo modifica");
                         res.sendStatus(200); //Modified
                     }
                     else {
