@@ -4,6 +4,13 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     console.log("List Ctrl initialized!");
     var api = "/api/v1/builders";
 
+      $scope.loadInitialData = function() {
+        $http.get(api + "/loadInitialData").then(function(response) {
+            console.log("Load initial data: OK");
+            getBuilders();
+        });
+    };
+    
     $scope.addBuilder = function() {
         $http.post(api, $scope.newBuilder).then(function successCallback(response) {
             //$scope.status = "Status:" + response.status;

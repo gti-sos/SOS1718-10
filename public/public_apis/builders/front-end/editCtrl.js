@@ -1,6 +1,6 @@
 /* global angular */
 
- angular.module("MotogpStatsApp").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
+ angular.module("BuildersApp").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
      console.log("Edit Ctrl initialized!");
      var builderURL = "/api/v1/builders/" + $routeParams.year;
      
