@@ -53,6 +53,20 @@
             <td><button class="button btn-danger" ng-click="deleteBus(bus.community)">Delete</button></td>
         </tr>
         
+        <tr> <!-- BUSQUEDA -->
+            
+            <td class="info"><input type="text" class="form-control" ng-model="buscarBus.community" placeholder="Community"/></td>
+            <td class="info"><input type="number" class="form-control" ng-model="buscarBus.year" placeholder="Year"/></td>
+            <td class="info"><input type="text" class="form-control" ng-model="buscarBus.month" placeholder="Month"/></td>
+            <td class="info"><input type="number" class="form-control" ng-model="buscarBus.occupation" placeholder="Occupation"/></td>
+            <td class="info"><input type="number" class="form-control" ng-model="buscarBus.transportedTraveler" placeholder="TransportedTraveler"/></td>
+            <td class="info"><input type="text" class="form-control" ng-model="buscarBus.country" placeholder="Country"/></td>
+            <!-- Boton -->
+            <td class="info"><button class="button btn-primary" ng-click="buscarBus()">Search</button></td>
+            
+        </tr>
+        
+        
     </tbody>
 </table>
 <hr/>

@@ -72,11 +72,51 @@ angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($
     
 
     function getBuses() {
-        $http.get(api).then(function(response) {
+        $http.get(api+search).then(function(response) {
             $scope.buses = response.data;
         });
+        
+        search="?";
     }
 
     refresh();
+    
+    /////////////////////////////BUSQUEDA//////////////////////////////////////
+    
+    var search="?";
+    
+    $scope.buscarBus = function() {
+
+        
+
+        if ($scope.buscarBus.community) {
+            search += ("&community=" + $scope.buscarBus.community);
+        }
+        if ($scope.buscarBus.year) {
+            search += ("&year=" + $scope.buscarBus.year);
+        }
+        if ($scope.buscarBus.month) {
+            search += ("&month=" + $scope.buscarBus.month);
+        }
+        if ($scope.buscarBus.occupation) {
+            search += ("&occupation=" + $scope.buscarBus.occupation);
+        }
+        if ($scope.buscarBus.transportedTraveler) {
+            search += ("&transportedTraveler=" + $scope.buscarBus.transportedTraveler);
+        }
+        if ($scope.buscarBus.country) {
+            search += ("&country=" + $scope.buscarBus.country);
+        }
+        //if ($scope.buscarBus.from) {
+        //    search += ("&from=" + $scope.buscarBus.from);
+        //}
+        //if ($scope.buscarBus.to) {
+        //    search += ("&to=" + $scope.buscarBus.to);
+        //}
+
+        getBuses();
+
+
+    };
 
 }]);
