@@ -16,6 +16,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     $scope.search = function(){
         $http.get(api + "?&year=" + $scope.newBuilder.year).then(function successCallback(response){
             console.log("Muestra el constructor del año: " + $scope.newBuilder.year);
+            console.log("Muestrame los datos del $scope" + $scope.data);
             $scope.data= JSON.stringify(response.data, null, 2);
             $scope.builders = response.data;
         }, function errorCallback(response){
