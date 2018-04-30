@@ -4,7 +4,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     console.log("List Ctrl initialized!");
     var api = "/api/v1/builders";
 
-      $scope.loadInitialData = function() {
+    $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
             $scope.status = "Status:" + response.status + ("Lista inicializada");
             console.log("Load initial data: OK");
