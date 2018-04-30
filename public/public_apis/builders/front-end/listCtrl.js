@@ -14,38 +14,20 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     
     
     $scope.search = function(){
-        if ($scope.newBuilder.year != undefined){
-            $http.get(api + "?year=" + $scope.newBuilder.year).then(function successCallback(response){
-                console.log("Muestra el constructor del año: " + $scope.newBuilder.year);
-                $scope.data= JSON.stringify(response.data, null, 2);
-                $scope.builders = response.data;
-                console.log("Muestrame los datos del $scope" + $scope.builders);
-            }, function errorCallback(response){
-                console.log(response.status);
-                if(response.status == 400){
-                    $scope.status = "Status" + response.status + ("Bad request");
-                }
-                if(response.status == 404){
-                    $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
-                }
-            });
-        }else if($scope.newBuilder.builder != undefined){
-            $http.get(api + "?builder=" + $scope.newBuilder.builder).then(function successCallback(response){
-                console.log("Muestra el constructor del año: " + $scope.newBuilder.year);
-                $scope.data= JSON.stringify(response.data, null, 2);
-                $scope.builders = response.data;
-                console.log("Muestrame los datos del $scope" + $scope.builders);
-            }, function errorCallback(response){
-                console.log(response.status);
-                if(response.status == 400){
-                    $scope.status = "Status" + response.status + ("Bad request");
-                }
-                if(response.status == 404){
-                    $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
-                }
-            });
-            
-        }
+        $http.get(api + "?&year=" + $scope.newBuilder.year).then(function successCallback(response){
+            console.log("Muestra el constructor del año: " + $scope.newBuilder.year);
+            $scope.data= JSON.stringify(response.data, null, 2);
+            $scope.builders = response.data;
+            console.log("Muestrame los datos del $scope" + $scope.builders);
+        }, function errorCallback(response){
+            console.log(response.status);
+            if(response.status == 400){
+                $scope.status = "Status" + response.status + ("Bad request");
+            }
+            if(response.status == 404){
+                $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
+            }
+        });
     };
     $scope.addBuilder = function() {
         $http.post(api, $scope.newBuilder).then(function successCallback(response) {
