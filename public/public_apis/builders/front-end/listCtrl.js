@@ -21,12 +21,13 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
         }, function errorCallback(response){
             console.log(response.status);
             if(response.status == 400){
-                $scope.status = "Status" + response.status + ("Bad request")
+                $scope.status = "Status" + response.status + ("Bad request");
             }
             if(response.status == 404){
                 $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
             }
         });
+    };
     $scope.addBuilder = function() {
         $http.post(api, $scope.newBuilder).then(function successCallback(response) {
             $scope.status = "Status:" + response.status;
