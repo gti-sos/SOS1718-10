@@ -1,13 +1,19 @@
 /*global angular*/
+/*global $*/
 
-angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http",  function($scope, $http) {
+angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http, ngMdIcons) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/motogp-stats";
     $scope.refresh = refresh();
+    var search ='?';
+    var limit = 10;
+    var offset = 0;
+    var paginacionString = "";
+    $scope.currentPage = 1;
 
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
-            console.log("Load initial data: OK");
+            $('#addedAll').modal('show');
             refresh();
         });
     };
@@ -40,18 +46,18 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http",  fun
 
     $scope.addPilot = function() {
         $http.post(api, $scope.newPilot).then(function successCallback(response) {
-            $scope.status = "Status:" + response.status + ("Pilot added");
+            $('#added').modal('show');
             refresh();
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 409){
-                $scope.status = "Status:" + response.status + ("FAIL: Pilot already exist!");
+                $('#fail_409').modal('show');
             }
             if(response.status == 422){
-                $scope.status = "Status:" + response.status + ("FAIL: Pilot does not have expected fields!");
+                $('#fail_422').modal('show');
             }
             if(response.status == 400){
-                $scope.status == "Status:" + response.status + ("FAIL: New POST request to /motogp-stats/ without motogp-stats" );
+                $('#fail_400').modal('show');
             }
         });
         refresh();
@@ -59,9 +65,7 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http",  fun
 
     $scope.deletePilot = function(year) {
         $http.delete(api + "/" + year).then(function(response) {
-
-            $scope.status = "Status:" + response.status + "(Pilot deleted correctly)";
-            console.log(JSON.stringify((response, null, 2)));
+            $('#deleted').modal('show');
             refresh();
         });
     }
@@ -69,19 +73,21 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http",  fun
     $scope.deleteAll = function() {
         $http.delete(api).then(function successCallback(response) {
 
-            $scope.status = "Status:" + response.status + "(All pilots deleted)";
+            $('#deleteAll').modal('show');
             console.log("Lista Vacia");
             refresh();
         }, function errorCallback(response){
-            $scope.status = "Status:" + response.status + "(FAIL: you can not delete all pilots)";
+            $('#fail_deleteAll').modal('show');
             console.log("ERROR");
             refresh();
         });
     }
 
     function getPilots() {
-        $http.get(api).then(function(response) {
+        paginacionString = "&limit=" + limit + "&offset=" + offset;
+        $http.get(api + search + paginacionString).then(function(response) {
             $scope.pilots = response.data;
+            console.log($scope.pilots.length);
         });
     }
 
@@ -89,7 +95,8 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http",  fun
 
      //BUSQUEDA
 
-    $scope.search = function () {
+    $scope.searchYear = function () {
+
         $http.get(api + "?&year=" + $scope.newPilot.year).then(function successCallback(response) {
             console.log("Muestra el piloto del año: " + $scope.newPilot.year);
             $scope.data = JSON.stringify(response.data, null, 2);
@@ -97,63 +104,85 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http",  fun
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 400){
-                $scope.status = "Status" + response.status + ("Bad request")
+                $('#fail_400').modal('show');
             }
             if(response.status == 404){
-                $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
+                $('#fail_404').modal('show');
             }
         });
-        $http.get(api + "?&pilot=" + $scope.newPilot.year).then(function(response) {
+    }
+    
+    $scope.searchPilot = function () {
+        
+        $http.get(api + "?&pilot=" + $scope.newPilot.pilot).then(function(response) {
             console.log("Muestra el nombre del piloto: " + $scope.newPilot.pilot);
             $scope.data = JSON.stringify(response.data, null, 2);
             $scope.pilots = response.data;
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 400){
-                $scope.status = "Status" + response.status + ("Bad request")
+               $('#fail_400').modal('show');
             }
             if(response.status == 404){
-                $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
+                $('#fail_404').modal('show');
             }
         });
-        $http.get(api + "?&country=" + $scope.newPilot.year).then(function(response) {
+    }
+    
+    $scope.searchCountry = function () {
+        
+        $http.get(api + "?&country=" + $scope.newPilot.country).then(function(response) {
             console.log("Muestra el piloto del pais: " + $scope.newPilot.country);
             $scope.data = JSON.stringify(response.data, null, 2);
             $scope.pilots = response.data;
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 400){
-                $scope.status = "Status" + response.status + ("Bad request")
+               $('#fail_400').modal('show');
             }
             if(response.status == 404){
-                $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
+                $('#fail_404').modal('show');
             }
         });
-        $http.get(api + "?&score=" + $scope.newPilot.year).then(function(response) {
+    }
+    
+    $scope.searchScore = function () {
+        
+        $http.get(api + "?&score=" + $scope.newPilot.score).then(function(response) {
             console.log("Muestra la puntuacion del piloto: " + $scope.newPilot.score);
             $scope.data = JSON.stringify(response.data, null, 2);
             $scope.pilots = response.data;
+            
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 400){
-                $scope.status = "Status" + response.status + ("Bad request")
+                $('#fail_400').modal('show');
+            }
+            if(response.status == 200){
+                $('#200').modal('show');
             }
             if(response.status == 404){
-                $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
+               $('#fail_404').modal('show');
             }
+
         });
-        $http.get(api + "?&age=" + $scope.newPilot.year).then(function(response) {
+    }
+    
+    $scope.searchAge = function () {
+        
+        $http.get(api + "?&age=" + $scope.newPilot.age).then(function(response) {
             console.log("Muestra la edad del piloto: " + $scope.newPilot.age);
             $scope.data = JSON.stringify(response.data, null, 2);
             $scope.pilots = response.data;
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 400){
-                $scope.status = "Status" + response.status + ("Bad request")
+                $('#fail_400').modal('show');
             }
             if(response.status == 404){
-                $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
+                $('#fail_404').modal('show');
             }
+
         });
     }
 }]);

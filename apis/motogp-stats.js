@@ -880,6 +880,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                         delete m._id;
                         return m;
                     }));
+                    res.sendStatus(200);
                 }
                 else {
                     res.sendStatus(404); ///Not Found
