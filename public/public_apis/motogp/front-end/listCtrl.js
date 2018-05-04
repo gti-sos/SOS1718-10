@@ -1,10 +1,9 @@
 /*global angular*/
 /*global $*/
 
-angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http, ngMdIcons) {
+angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/motogp-stats";
-    $scope.refresh = refresh();
     var search ='?';
     var limit = 10;
     var offset = 0;
@@ -14,24 +13,9 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
             $('#addedAll').modal('show');
-            refresh();
+            getPilots();
         });
     };
-
-    function refresh() {
-        $http.get(api).then(function successCallback(response) {
-            $scope.pilots = response.data;
-            if ($scope.pilots.isEmpty) {
-                document.getElementById("loadInitialData").disabled = false;
-            }
-            else {
-                document.getElementById("loadInitialData").disabled = true;
-            }
-        }, function errorCallback(response) {
-            console.log("Error callback");
-            $scope.pilots = [];
-        });
-    }
 
     //PAGINACIÓN
 
@@ -47,7 +31,7 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
     $scope.addPilot = function() {
         $http.post(api, $scope.newPilot).then(function successCallback(response) {
             $('#added').modal('show');
-            refresh();
+            getPilots();
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 409){
@@ -60,13 +44,14 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
                 $('#fail_400').modal('show');
             }
         });
-        refresh();
+        getPilots();
     }
 
     $scope.deletePilot = function(year) {
         $http.delete(api + "/" + year).then(function(response) {
             $('#deleted').modal('show');
-            refresh();
+            console.log("muestrame los datos" + getPilots());
+            getPilots();
         });
     }
 
@@ -75,23 +60,23 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
 
             $('#deleteAll').modal('show');
             console.log("Lista Vacia");
-            refresh();
+            getPilots();
         }, function errorCallback(response){
             $('#fail_deleteAll').modal('show');
             console.log("ERROR");
-            refresh();
+             getPilots();
         });
+       
     }
+    
 
     function getPilots() {
-        paginacionString = "&limit=" + limit + "&offset=" + offset;
-        $http.get(api + search + paginacionString).then(function(response) {
+        $http.get(api).then(function(response) {
             $scope.pilots = response.data;
-            console.log($scope.pilots.length);
         });
     }
-
-    refresh();
+    
+     getPilots();
 
      //BUSQUEDA
 

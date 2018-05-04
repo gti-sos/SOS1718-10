@@ -6,13 +6,6 @@
         </h1>
 </center>
 <table class="table">
-    <thead>
-         <tr>
-            <th class="text-center" style="float:right" ><button class="btn btn-warning" ng-click="loadInitialData()">INITIALIZE</button></th>
-        </tr>
-    </thead>
-</table>
-<table class="table">
     <thead>     
         <tr align=center style="background-color:#BAFFD6">
             <th class="success"> Introduce LIMIT<input class="form-control" ng-model="limit" placeholder="Limit"/></th>
@@ -56,14 +49,16 @@
 </table>       
 <table class="table">
     <thead>   
-        <tr style="background-color:#FFD9E6">
-            <h4>Empty Database:</h4></tr>
-            <th class="success"><button class="button btn-danger" ng-click="deleteAll()">Delete All</button></th>
-    </thead>        
+        <tr>
+            <th class="success" style="float:right"><button type="button" class="btn btn-danger" ng-click="deleteAll()">Delete All</button>
+        
+            <button type="button" class="btn btn-warning" ng-click="loadInitialData()">INITIALIZE</button></th>
+        </tr>
+    </thead>
         
 </table>
         
-<table class="table">
+<table class="table table-hover">
      <thead>
         <tr align=center>
             <th><b>Year</b></th>
@@ -90,7 +85,7 @@
             <td>{{pilot.country}}</td>
             <td>{{pilot.score}}</td>
             <td>{{pilot.age}}</td>
-            <td><button class="button btn-danger" ng-click="deletePilot(pilot.year)">Delete</button></td>
+            <td><button class="waves-effect waves-light btn red" ng-click="deletePilot(pilot.year)"><i class="material-icons">delete</i></button></td>
         </tr>
         
     </tbody>
@@ -107,6 +102,25 @@
             <div class="modal-header">
                 <div class="modal-body">
                     University has been deleted successfully!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL LOAD INITIAL DATA-->
+
+<div class="modal fade" id="addedAll" tabindex="-1" role="dialog" aria-labelledby="v1label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-body"><img src="" width="50" height="50"></img>
+
+                    Initial data has been charged correctly!
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

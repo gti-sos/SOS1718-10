@@ -109,7 +109,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////////// GET AL CONJUNTO DE RECURSOS /////////////////////////////////////////////
 
-    app.get(BASE_API_PATH + "/motogp-stats", (req, res) => {
+    app.get(BASE_API_PATH + "/motogp-stats", function(req, res){
         /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
         /// y despues la coletilla GET /motogp-stats
         console.log(Date() + " - GET /motogp-stats");
@@ -184,7 +184,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                     }));
                 }
                 else {
-                    res.sendStatus(404); ///Not Found
+                    res.send(motogpStats); 
                 }
             });
         }
@@ -807,7 +807,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////////// GET AL CONJUNTO DE RECURSOS /////////////////////////////////////////////
 
-    app.get(BASE_API_PATH_V2 + "/motogp-stats", (req, res) => {
+    app.get(BASE_API_PATH_V2 + "/motogp-stats", function(req, res) {
         /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
         /// y despues la coletilla GET /motogp-stats
         console.log(Date() + " - GET /motogp-stats");
@@ -830,7 +830,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
             console.log("INFO: New GET request to /motogp-stats");
             dbp.find({}).skip(offset).limit(limit).toArray((err, motogpStats) => {
                 if (err) {
-                    console.error("WARNING: Error getting fata from DB");
+                    console.error("WARNING: Error getting data from DB");
                     res.sendStatus(500); /// Internal server error
                 }
                 else {
@@ -880,10 +880,9 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                         delete m._id;
                         return m;
                     }));
-                    res.sendStatus(200);
                 }
                 else {
-                    res.sendStatus(404); ///Not Found
+                    res.send(motogpStats);
                 }
             });
         }
