@@ -137,7 +137,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
             $scope.offset = numberPage*viewby-parseInt( $scope.viewby);
             $scope.limit = $scope.viewby;
             $http
-                .get(api +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .get(api + "?" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
                     $scope.builders = response.data;
                 });
@@ -150,7 +150,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
             console.log($scope.offset);
             $scope.limit = $scope.viewby;
             $http
-                .get(api +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
+                .get(api + "?" +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
                 .then(function(response){
                     $scope.builders = response.data;
                 });
@@ -162,7 +162,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
             $scope.currentPage = numberPage;
             $scope.offset -= viewby;
             $http
-                .get(api +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
+                .get(api + "?" +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
                 .then(function(response){
                     $scope.builders = response.data;
                 });
@@ -190,7 +190,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
                 });
             
             $http
-                .get(api +"&limit= " + numberPage +"&offset= "+ $scope.offset)
+                .get(api + "?" + "&limit= " + numberPage +"&offset= "+ $scope.offset)
                     .then(function(response){
                         $scope.builders = response.data;
                 });
