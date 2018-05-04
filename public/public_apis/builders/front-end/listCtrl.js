@@ -88,6 +88,138 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
             getBuilders();
         });
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //PAGINACIÓN
+    $scope.offset = 0;
+     $scope.getPaginacion = function(){
+           
+            $http
+                .get(api +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.builders = response.data;
+                    console.log( $scope.data );
+                });
+            
+        } ;
+        
+         
+         
+         //MÉTODOS DE PAGINACIÓN
+         
+        $scope.viewby = 0;
+        $scope.totalItems = function() {
+            return $scope.builders.length;
+        };
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = function() {
+            return $scope.limit;
+        };
+        $scope.maxSize = 5; //Botones (1 xpagina) a mostrar 
+        $scope.offset = 0;
+        
+        
+        
+        $scope.newPage = function(numberPage){
+            var viewby = $scope.viewby;
+            $scope.currentPage = numberPage;
+            $scope.offset = numberPage*viewby-parseInt( $scope.viewby);
+            $scope.limit = $scope.viewby;
+            $http
+                .get(api +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.builders = response.data;
+                });
+            
+        };
+        
+        $scope.nextPage = function(numberPage) {
+            $scope.currentPage = numberPage;
+            $scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
+            console.log($scope.offset);
+            $scope.limit = $scope.viewby;
+            $http
+                .get(api +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
+                .then(function(response){
+                    $scope.builders = response.data;
+                });
+        };
+        
+        
+        $scope.previousPage = function(numberPage) {
+            var viewby = $scope.viewby;
+            $scope.currentPage = numberPage;
+            $scope.offset -= viewby;
+            $http
+                .get(api +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
+                .then(function(response){
+                    $scope.builders = response.data;
+                });
+        };
+        
+        
+        
+        $scope.setItemsPerPage = function(numberPage) {
+            $scope.itemsPerPage = numberPage;
+            $scope.currentPage = 1;
+            $scope.offset = 0;
+            var pages =[];
+             $http
+                .get(api)
+                .then(function(response){
+                    for(var i =1;i<=response.data.length / $scope.viewby;i++){
+                        pages.push(i);
+                    }
+                    if(pages.length*$scope.viewby<response.data.length){
+                        pages.push(pages.length+1);
+                    }
+                    $scope.pages = pages;
+                        document.getElementById("pagination").style.display = "block";
+                        document.getElementById("pagination").disabled = false;
+                });
+            
+            $http
+                .get(api +"&limit= " + numberPage +"&offset= "+ $scope.offset)
+                    .then(function(response){
+                        $scope.builders = response.data;
+                });
+                
+        };
+    getBuilders();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     function getBuilders() {
         $http.get(api).then(function(response) {

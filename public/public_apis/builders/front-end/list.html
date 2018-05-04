@@ -72,4 +72,25 @@
 </table>
 <hr/>
 
+View <select ng-model="viewby" ng-change="setItemsPerPage(viewby)">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
+                    </select> records at a time.
+                <pre>The selected page number: {{currentPage}}</pre>
+        
+<div   id= "pagination"  style="display:none;" disabled = true>
+        
+        <table>
+        <td><button class="btn btn-info" ng-click="previousPage(currentPage-1)" ng-disabled = "currentPage==1">Prev</button></td>
+        <td ng-repeat="page in pages" >
+          <a><button class="btn btn-info" ng-click="newPage(page)">{{page}}</button></a>
+        </td>
+        <td><button class="btn btn-info" ng-click="nextPage(currentPage+1)" ng-disabled ="currentPage == pages.length">Next</button></td>
+        </table>
+</div>        
+
+
 <h8><i>{{status}}</i></h8>

@@ -1,9 +1,10 @@
 /*global angular*/
 /*global $*/
 
-angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http, ngMdIcons) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/motogp-stats";
+    $scope.refresh = refresh();
     var search ='?';
     var limit = 10;
     var offset = 0;
@@ -17,6 +18,25 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
         });
     };
 
+<<<<<<<<< saved version
+
+=========
+    function refresh() {
+        $http.get(api).then(function successCallback(response) {
+            $scope.pilots = response.data;
+            if ($scope.pilots.isEmpty) {
+                document.getElementById("loadInitialData").disabled = false;
+            }
+            else {
+                document.getElementById("loadInitialData").disabled = true;
+            }
+        }, function errorCallback(response) {
+            console.log("Error callback");
+            $scope.pilots = [];
+        });
+    }
+
+>>>>>>>>> local version
     //PAGINACIÓN
 
     $scope.offset = 0;
@@ -31,7 +51,11 @@ angular.module("MotogpStatsApp").controller("ListCtrl", ["$scope", "$http", func
     $scope.addPilot = function() {
         $http.post(api, $scope.newPilot).then(function successCallback(response) {
             $('#added').modal('show');
-            getPilots();
+<<<<<<<<< saved version
+
+=========
+            refresh();
+>>>>>>>>> local version
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 409){
