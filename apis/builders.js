@@ -103,7 +103,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
         var elementos = [];
 
 
-        if (offset > 0 && limit > 0) {
+        if (offset >= 0 && limit > 0) {
             console.log("INFO: New GET request to /builders");
             dbd.find({}).skip(offset).limit(limit).toArray((err, builders) => {
                 if (err) {
