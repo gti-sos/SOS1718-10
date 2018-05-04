@@ -15,6 +15,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     
     $scope.search = function(){
         $http.get(api + "?&year=" + $scope.newBuilder.year).then(function successCallback(response){
+            console.log(api + "?&year=" + $scope.newBuilder.year);
             console.log("Muestra el constructor del año: " + $scope.newBuilder.year);
             $scope.data= JSON.stringify(response.data, null, 2);
             $scope.builders = response.data;
@@ -31,7 +32,8 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     };
     
     $scope.searchBuilder = function(){
-        $http.get(api + "?builder=" + $scope.newBuilder.builders).then(function successCallback(response){
+        $http.get(api + "?&builder=" + $scope.newBuilder.builders).then(function successCallback(response){
+            console.log(api + "?&builder=" + $scope.newBuilder.builders);
             console.log("Muestra el constructor: " + $scope.newBuilder.builder);
             $scope.data= JSON.stringify(response.data, null, 2);
             $scope.builders = response.data;
