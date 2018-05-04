@@ -105,7 +105,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
      $scope.getPaginacion = function(){
            console.log("Muestrame la paginacion" + api +"&limit="+ $scope.limit +"&offset="+$scope.offset);
             $http
-                .get(api +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .get(api + "?" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
                     $scope.data = JSON.stringify(response.data, null, 2); 
                     $scope.builders = response.data;
