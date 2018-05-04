@@ -27,6 +27,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
                 $scope.status = "Status" + response.status + ("Bad request");
             }
             if(response.status == 404){
+                alert(" there is no constructor in the database with that year");
                 $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
             }
         });
@@ -45,6 +46,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
                 $scope.status = "Status" + response.status + ("Bad request");
             }
             if(response.status == 404){
+                alert("The builder is not in the database");
                 $scope.status = "Status" + response.status + ("No hay resultados con esos datos");
             }
         });
