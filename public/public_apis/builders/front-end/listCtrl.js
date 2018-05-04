@@ -16,13 +16,13 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     
     $scope.search = function(){
         $http.get(api + "?&year=" + $scope.newBuilder.year).then(function successCallback(response){
-            console.log(api + "?&year=" + $scope.newBuilder.year);
             console.log("Muestra el constructor del año: " + $scope.newBuilder.year);
+            console.log("Muestra el stado: " + response.status);
             $scope.data= JSON.stringify(response.data, null, 2);
             $scope.builders = response.data;
             console.log("Muestrame los datos del $scope" + $scope.builders);
         }, function errorCallback(response){
-            console.log(response.status);
+            console.log("Muestra el stado: " + response.status);
             if(response.status == 400){
                 $scope.status = "Status" + response.status + ("Bad request");
             }
