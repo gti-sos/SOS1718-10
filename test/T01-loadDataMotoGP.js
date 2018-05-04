@@ -8,7 +8,7 @@ var path = require("path");
 
 describe ('Data is loaded', function(){
     it('should show some pilots', function(){
-        browser.get('https://sos171810fgg-sandbox-sos171810fgg.c9users.io').then(function(){
+        browser.get('https://sos1718-10.herokuapp.com/motogp-stats/front/#!/').then(function(){
             element.all(by.repeater('pilot in pilots')).then(function(pilots){
                 browser.takeScreenshot().then(function(png){
                     
