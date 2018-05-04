@@ -7,6 +7,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
             $scope.status = "Status:" + response.status + ("Lista inicializada");
+            alert("DataBase initialized");
             console.log("Load initial data: OK");
             getBuilders();
         });
@@ -52,6 +53,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
         $http.post(api, $scope.newBuilder).then(function successCallback(response) {
             $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
+            alert("correctly added builder");
             getBuilders();
             },function errorCallback(response){
             console.log(response.status);
@@ -71,6 +73,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     $scope.deleteBuilder = function(year) {
         $http.delete(api + "/" + year).then(function(response) {
             $scope.status = "Status:" + response.status + ("Elemento borrado");
+            alert("Builder deleted");
             console.log(JSON.stringify((response, null, 2)));
             getBuilders();
         });
@@ -80,6 +83,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
         $http.delete(api).then(function successCallback(response){
             
             $scope.status = "Status:" + response.status + ("Todo borrado");
+            alert("Database empty, builders deleted correctly");
             console.log("Lista Vacia");
             getBuilders();
         }, function errorCallback(response){
@@ -204,22 +208,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 
     function getBuilders() {
         $http.get(api).then(function(response) {
