@@ -32,7 +32,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     
     $scope.searchBuilder = function(){
         $http.get(api + "?builder=" + $scope.newBuilder.builders).then(function successCallback(response){
-            console.log("Muestra el constructor del año: " + $scope.newBuilder.builder);
+            console.log("Muestra el constructor: " + $scope.newBuilder.builder);
             $scope.data= JSON.stringify(response.data, null, 2);
             $scope.builders = response.data;
             console.log("Muestrame los datos del $scope" + $scope.builders);
