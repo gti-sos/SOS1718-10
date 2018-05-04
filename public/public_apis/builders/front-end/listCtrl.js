@@ -103,7 +103,7 @@ angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", functio
     //PAGINACIÓN
     $scope.offset = 0;
      $scope.getPaginacion = function(){
-           
+           console.log("Muestrame la paginacion" + api +"&limit="+ $scope.limit +"&offset="+$scope.offset);
             $http
                 .get(api +"&limit="+ $scope.limit +"&offset="+$scope.offset)
                 .then(function(response){
