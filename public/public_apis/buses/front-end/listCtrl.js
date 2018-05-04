@@ -7,10 +7,6 @@ angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($
 
     var search = "?";
 
-    var limit = 10;
-    var offset = 0;
-    var paginacionString = "";
-
     ////////////////////////////////////////////////////////////
 
     console.log("List Ctrl initialized!");
@@ -86,8 +82,7 @@ angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($
 
 
     function getBuses() {
-        paginacionString = "&limit=" + limit + "&offset=" + offset;
-        $http.get(api + search + paginacionString).then(function(response) {
+        $http.get(api + search).then(function(response) {
             $scope.buses = response.data;
         });
 
@@ -138,19 +133,104 @@ angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($
 
 
 
+//PAGINACIÓN
 
-
-    $scope.siguientePag = function() {
-        offset += limit;
-        getBuses();
-
-    };
-
-    $scope.anteriorPag = function() {
-        offset -= limit;
-        getBuses();
-
-    };
+    $scope.offset = 0;
+     $scope.getPaginacion = function(){
+           console.log("Muestrame la paginacion" + api +"&limit="+ $scope.limit +"&offset="+$scope.offset);
+            $http
+                .get(api + "?" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.data = JSON.stringify(response.data, null, 2); 
+                    $scope.buses = response.data;
+                    console.log( $scope.data );
+                });
+            
+        } ;
+        
+         
+         
+         //MÉTODOS DE PAGINACIÓN
+         
+        $scope.viewby = 0;
+        $scope.totalItems = function() {
+            return $scope.buses.length;
+        };
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = function() {
+            return $scope.limit;
+        };
+        $scope.maxSize = 5; //Botones (1 xpagina) a mostrar 
+        $scope.offset = 0;
+        
+        
+        
+        $scope.newPage = function(numberPage){
+            var viewby = $scope.viewby;
+            $scope.currentPage = numberPage;
+            $scope.offset = numberPage*viewby-parseInt( $scope.viewby);
+            $scope.limit = $scope.viewby;
+            $http
+                .get(api + "?" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
+                .then(function(response){
+                    $scope.buses = response.data;
+                });
+            
+        };
+        
+        $scope.nextPage = function(numberPage) {
+            $scope.currentPage = numberPage;
+            $scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
+            console.log($scope.offset);
+            $scope.limit = $scope.viewby;
+            $http
+                .get(api + "?" +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
+                .then(function(response){
+                    $scope.buses = response.data;
+                });
+        };
+        
+        
+        $scope.previousPage = function(numberPage) {
+            var viewby = $scope.viewby;
+            $scope.currentPage = numberPage;
+            $scope.offset -= viewby;
+            $http
+                .get(api + "?" +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
+                .then(function(response){
+                    $scope.buses = response.data;
+                });
+        };
+        
+        
+        
+        $scope.setItemsPerPage = function(numberPage) {
+            $scope.itemsPerPage = numberPage;
+            $scope.currentPage = 1;
+            $scope.offset = 0;
+            var pages =[];
+             $http
+                .get(api)
+                .then(function(response){
+                    for(var i =1;i<=response.data.length / $scope.viewby;i++){
+                        pages.push(i);
+                    }
+                    if(pages.length*$scope.viewby<response.data.length){
+                        pages.push(pages.length+1);
+                    }
+                    $scope.pages = pages;
+                        document.getElementById("pagination").style.display = "block";
+                        document.getElementById("pagination").disabled = false;
+                });
+            
+            $http
+                .get(api + "?" + "&limit= " + numberPage +"&offset= "+ $scope.offset)
+                    .then(function(response){
+                        $scope.buses = response.data;
+                });
+                
+        };
+    getBuses();
 
 
 
