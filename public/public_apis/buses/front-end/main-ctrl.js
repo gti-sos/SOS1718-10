@@ -1,3 +1,6 @@
+/*global angular*/
+/*global Highcharts*/
+
 angular
     .module("BusesApp")
     .controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
@@ -33,7 +36,7 @@ angular
                 plotOptions: {
                     series: {
                         label: {
-                            connectorAllowed: true
+                            connectorAllowed: false
                         },
                         //pointStart: 2010
                     }
@@ -41,7 +44,7 @@ angular
 
                 series: [{
                     name: 'Transported Traveler',
-                    data: response.data.map(function(d) { return d.transportedTraveler })
+                    data: response.data.map(function(d) { return parseInt(d.transportedTraveler) })
                 }]
 
 
