@@ -7,7 +7,7 @@ angular
         console.log("MainCtrl initialized");
 
 
-
+        //////////////////////////////////////////////Highcharts///////////////////////////////
         $http
             .get("/api/v1/builders")
             .then(function(response) {
@@ -28,8 +28,8 @@ angular
                         }
                     }
                 }
-                console.log("MUestrame el nuevo array: " + conjuntoDeVictoriasOrdenadasPorAño);
-                console.log("Muestrame los años ordenados: " + conjuntoOrdenadoPorAño);
+                //console.log("MUestrame las vicorias ordenadas cronológicamente: " + conjuntoDeVictoriasOrdenadasPorAño);
+                //console.log("Muestrame los años ordenados: " + conjuntoOrdenadoPorAño);
 
 
 
@@ -85,11 +85,10 @@ angular
             });
 
 
-
+        ///////////////////////////////////////////////GOOGLE CHARTS/////////////////////////////
         $http
             .get("/api/v1/builders")
             .then(function(response) {
-
 
                 var victoriasPorConstrucor = []
                 var builders = response.data.map(function(d) {return d.builder})
@@ -101,19 +100,39 @@ angular
                 }
 
 
-                console.log("Builder: " + builders);
-                console.log("Victorias: " + victoriasPorConstrucor);
+                //console.log("Builder: " + builders);
+                //console.log("Victorias: " + victoriasPorConstrucor);
                 var ConjuntoDeTuplas = []
                 var tupla =[]
                 
                 //Con este método creamos la lista de tuplas ['Builder', victorias]
                 //Para ello recorremos las victoriasPorConstructor que es el conjunto de victorias por constructor
                 for (var m = 0; m < victoriasPorConstrucor.length; m++) {
-                    tupla=[ "['" + builders[m] + "'", victoriasPorConstrucor[m] + "]"]
+                    tupla=[builders[m], victoriasPorConstrucor[m]]
                     ConjuntoDeTuplas[m]=tupla;
 
                 }
-                console.log("TUPLA: " + ConjuntoDeTuplas);
+                console.log("CONJUNTO DE TUPLAS: " + ConjuntoDeTuplas);
+                
+                
+                
+                //////AQUI ESTAMOS INTENTANDO AGRUPAR TODAS LAS ESCUDERIAS CON SU SUMATORIO DE VICTORIAS
+                
+                var conjunto2=[]
+                var pos = null
+                for(var d=0; d<ConjuntoDeTuplas.length;d++){
+                    if(ConjuntoDeTuplas[d][0] in conjunto2){
+                        console.log("Entraaaa");
+                        pos= conjunto2.indexOf(ConjuntoDeTuplas[d])
+                        var suma = conjunto2[pos][1] + ConjuntoDeTuplas[d][1];
+                        console.log("Suma: " + suma);
+                        conjunto2[pos] = [conjunto2[pos][0], suma ]
+                    }else{
+                        conjunto2.push(ConjuntoDeTuplas[d]);
+                    }
+                }
+                    console.log("Conjunto compactado: " + conjunto2);
+                    
                 
                 
                 google.charts.load('current', { 'packages': ['corechart'] });
@@ -136,9 +155,10 @@ angular
                     
 
                     var options = {
-                        title: 'My Daily Activities'
+                        title: 'My Daily Activities',
+                        'width':500,
+                        'height':500
                     };
-
                     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
                     chart.draw(data, options);
