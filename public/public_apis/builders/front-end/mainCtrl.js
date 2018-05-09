@@ -119,9 +119,6 @@ angular
                 google.charts.load('current', { 'packages': ['corechart'] });
                 google.charts.setOnLoadCallback(drawChart);
                 
-               console.log("datos"+google.visualization.arrayToDataTable([['Builder', 'Victory'], ConjuntoDeTuplas[0], ConjuntoDeTuplas[1],
-                    ConjuntoDeTuplas[2]]))
-
                 function drawChart() {
 
                     var data = google.visualization.arrayToDataTable([['Builder', 'Victory'], ConjuntoDeTuplas[0], ConjuntoDeTuplas[1],
