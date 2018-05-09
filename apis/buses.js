@@ -146,7 +146,7 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
                     }));
                 }
                 else {
-                    console.log("WARNING 2: Error getting data from DB");
+                   console.log("WARNING 2: Error getting data from DB");
                     res.sendStatus(404); //Not found
                     return
                 }
@@ -212,10 +212,10 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
                             return m;
                         })[0]);
                     }
-                    else {
-                        console.log("WARNING: There are not any contact with community " + community);
-                        res.sendStatus(404); // not found
-                    }
+//                    else {
+//                        console.log("WARNING: There are not any contact with community " + community);
+//                        res.sendStatus(404); // not found
+//                    }
                 }
             });
         }
@@ -514,11 +514,11 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
                     elementos = insertar(filtered, elementos, limit, offset);
                     res.send(elementos);
                 }
-                else {
-                    console.log("WARNING 2: Error getting data from DB");
-                    res.sendStatus(404); //Not found
-                    return
-                }
+//                else {
+//                    console.log("WARNING 2: Error getting data from DB");
+//                    res.sendStatus(404); //Not found
+//                    return
+//                }
             });
         }
         else {

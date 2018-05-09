@@ -6,6 +6,10 @@ angular.module("BusesApp", ["ngRoute"]).config(function($routeProvider){
         templateUrl:"list.html",
         controller: "ListCtrl"
     })
+    .when("/graphs",{
+        templateUrl:"graphs.html",
+        controller: "MainCtrl"
+    })
     .when("/buses/:community",{
         templateUrl:"edit.html",
         controller: "EditCtrl"
