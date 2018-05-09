@@ -110,18 +110,22 @@ angular
                 //Para ello recorremos las victoriasPorConstructor que es el conjunto de victorias por constructor
                 for (var m = 0; m < victoriasPorConstrucor.length; m++) {
                     tupla=[ "['" + builders[m] + "'", victoriasPorConstrucor[m] + "]"]
-                    console.log("Mostramos la tupla: " +tupla);
                     ConjuntoDeTuplas[m]=tupla;
 
                 }
                 console.log("TUPLA: " + ConjuntoDeTuplas);
-
+                
+                
                 google.charts.load('current', { 'packages': ['corechart'] });
                 google.charts.setOnLoadCallback(drawChart);
+                
+               console.log("datos"+google.visualization.arrayToDataTable([['Builder', 'Victory'], ConjuntoDeTuplas[0], ConjuntoDeTuplas[1],
+                    ConjuntoDeTuplas[2]]))
 
                 function drawChart() {
 
-                    var data = google.visualization.arrayToDataTable(['Builder', 'Victories'], ConjuntoDeTuplas[0], ConjuntoDeTuplas[1], ConjuntoDeTuplas[2]);
+                    var data = google.visualization.arrayToDataTable([['Builder', 'Victory'], ConjuntoDeTuplas[0], ConjuntoDeTuplas[1],
+                    ConjuntoDeTuplas[2]]);
                     
                     
            /*         ['Task', 'Hours per Day'],
