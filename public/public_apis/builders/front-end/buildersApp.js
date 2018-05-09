@@ -9,6 +9,10 @@ angular.module("BuildersApp", ["ngRoute"]).config(function($routeProvider){
     .when("/builder/:year",{
         templateUrl:"edit.html",
         controller: "EditCtrl"
+     })
+     .when("/analytics",{
+         templateUrl:"main.html",
+         controller:"MainCtrl"
      });
 
 });
