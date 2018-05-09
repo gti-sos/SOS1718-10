@@ -5,6 +5,7 @@ angular
 
 
         $http.get("/api/v1/buses").then(function(response) {
+            console.log(response.data.map(function(d) { return d.transportedTraveler }));
 
 
             Highcharts.chart('analytics', {
@@ -14,18 +15,13 @@ angular
                 },
 
                 yAxis: {
-                    min:0,
-                    tickInterval:4,
-                    tickOptions:{
-                        formatString: '%d'
-                    },
                     
                     title: {
                         text: 'Transported Traveler'
                     }
                 },
                 xAxis: {
-                    categories: response.data.map(function(d) { return d.transportedTraveller })
+                    categories: response.data.map(function(d) { return d.year })
                 },
 
                 legend: {
@@ -37,15 +33,15 @@ angular
                 plotOptions: {
                     series: {
                         label: {
-                            connectorAllowed: false
+                            connectorAllowed: true
                         },
-                        pointStart: 2010
+                        //pointStart: 2010
                     }
                 },
 
                 series: [{
-                    name: 'transportedTraveller',
-                    data: response.data.map(function(d) { return d.year })
+                    name: 'Transported Traveler',
+                    data: response.data.map(function(d) { return d.transportedTraveler })
                 }]
 
 
