@@ -1,23 +1,25 @@
-angular.module("BusesApp").controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
-    console.log("main controller initialized");
+angular
+    .module("BusesApp")
+    .controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
+        console.log("main controller initialized");
 
 
-    $http.get("/api/v1/buses").then(function(response) {
+        $http.get("/api/v1/buses").then(function(response) {
 
 
             Highcharts.chart('analytics', {
 
-                    title: {
-                        text: 'Buses'
-                    },
+                title: {
+                    text: 'Buses'
+                },
 
-                    yAxis: {
-                        title: {
-                            text: 'Transported Traveler'
-                        }
-                    },
-                    xAxis: {
-                        categories: response.data.map(function(d) { return d.year })
+                yAxis: {
+                    title: {
+                        text: 'Transported Traveler'
+                    }
+                },
+                xAxis: {
+                    categories: response.data.map(function(d) { return parseInt(d.transportedTraveller) })
                 },
 
                 legend: {
@@ -36,15 +38,15 @@ angular.module("BusesApp").controller("MainCtrl", ["$scope", "$http", function($
                 },
 
                 series: [{
-                    name: 'Installation',
-                    data: response.buses.map(function(d) { return parseInt(d.year) })
+                    name: 'transportedTraveller',
+                    data: response.buses.map(function(d) { return parseInt(d.transportedTraveller) })
                 }]
 
 
             });
 
-    });
+        });
 
 
 
-}]);
+    }]);
