@@ -13,7 +13,7 @@ angular
                 
                 //con este método sacamos las victorias ordenadas correctamente con su correspondiente año ordenado
                 //1º Guardamos en una variable el conjunto de los años ordenados
-                var conjuntoOrdenadoPorAño = response.data.map(function(d) { return parseInt(d.year)}).sort()
+                var conjuntoOrdenadoPorAño = response.data.map(function(d) { return parseInt(d.year)}).sort((a,b)=>a-b)
                 //2ºRecorremos el conjunto ordenado
                 for (var i = 0; i<conjuntoOrdenadoPorAño.length;i++){
                     //3º Recorremos el response.data en busca del numero de victorias que corresponden a cada año
