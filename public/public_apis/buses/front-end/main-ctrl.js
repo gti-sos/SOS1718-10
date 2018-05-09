@@ -14,12 +14,18 @@ angular
                 },
 
                 yAxis: {
+                    min:0,
+                    tickInterval:4,
+                    tickOptions:{
+                        formatString: '%d'
+                    },
+                    
                     title: {
                         text: 'Transported Traveler'
                     }
                 },
                 xAxis: {
-                    categories: response.data.map(function(d) { return parseInt(d.transportedTraveller) })
+                    categories: response.data.map(function(d) { return d.transportedTraveller })
                 },
 
                 legend: {
@@ -39,7 +45,7 @@ angular
 
                 series: [{
                     name: 'transportedTraveller',
-                    data: response.buses.map(function(d) { return parseInt(d.transportedTraveller) })
+                    data: response.data.map(function(d) { return d.year })
                 }]
 
 
