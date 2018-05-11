@@ -1,20 +1,30 @@
 /*global angular*/
 /*global Highcharts*/
+/*global google*/
 
 angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("graph1 Ctrl initialized!");
 
-
-    Array.prototype.sortNumbers = function() {
-        return this.sort(
-            function(a, b) {
-                return a - b
-            }
-        );
-    }
-
-
     $http.get("/api/v1/motogp-stats").then(function(response) {
+        var conjuntoDEPA = []
+                //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
+                //1º Guardamos en una variable el conjunto de los años ordenados
+                var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
+                //2ºRecorremos el conjunto ordenado
+                for (var i = 0; i < conjuntoOPA.length; i++) {
+                    //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+                    for (var j = 0; j < response.data.length; j++) {
+                        //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
+                        //que se encuentra en esa posicion en el conjunto ordenado
+                        if (conjuntoOPA[i] == response.data[j].year) {
+                            //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
+                            //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                            conjuntoDEPA[i] = response.data[j].age;
+                        }
+                    }
+                }
+                //console.log("MUestrame las vicorias ordenadas cronológicamente: " + conjuntoDeVictoriasOrdenadasPorAño);
+                //console.log("Muestrame los años ordenados: " + conjuntoOrdenadoPorAño);
 
         Highcharts.chart('analytics', {
             chart: {
@@ -27,7 +37,7 @@ angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", fu
                 text: 'MotoGP'
             },
             xAxis: {
-                categories: response.data.map(function(d) { return parseInt(d.year) }).sortNumbers()
+                categories: response.data.map(function(d) { return parseInt(d.year) }).sort((a,b)  => a - b)
             },
             yAxis: {
                 min: 0,
@@ -50,7 +60,7 @@ angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", fu
             },
             series: [{
                 name: 'Years',
-                data: response.data.map(function(d) { return parseInt(d.age) }),
+                data: conjuntoDEPA,
                 marker: {
                     symbol: 'circle'
                 },
