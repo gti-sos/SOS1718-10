@@ -3,7 +3,6 @@
 /*global google*/
 /*global Chartkick*/
 
-
 angular
     .module("BuildersApp")
     .controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
@@ -94,13 +93,13 @@ angular
                     .get("/api/v1/builders")
                     .then(function(response) {
 
-                        var victoriasPorConstrucor = []
+                        var victoriasPorConstructor = []
                         var builders = response.data.map(function(d) { return d.builder })
                         //Sacamos el numero de vistorias de cada constructor y lo almacenamos en un conjunto en la misma posicion i que la del constructor
                         //De forma que ambos conjuntos quedan con los constructores y el numero de victorias en el mismo orden a pesar de estar en diferentes conjuntos
                         //Para asi facilitar la extraccion de la tupla [Constructor, victorias]
                         for (var i = 0; i < builders.length; i++) {
-                            victoriasPorConstrucor[i] = response.data[i].victory;
+                            victoriasPorConstructor[i] = response.data[i].victory;
                         }
 
 
@@ -111,8 +110,8 @@ angular
 
                         //Con este método creamos la lista de tuplas ['Builder', victorias]
                         //Para ello recorremos las victoriasPorConstructor que es el conjunto de victorias por constructor
-                        for (var m = 0; m < victoriasPorConstrucor.length; m++) {
-                            tupla = [builders[m], victoriasPorConstrucor[m]]
+                        for (var m = 0; m < victoriasPorConstructor.length; m++) {
+                            tupla = [builders[m], victoriasPorConstructor[m]]
                             ConjuntoDeTuplas[m] = tupla;
 
                         }
@@ -178,31 +177,36 @@ angular
 
 
                 ////////////////////////////////////CHARTKICK/////////////////////
-
                 $http
                     .get("/api/v1/builders")
                     .then(function(response) {
-                         var conjuntoDePolesOrdenadasPorAño = []
-                        //con este método sacamos las victorias ordenadas correctamente con su correspondiente año ordenado
-                        //1º Guardamos en una variable el conjunto de los años ordenados
-                        var conjuntoOrdenadoPorAño = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-                        //2ºRecorremos el conjunto ordenado
-                        for (var i = 0; i < conjuntoOrdenadoPorAño.length; i++) {
-                            //3º Recorremos el response.data en busca del numero de victorias que corresponden a cada año
-                            for (var j = 0; j < response.data.length; j++) {
-                                //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                                //que se encuentra en esa posicion en el conjunto ordenado
-                                if (conjuntoOrdenadoPorAño[i] == response.data[j].year) {
-                                    //5º Si es asi guardamos en la misma posicion del año el valor del campo poles
-                                    //Y asi tendriamos ordenados, en el mismo orden que los años, las poles
-                                    conjuntoDePolesOrdenadasPorAño[i] = response.data[j].pole;
-                                }
-                            }
+                        var polesPorConstructor = []
+                        var builders = response.data.map(function(d) { return d.builder })
+                        //Sacamos el numero de vistorias de cada constructor y lo almacenamos en un conjunto en la misma posicion i que la del constructor
+                        //De forma que ambos conjuntos quedan con los constructores y el numero de victorias en el mismo orden a pesar de estar en diferentes conjuntos
+                        //Para asi facilitar la extraccion de la tupla [Constructor, victorias]
+                        for (var i = 0; i < builders.length; i++) {
+                            polesPorConstructor[i] = response.data[i].pole;
+                        }
+
+
+                        //console.log("Builder: " + builders);
+                        //console.log("Victorias: " + victoriasPorConstrucor);
+                        var ConjuntoDeTuplas = []
+                        var tupla = []
+
+                        //Con este método creamos la lista de tuplas ['Builder', victorias]
+                        //Para ello recorremos las victoriasPorConstructor que es el conjunto de victorias por constructor
+                        for (var m = 0; m < polesPorConstructor.length; m++) {
+                            tupla = [builders[m], polesPorConstructor[m]]
+                            ConjuntoDeTuplas[m] = tupla;
+
                         }
                         
                         
-
-                        Chartkick.ColumnChart("chart-1", conjuntoDePolesOrdenadasPorAño);
+                        console.log("conjuntoDePolesOrdenadasPorAño: " + ConjuntoDeTuplas);
+                        var chart = Chartkick.ColumnChart("chart-1", [ConjuntoDeTuplas[0], ConjuntoDeTuplas[1], ConjuntoDeTuplas[2]]);
+                        chart.redraw()
                     });
 
 
