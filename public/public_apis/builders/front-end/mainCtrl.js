@@ -1,10 +1,13 @@
 /*global angular*/
 /*global Highcharts*/
 /*global google*/
+
+
 angular
     .module("BuildersApp")
     .controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("MainCtrl initialized");
+        
 
 
         //////////////////////////////////////////////Highcharts///////////////////////////////
@@ -166,8 +169,11 @@ angular
 
 
             });
-
-
+            
+            
+            
+            
+        ////////////////////////////////////CHARTKICK/////////////////////
 
 
     }]);
