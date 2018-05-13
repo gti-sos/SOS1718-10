@@ -1534,6 +1534,7 @@
 
   function errorCatcher(chart) {
     try {
+      console.log("chart: " + chart);
       chart.__render();
     } catch (err) {
       chartError(chart.element, err.message);
