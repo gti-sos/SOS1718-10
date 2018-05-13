@@ -42,13 +42,12 @@ var BASE_API_PATH = "/api/v1";
 var BASE_API_PATH_V2 = "/api/v2";
 var BASE_API_PATH_SECURE = "/api/v1/security";
 
-var express = require('express');  
 var request = require('request');
 
 /////////// PROXY PACO-LEE
 
 var paths='/proxyFGG';
-var apiServerHost = 'https://sos1718-09.herokuapp.com';
+var apiServerHost = 'https://sos1718-03.herokuapp.com/api/v1/pollution-cities';
 
 app.use(paths, function(req, res) {
   var url = apiServerHost + req.url;
@@ -60,7 +59,7 @@ app.use(paths, function(req, res) {
 /////////// PROXY BUILDERS
 
 var pathsBuilders='/proxyBuilders';
-var apiServerHostBuildes = 'https://sos1718-02.herokuapp.com';
+var apiServerHostBuildes = 'https://sos1718-05.herokuapp.com/api/v1/world-stats';
 
 app.use(pathsBuilders, function(req, res) {
   var url = apiServerHostBuildes + req.url;
