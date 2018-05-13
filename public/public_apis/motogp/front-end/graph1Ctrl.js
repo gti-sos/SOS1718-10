@@ -1,7 +1,7 @@
 /*global angular*/
 /*global Highcharts*/
 /*global google*/
-/*global AmCharts*/
+/*global d3*/
 
 angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("graph1 Ctrl initialized!");
@@ -109,49 +109,38 @@ angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", fu
 
     $http.get("/api/v1/motogp-stats").then(function(response) {
 
-        var chart = AmCharts.makeChart("chartdiv", {
-            "theme": "light",
-            "type": "serial",
-            "dataProvider": [{
-                "year": 2004,
-                "killed": 201
-            }, {
-                "year": 2015,
-                "killed": 89
-            }, {
-                "year": 2016,
-                "killed": 0
-            }, {
-                "year": 2016,
-                "killed": 84
-            }, {
-                "year": 2012,
-                "killed": 78
-            }],
-            "valueAxes": [{
-                "title": "Muertos por año"
-            }],
-            "graphs": [{
-                "balloonText": "Income in [[category]]:[[value]]",
-                "fillAlphas": 1,
-                "lineAlpha": 0.2,
-                "title": "Income",
-                "type": "column",
-                "valueField": "killed"
-            }],
-            "depth3D": 20,
-            "angle": 30,
-            "rotate": true,
-            "categoryField": "year",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "fillAlpha": 0.05,
-                "position": "left"
-            },
-            "export": {
-                "enabled": true
+        var conjuntoDEPA = []
+        //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
+        //1º Guardamos en una variable el conjunto de los años ordenados
+        var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
+        //2ºRecorremos el conjunto ordenado
+        for (var i = 0; i < conjuntoOPA.length; i++) {
+            //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+            for (var j = 0; j < response.data.length; j++) {
+                //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
+                //que se encuentra en esa posicion en el conjunto ordenado
+                if (conjuntoOPA[i] == response.data[j].year) {
+                    //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
+                    //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                    conjuntoDEPA[i] = response.data[j].age;
+                }
             }
-        });
+        }
+
+        var config = { columnWidth: 45, columnGap: 5, margin: 10, height: 235 };
+        
+        d3.select("svg")
+            .selectAll("rect")
+            .data(conjuntoDEPA)
+            .enter().append("rect")
+            .attr("width", config.columnWidth)
+            .attr("x", function(d, i) {
+                return config.margin + i * (config.columnWidth + config.columnGap)
+            })
+            .attr("y", function(d, i) { return config.height - d })
+            .attr("height", function(d, i) { return d });
+
+
     });
 
 }]);

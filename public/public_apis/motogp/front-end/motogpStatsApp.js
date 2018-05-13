@@ -17,6 +17,13 @@ angular.module("MotogpStatsApp", ["ngRoute"]).config(function($routeProvider){
      .when("/analytics2",{
          templateUrl:"graph3.html",
          controller:"Graph3Ctrl"
+     })
+     .when("/integration1",{
+         templateUrl:"univStatsMotogpGraphs.html",
+         controller: "univStatsMotogpGraphsCtrl"
+     })
+     .when("/integration2",{
+         templateUrl:"pollutionCitiesMotogpGraphs.html",
+         controller: "pollutionCitiesMotogpGraphsCtrl"
      });
-
 });
