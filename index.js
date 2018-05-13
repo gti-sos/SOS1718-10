@@ -48,7 +48,7 @@ var request = require('request');
 /////////// PROXY PACO-LEE
 
 var paths='/proxyFGG';
-var apiServerHost = 'https://sos1718-10.herokuapp.com';
+var apiServerHost = 'https://sos1718-09.herokuapp.com';
 
 app.use(paths, function(req, res) {
   var url = apiServerHost + req.url;
@@ -61,6 +61,7 @@ app.use(paths, function(req, res) {
 
 var pathsBuilders='/proxyBuilders';
 var apiServerHostBuildes = 'https://sos1718-02.herokuapp.com';
+
 app.use(pathsBuilders, function(req, res) {
   var url = apiServerHostBuildes + req.url;
   console.log('piped: '+req.baseUrl + req.url);
