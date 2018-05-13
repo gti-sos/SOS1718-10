@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var path = require("path");
+var cors = require("cors");
 
 
 /////////////////////////MÓDULOS DE APIS//////////////////////////
@@ -15,6 +16,7 @@ var security = require("./security.js")
 
 var app = express();
 app.use(bodyParser.json());
+app.use(cors());
 app.use("/", express.static(path.join(__dirname + "/public")));
 app.use("/secure", express.static(path.join(__dirname + "/public/security")));
 app.use("/buses", express.static(path.join(__dirname + "/public/public_apis/buses")));

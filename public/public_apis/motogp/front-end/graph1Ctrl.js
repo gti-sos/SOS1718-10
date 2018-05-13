@@ -1,30 +1,31 @@
 /*global angular*/
 /*global Highcharts*/
 /*global google*/
+/*global AmCharts*/
 
 angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("graph1 Ctrl initialized!");
 
     $http.get("/api/v1/motogp-stats").then(function(response) {
         var conjuntoDEPA = []
-                //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-                //1º Guardamos en una variable el conjunto de los años ordenados
-                var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-                //2ºRecorremos el conjunto ordenado
-                for (var i = 0; i < conjuntoOPA.length; i++) {
-                    //3º Recorremos el response.data en busca de la edad que corresponden a cada año
-                    for (var j = 0; j < response.data.length; j++) {
-                        //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                        //que se encuentra en esa posicion en el conjunto ordenado
-                        if (conjuntoOPA[i] == response.data[j].year) {
-                            //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                            //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                            conjuntoDEPA[i] = response.data[j].age;
-                        }
-                    }
+        //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
+        //1º Guardamos en una variable el conjunto de los años ordenados
+        var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
+        //2ºRecorremos el conjunto ordenado
+        for (var i = 0; i < conjuntoOPA.length; i++) {
+            //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+            for (var j = 0; j < response.data.length; j++) {
+                //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
+                //que se encuentra en esa posicion en el conjunto ordenado
+                if (conjuntoOPA[i] == response.data[j].year) {
+                    //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
+                    //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                    conjuntoDEPA[i] = response.data[j].age;
                 }
-                //console.log("MUestrame las vicorias ordenadas cronológicamente: " + conjuntoDeVictoriasOrdenadasPorAño);
-                //console.log("Muestrame los años ordenados: " + conjuntoOrdenadoPorAño);
+            }
+        }
+        //console.log("MUestrame las vicorias ordenadas cronológicamente: " + conjuntoDeVictoriasOrdenadasPorAño);
+        //console.log("Muestrame los años ordenados: " + conjuntoOrdenadoPorAño);
 
         Highcharts.chart('analytics', {
             chart: {
@@ -37,7 +38,7 @@ angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", fu
                 text: 'MotoGP'
             },
             xAxis: {
-                categories: response.data.map(function(d) { return parseInt(d.year) }).sort((a,b)  => a - b)
+                categories: response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
             },
             yAxis: {
                 min: 0,
@@ -67,18 +68,21 @@ angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", fu
 
             }]
         });
+    });
 
-        ///////////////////////////////////////////// GOOGLE CHART //////////////////////////////////////////////////////////////
-        
-        var com;
-        var pilot;
+    ///////////////////////////////////////////// GOOGLE CHART //////////////////////////////////////////////////////////////
+
+    $http.get("/api/v1/motogp-stats").then(function(response) {
+
+        var coun;
+        var pilot = [];
         var googleChartData = [
             ["Region", "Pilots"]
         ];
         for (var i = 0; i < response.data.length; i++) {
-            com = response.data[i].country;
+            coun = response.data[i].country;
             pilot = response.data[i].pilot;
-            googleChartData.push([com, pilot]);
+            googleChartData.push([coun, pilot]);
         }
         console.log(googleChartData);
         google.charts.load('current', {
@@ -98,36 +102,56 @@ angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", fu
 
             chart.draw(data, options);
         }
-        
-        
-        /////////////////////////////////////////// EL MIO ///////////////////////////////////////////////////////////////////
-        
-        $scope.data = {
-        dataset0: [
-            { x: 0, val_0: 0, val_1: 0, val_2: 0, val_3: 0 },
-            { x: 1, val_0: 0.993, val_1: 3.894, val_2: 8.47, val_3: 14.347 },
-            { x: 2, val_0: 1.947, val_1: 7.174, val_2: 13.981, val_3: 19.991 },
-            { x: 3, val_0: 2.823, val_1: 9.32, val_2: 14.608, val_3: 13.509 },
-            { x: 4, val_0: 3.587, val_1: 9.996, val_2: 10.132, val_3: -1.167 },
-            { x: 5, val_0: 4.207, val_1: 9.093, val_2: 2.117, val_3: -15.136 },
-            { x: 6, val_0: 4.66, val_1: 6.755, val_2: -6.638, val_3: -19.923 },
-            { x: 7, val_0: 4.927, val_1: 3.35, val_2: -13.074, val_3: -12.625 }
-        ]
-    };
-    $scope.options = {
-        series: [{
-            axis: "y",
-            dataset: "dataset0",
-            key: "val_0",
-            label: "An area series",
-            color: "#1f77b4",
-            type: ['line', 'dot', 'area'],
-            id: 'mySeries0'
-        }],
-        axes: { x: { key: "x" } }
-    };
-
     });
 
+
+    /////////////////////////////////////////// EL MIO ///////////////////////////////////////////////////////////////////
+
+    $http.get("/api/v1/motogp-stats").then(function(response) {
+
+        var chart = AmCharts.makeChart("chartdiv", {
+            "theme": "light",
+            "type": "serial",
+            "dataProvider": [{
+                "year": 2004,
+                "killed": 201
+            }, {
+                "year": 2015,
+                "killed": 89
+            }, {
+                "year": 2016,
+                "killed": 0
+            }, {
+                "year": 2016,
+                "killed": 84
+            }, {
+                "year": 2012,
+                "killed": 78
+            }],
+            "valueAxes": [{
+                "title": "Muertos por año"
+            }],
+            "graphs": [{
+                "balloonText": "Income in [[category]]:[[value]]",
+                "fillAlphas": 1,
+                "lineAlpha": 0.2,
+                "title": "Income",
+                "type": "column",
+                "valueField": "killed"
+            }],
+            "depth3D": 20,
+            "angle": 30,
+            "rotate": true,
+            "categoryField": "year",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "fillAlpha": 0.05,
+                "position": "left"
+            },
+            "export": {
+                "enabled": true
+            }
+        });
+    });
 
 }]);
