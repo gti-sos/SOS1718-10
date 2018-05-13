@@ -60,9 +60,9 @@ app.use(paths, function(req, res) {
 /////////// PROXY BUILDERS
 
 var pathsBuilders='/proxyBuilders';
-
+var apiServerHostBuildes = 'https://sos1718-02.herokuapp.com';
 app.use(pathsBuilders, function(req, res) {
-  var url = apiServerHost + req.url;
+  var url = apiServerHostBuildes + req.url;
   console.log('piped: '+req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });
