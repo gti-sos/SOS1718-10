@@ -42,6 +42,21 @@ var BASE_API_PATH = "/api/v1";
 var BASE_API_PATH_V2 = "/api/v2";
 var BASE_API_PATH_SECURE = "/api/v1/security";
 
+var express = require('express');  
+var request = require('request');
+
+/////////// PROXY PACO-LEE
+
+var paths='/proxyFGG';
+var apiServerHost = 'https://sos1718-09.herokuapp.com';
+
+app.use(paths, function(req, res) {
+  var url = apiServerHost + req.url;
+  console.log('piped: '+req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
+
 MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
     if (err) {
