@@ -3,7 +3,7 @@
 angular.module("App10", ["ngRoute"]).config(function($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "AppVistas.html"
+            templateUrl: "index.html"
 
             /*DAVID*/
 

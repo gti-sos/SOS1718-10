@@ -19,7 +19,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use("/", express.static(path.join(__dirname + "/public")));
 app.use("/secure", express.static(path.join(__dirname + "/public/security")));
-app.use("/app10", express.static(path.join(__dirname + "/public/public_apis/apis_global")));
 app.use("/buses", express.static(path.join(__dirname + "/public/public_apis/buses")));
 app.use("/buses/front", express.static(path.join(__dirname + "/public/public_apis/buses/front-end")));
 app.use("/builders", express.static(path.join(__dirname + "/public/public_apis/builders")));
@@ -32,7 +31,7 @@ app.use("/builders/secure", express.static(path.join(__dirname + "/public/securi
 app.use("/builders/frontsecure", express.static(path.join(__dirname + "/public/security/security_apis/builders_security/front-end_security")));
 app.use("/motogp-stats/secure", express.static(path.join(__dirname + "/public/security/security_apis/motogp_security")));
 app.use("/motogp-stats/frontsecure", express.static(path.join(__dirname + "/public/security/security_apis/motogp_security/front-end_security")));
-
+app.use("/app10", express.static(path.join(__dirname + "/public/public_apis/apis_global")));
 
 ////////CONEXION BASE DE DATOS//////////////////////////////////////////////////
 var MongoClient = require("mongodb").MongoClient;

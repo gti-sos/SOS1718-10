@@ -1,0 +1,33 @@
+  <center>
+        <h1 style="background-color:black">
+            <font color=white>SOS1718-10
+            <p style="float:right"><i>Edit Bus</i></p></font>
+        </h1>
+    </center>
+<table class="table">
+    <thead>
+        <tr align=center>
+            <th><b>Community</b></th>
+            <th><b>Year</b></th>
+            <th><b>Month</b></th>
+            <th><b>Occupation</b></th>
+            <th><b>TransportedTraveler</b></th>
+            <th><b>Country</b></th>
+            <th><b>Action</b></th>
+        </tr>
+        </tr>
+    </thead>
+    <tbody>
+        <tr align=center style="background-color:#C3F3FF">
+            <td>{{updatedBus.community}}</td>
+            <td><input type="number" class="form-control" ng-model="updatedBus.year"/></td>
+            <td><input class="form-control" ng-model="updatedBus.month"/></td>
+            <td><input type="number" class="form-control" ng-model="updatedBus.occupation"/></td>
+            <td><input class="form-control" ng-model="updatedBus.transportedTraveler"/></td>
+            <td><input class="form-control" ng-model="updatedBus.country"/></td>
+            <td><button class="button btn-primary" ng-click="updateBus()">Updated</button></td>
+        </tr>
+    </tbody>
+</table>
+<hr/>
+<h8><i>{{status}}</i></h8>
