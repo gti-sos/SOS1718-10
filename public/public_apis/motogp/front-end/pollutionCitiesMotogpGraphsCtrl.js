@@ -3,7 +3,7 @@
 /*global google*/
 /*global AmCharts*/
 
-angular.module("MotogpStatsApp").controller("pollutionCitiesMotogpGraphsCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("Principal").controller("pollutionCitiesMotogpGraphsCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("PollutionCitiesMotogp Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
     var apiPollution = 'https://sos1718-10.herokuapp.com/proxyFGG';

@@ -3,7 +3,7 @@
 /*global google*/
 /*global d3*/
 
-angular.module("MotogpStatsApp").controller("Graph1Ctrl", ["$scope", "$http", function($scope, $http) {
+angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$location", function($scope, $http, $location) {
     console.log("graph1 Ctrl initialized!");
 
     $http.get("/api/v1/motogp-stats").then(function(response) {

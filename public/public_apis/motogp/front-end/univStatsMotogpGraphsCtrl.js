@@ -3,7 +3,7 @@
 /*global google*/
 /*global AmCharts*/
 
-angular.module("MotogpStatsApp").controller("univStatsMotogpGraphsCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("Principal").controller("univStatsMotogpGraphsCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("UnivStatsMotoGp Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
     var apiSpanUniv = 'https://sos1718-09.herokuapp.com/api/v1/span-univ-stats';

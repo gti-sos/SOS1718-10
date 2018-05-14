@@ -1,6 +1,6 @@
 /* global angular */
 
- angular.module("MotogpStatsApp").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
+ angular.module("Principal").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
      console.log("Edit Ctrl initialized!");
      var pilotURL = "/api/v1/motogp-stats/" + $routeParams.year;
      
@@ -13,7 +13,7 @@
       }else{
        $http.put(pilotURL, $scope.updatedPilot).then(function(response) {
            $scope.status = "UPDATE method Status: Correctly updated (" + response.status + ")";
-           $location.path("/");
+           $location.path("/motogp-stats");
    
      });
    
