@@ -105,7 +105,7 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
     });
 
 
-    /////////////////////////////////////////// EL MIO ///////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////// D3 ///////////////////////////////////////////////////////////////////
 
     $http.get("/api/v1/motogp-stats").then(function(response) {
 
@@ -122,23 +122,68 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
                 if (conjuntoOPA[i] == response.data[j].year) {
                     //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
                     //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                    conjuntoDEPA[i] = response.data[j].age;
+                    conjuntoDEPA[i] = response.data[j].score;
                 }
             }
         }
 
-        var config = { columnWidth: 45, columnGap: 5, margin: 10, height: 235 };
-        
-        d3.select("svg")
-            .selectAll("rect")
-            .data(conjuntoDEPA)
-            .enter().append("rect")
-            .attr("width", config.columnWidth)
-            .attr("x", function(d, i) {
-                return config.margin + i * (config.columnWidth + config.columnGap)
-            })
-            .attr("y", function(d, i) { return config.height - d })
-            .attr("height", function(d, i) { return d });
+        Highcharts.chart('container', {
+                chart: {
+                    type: 'area',
+                    spacingBottom: 30
+                },
+                title: {
+                    text: 'GPStatsApi *'
+                },
+                subtitle: {
+                    text: '* MOTOGP',
+                    floating: true,
+                    align: 'right',
+                    verticalAlign: 'bottom',
+                    y: 15
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    verticalAlign: 'top',
+                    x: 150,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                xAxis: {
+                    categories: response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
+                },
+                yAxis: {
+                    title: {
+                        text: 'Convinada'
+                    },
+                    labels: {
+                        formatter: function() {
+                            return this.value;
+                        }
+                    }
+                },
+                tooltip: {
+                    formatter: function() {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            this.x + ': ' + this.y;
+                    }
+                },
+                plotOptions: {
+                    area: {
+                        fillOpacity: 0.5
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'SCORE',
+                    data: conjuntoDEPA
+                }]
+            });
 
 
     });
