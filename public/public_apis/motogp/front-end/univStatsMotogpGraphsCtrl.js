@@ -47,7 +47,7 @@ angular.module("Principal").controller("univStatsMotogpGraphsCtrl", ["$scope", "
             }
             Highcharts.chart('container', {
                 chart: {
-                    type: 'area',
+                    type: 'areaspline',
                     spacingBottom: 30
                 },
                 title: {
