@@ -24,8 +24,30 @@ angular.module("Principal", ["ngRoute"]).config(function ($routeProvider){
     when("/integrationmoto2", {
         templateUrl: "../public_apis/motogp/front-end/pollutionCitiesMotogpGraphs.html",
         controller: "pollutionCitiesMotogpGraphsCtrl"
-    });
+    })
                         /*DAVID*/
+                        
+                        
+    .when("/builders",{
+        templateUrl : "../public_apis/builders/front-end/list.html",
+        controller : "ListCtrl"
+    }).
+    when("/builder/:year",{
+        templateUrl : "../public_apis/builders/front-end/edit.html",
+        controller : "EditCtrl"
+    }).
+    when("/graphsBuilders", {
+        templateUrl : "../public_apis/builders/front-end/graph.html",
+        controller: "GraphCtrl"
+    }).
+    when("/integrationBuilders", {
+        templateUrl: "../public_apis/builders/front-end/integration.html",
+        controller: "IntegrationCtrl"
+    }).
+    when("/integrationBuilders2", {
+        templateUrl: "../public_apis/builders/front-end/integration2.html",
+        controller: "IntegrationCtrl2"
+    });
                         /*VICTOR*/
     
 });

@@ -4,8 +4,8 @@
 /*global Chartkick*/
 
 angular
-    .module("BuildersApp")
-    .controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
+    .module("Principal")
+    .controller("GraphCtrl", ["$scope", "$http", function($scope, $http) {
                 console.log("MainCtrl initialized");
 
 
@@ -37,7 +37,7 @@ angular
 
 
 
-                        Highcharts.chart('analytics', {
+                        Highcharts.chart('graphs', {
                             chart: {
                                 type: 'spline'
                             },

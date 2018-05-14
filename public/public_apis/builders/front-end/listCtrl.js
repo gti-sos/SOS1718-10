@@ -1,6 +1,6 @@
 /*global angular*/
 
-angular.module("BuildersApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("Principal").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/builders";
     //var api = "https://sos1718-02.herokuapp.com/api/v1/unemployments";
