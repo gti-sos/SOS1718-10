@@ -73,7 +73,7 @@ var pathsBuses='/proxyBuses';
 var apiServerHostBuses = 'https://sos1718-09.herokuapp.com/#!/openSourceContests';
 
 app.use(pathsBuses, function(req, res) {
-  var url = apiServerHostBuildes + req.url;
+  var url = apiServerHostBuses + req.url;
   console.log('piped: '+req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });
