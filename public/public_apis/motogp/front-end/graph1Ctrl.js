@@ -129,7 +129,7 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
 
         Highcharts.chart('container', {
                 chart: {
-                    type: 'linea',
+                    type: 'line',
                     spacingBottom: 30
                 },
                 title: {
