@@ -19,7 +19,7 @@ angular.module("Principal", ["ngRoute"]).config(function ($routeProvider){
     }).
     when("/integrationmoto1", {
         templateUrl: "../public_apis/motogp/front-end/univStatsMotogpGraphs.html",
-        controller: "univStatsMotogpGrapsCtrl"
+        controller: "univStatsMotogpGraphsCtrl"
     }).
     when("/integrationmoto2", {
         templateUrl: "../public_apis/motogp/front-end/pollutionCitiesMotogpGraphs.html",
