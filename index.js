@@ -67,6 +67,18 @@ app.use(pathsBuilders, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+/////////// PROXY BUSES
+
+var pathsBuses='/proxyBuses';
+var apiServerHostBuses = 'https://sos1718-09.herokuapp.com/#!/openSourceContests';
+
+app.use(pathsBuses, function(req, res) {
+  var url = apiServerHostBuildes + req.url;
+  console.log('piped: '+req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
+//////////////////////////////////////////////////////////////////////
 
 MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
