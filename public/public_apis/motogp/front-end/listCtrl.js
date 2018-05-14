@@ -1,7 +1,7 @@
 /*global angular*/
 /*global $*/
 
-angular.module("Principal").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("Principal").controller("ListCtrl1", ["$scope", "$http", function($scope, $http) {
     console.log("List Ctrl initialized!");
     var api = "/api/v1/motogp-stats";
     //var api = "https://sos1718-09.herokuapp.com/api/v1/span-univ-stats";

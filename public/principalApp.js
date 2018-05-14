@@ -7,11 +7,11 @@ angular.module("Principal", ["ngRoute"]).config(function ($routeProvider){
                     /*PACO*/
     when("/motogp-stats",{
         templateUrl : "../public_apis/motogp/front-end/list.html",
-        controller : "ListCtrl"
+        controller : "ListCtrl1"
     }).
     when("/pilot/:year",{
         templateUrl : "../public_apis/motogp/front-end/edit.html",
-        controller : "EditCtrl"
+        controller : "EditCtrl1"
     }).
     when("/graphsmoto", {
         templateUrl : "../public_apis/motogp/front-end/graph1.html",
