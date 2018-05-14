@@ -52,7 +52,7 @@ angular.module("Principal").controller("pollutionCitiesMotogpGraphsCtrl", ["$sco
 
             Highcharts.chart('container', {
                 chart: {
-                    type: 'column'
+                    type: 'bar'
                 },
                 title: {
                     text: 'Pollution Cities & MotoGP Stats '
