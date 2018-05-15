@@ -2,7 +2,7 @@
 /*global Highcharts*/
 
 angular
-    .module("BusesApp")
+    .module("Principal")
     .controller("IntegracionProxy", ["$scope", "$http", function($scope, $http) {
         console.log("integracion controller initialized");
 
