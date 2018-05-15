@@ -1,7 +1,7 @@
 /*global angular*/
 
 
-angular.module("BusesApp").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
+angular.module("Principal").controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
 
     //////////////////////VARIABLES//////////////////////////////    
 
