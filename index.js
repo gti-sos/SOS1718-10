@@ -70,7 +70,7 @@ app.use(pathsBuilders, function(req, res) {
 /////////// PROXY BUSES
 
 var pathsBuses='/proxyBuses';
-var apiServerHostBuses = 'https://sos1718-09.herokuapp.com/#!/openSourceContests';
+var apiServerHostBuses = 'https://sos1718-12.herokuapp.com/api/v2/rape-stats';
 
 app.use(pathsBuses, function(req, res) {
   var url = apiServerHostBuses + req.url;

@@ -14,6 +14,10 @@ angular.module("BusesApp", ["ngRoute"]).config(function($routeProvider){
         templateUrl:"integracion.html",
         controller: "IntegracionCtrl"
     })
+    .when("/integracionProxy",{
+        templateUrl:"integracionProxy.html",
+        controller: "IntegracionProxy"
+    })
     .when("/buses/:community",{
         templateUrl:"edit.html",
         controller: "EditCtrl"
