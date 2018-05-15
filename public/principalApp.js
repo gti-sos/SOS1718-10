@@ -50,7 +50,7 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
 
             /*VICTOR*/
             
-        }).when("/", {
+        }).when("/buses", {
             templateUrl: "../public_apis/buses/front-end/list.html",
             controller: "ListCtrl"
         })
