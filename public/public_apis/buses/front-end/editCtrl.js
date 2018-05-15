@@ -13,7 +13,7 @@
       }else{
          $http.put(busURL, $scope.updatedBus).then(function(response) {
            $scope.status = "UPDATE method Status: Correctly updated (" + response.status + ")";
-           $location.path("/");
+           $location.path("/buses");
      
          });
       }
