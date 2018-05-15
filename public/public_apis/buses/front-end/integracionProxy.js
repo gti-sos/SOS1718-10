@@ -52,7 +52,7 @@ angular
                     var ac = 0;
                     for (var j = 0; j < responseBuses.data.length; j++) {
                         if (responseBuses.data[j].year == years.sortNumbers().unique()[i]) {
-                            ac += parseInt(responseBuses.data[j].transportedTraveler);
+                            ac += parseInt(responseBuses.data[j].occupation);
 
                         }
                     }
@@ -60,7 +60,7 @@ angular
                     
                     for (var j = 0; j < responseProxy.data.length; j++) {
                         if (responseProxy.data[j].year == years.sortNumbers().unique()[i]) {
-                            acum += responseProxy.data[j].rape;
+                            acum += responseProxy.data[j].rate;
 
                         }
                     }
@@ -109,10 +109,10 @@ angular
                         }
                     },
                     series: [{
-                        name: 'transportedTraveler',
+                        name: 'occupation',
                         data: aBuses
                     }, {
-                        name: 'rape',
+                        name: 'rate',
                         data: aOpen
                     }]
                 });
