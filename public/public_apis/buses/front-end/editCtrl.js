@@ -1,6 +1,6 @@
 /* global angular */
 
- angular.module("Principal").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
+ angular.module("Principal").controller("EditCtrl2", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
      console.log("Edit Ctrl initialized!");
      var busURL = "/api/v1/buses/" + $routeParams.community;
      

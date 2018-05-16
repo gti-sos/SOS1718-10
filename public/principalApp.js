@@ -52,23 +52,23 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
             
         }).when("/buses", {
             templateUrl: "../public_apis/buses/front-end/list.html",
-            controller: "ListCtrl"
+            controller: "ListCtrl2"
         })
-        .when("/graphs", {
+        .when("/graphsBuses", {
             templateUrl: "../public_apis/buses/front-end/graphs.html",
             controller: "MainCtrl"
         })
-        .when("/integracion", {
+        .when("/integracionBuses", {
             templateUrl: "../public_apis/buses/front-end/integracion.html",
-            controller: "IntegracionCtrl"
+            controller: "IntegracionCtrl3"
         })
-        .when("/integracionProxy", {
+        .when("/integracionProxyBuses", {
             templateUrl: "../public_apis/buses/front-end/integracionProxy.html",
             controller: "IntegracionProxy"
         })
         .when("/buses/:community", {
             templateUrl: "../public_apis/buses/front-end/edit.html",
-            controller: "EditCtrl"
+            controller: "EditCtrl2"
         });
 
 

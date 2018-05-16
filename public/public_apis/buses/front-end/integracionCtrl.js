@@ -3,7 +3,7 @@
 
 angular
     .module("Principal")
-    .controller("IntegracionCtrl", ["$scope", "$http", function($scope, $http) {
+    .controller("IntegracionCtrl3", ["$scope", "$http", function($scope, $http) {
         console.log("integracion controller initialized");
 
         /*eliminar eltos. duplicados*/
