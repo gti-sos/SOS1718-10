@@ -4,7 +4,7 @@
 /*global echarts*/
 
 angular
-    .module("BusesApp")
+    .module("Principal")
     .controller("MainCtrl", ["$scope", "$http", function($scope, $http) {
                 console.log("main controller initialized");
 

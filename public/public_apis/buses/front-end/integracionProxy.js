@@ -3,7 +3,7 @@
 
 angular
     .module("Principal")
-    .controller("IntegracionCtrl3", ["$scope", "$http", function($scope, $http) {
+    .controller("IntegracionProxy", ["$scope", "$http", function($scope, $http) {
         console.log("integracion controller initialized");
 
         /*eliminar eltos. duplicados*/
@@ -28,7 +28,7 @@ angular
 
         $http.get("/api/v1/buses").then(function(responseBuses) {
 
-            
+
 
             for (var i = 0; i < responseBuses.data.length; i++) {
                 years.push(responseBuses.data[i].year);
@@ -38,37 +38,37 @@ angular
 
             //console.log(aBuses);
 
-            $http.get("https://sos1718-09.herokuapp.com/api/v1/span-univ-stats").then(function(responseSpanUnivStats) {
+            $http.get("https://sos1718-10.herokuapp.com/proxyBuses").then(function(responseProxy) {
                 var aOpen = [];
                 var aBuses = [];
 
-                for (var i = 0; i < responseSpanUnivStats.data.length; i++) {
-                    years.push(responseSpanUnivStats.data[i].year);
+                for (var i = 0; i < responseProxy.data.length; i++) {
+                    years.push(responseProxy.data[i].year);
                 }
                 console.log(years.sortNumbers().unique());
-                
+
                 for (var i = 0; i < years.sortNumbers().unique().length; i++) {
                     var acum = 0;
                     var ac = 0;
                     for (var j = 0; j < responseBuses.data.length; j++) {
                         if (responseBuses.data[j].year == years.sortNumbers().unique()[i]) {
-                            ac += parseInt(responseBuses.data[j].transportedTraveler);
-                            
+                            ac += parseInt(responseBuses.data[j].occupation);
+
                         }
                     }
                     aBuses.push(ac);
-                    for (var j = 0; j < responseSpanUnivStats.data.length; j++) {
-                        if (responseSpanUnivStats.data[j].year == years.sortNumbers().unique()[i]) {
-                            acum += responseSpanUnivStats.data[j].firstSecondCycle;
-                            
+                    
+                    for (var j = 0; j < responseProxy.data.length; j++) {
+                        if (responseProxy.data[j].year == years.sortNumbers().unique()[i]) {
+                            acum += responseProxy.data[j].rate;
+
                         }
                     }
                     aOpen.push(acum);
                 }
-                
 
-            console.log(aBuses);
-            console.log(aOpen);
+                console.log(aBuses);
+                console.log(aOpen);
 
 
                 //console.log(years.sortNumbers().unique());
@@ -76,10 +76,10 @@ angular
 
                 Highcharts.chart('container', {
                     chart: {
-                        type: 'line'
+                        type: ''
                     },
                     title: {
-                        text: 'Integracion'
+                        text: ''
                     },
                     subtitle: {
                         text: ''
@@ -89,22 +89,30 @@ angular
                     },
                     yAxis: {
                         title: {
-                            text: 'TransFirst'
-                        }
+                            text: ''
+                        },
+
                     },
                     plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
+                        area: {
+
+                            marker: {
+                                enabled: false,
+                                symbol: 'circle',
+                                radius: 2,
+                                states: {
+                                    hover: {
+                                        enabled: true
+                                    }
+                                }
+                            }
                         }
                     },
                     series: [{
-                        name: 'transportedTraveler',
+                        name: 'occupation',
                         data: aBuses
                     }, {
-                        name: 'firstSecondCycle',
+                        name: 'rate',
                         data: aOpen
                     }]
                 });

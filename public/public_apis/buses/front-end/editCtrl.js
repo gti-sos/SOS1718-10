@@ -1,6 +1,6 @@
 /* global angular */
 
- angular.module("BusesApp").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
+ angular.module("Principal").controller("EditCtrl2", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
      console.log("Edit Ctrl initialized!");
      var busURL = "/api/v1/buses/" + $routeParams.community;
      
@@ -13,7 +13,7 @@
       }else{
          $http.put(busURL, $scope.updatedBus).then(function(response) {
            $scope.status = "UPDATE method Status: Correctly updated (" + response.status + ")";
-           $location.path("/");
+           $location.path("/buses");
      
          });
       }
