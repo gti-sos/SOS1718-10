@@ -85,6 +85,8 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
             googleChartData.push([coun, pilot]);
         }
         console.log(googleChartData);
+        
+
         google.charts.load('current', {
             'packages': ['geochart'],
             // Note: you will need to get a mapsApiKey for your project.
@@ -93,10 +95,17 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
         });
         google.charts.setOnLoadCallback(drawRegionsMap);
 
+
         function drawRegionsMap() {
             var data = google.visualization.arrayToDataTable(googleChartData);
 
-            var options = {};
+            var options = {
+                colorAxis: {
+                    minValue: 0,
+                    maxValue: 10
+                }
+            };
+
 
             var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
@@ -129,7 +138,7 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
 
         Highcharts.chart('container', {
                 chart: {
-                    type: 'line',
+                    type: 'spline',
                     spacingBottom: 30
                 },
                 title: {

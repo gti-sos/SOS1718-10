@@ -4,7 +4,9 @@
   "description": "my first module in nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretest": "test/runPhantomjs.sh",
+    "test": "protractor test/motoConfig.js ",
+    "posttest": "killall phantomjs",
     "start": "node index.js",
     "deploy": "git add . ; git commit -m 'deploy to heroku'; git push heroku"
   },
@@ -30,5 +32,6 @@
   },
   "directories": {
     "test": "test"
-  }
+  },
+  "devDependencies": {}
 }
