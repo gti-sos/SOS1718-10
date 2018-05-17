@@ -40,6 +40,7 @@ angular
                         }
                     }
                 }
+                
 
                 Highcharts.chart('container', {
                     chart: {
