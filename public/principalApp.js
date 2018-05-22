@@ -61,7 +61,6 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/builders/front-end/angularChart.html",
         controller: "AngularChart"
         
-    })
 
             /*VICTOR*/
 
