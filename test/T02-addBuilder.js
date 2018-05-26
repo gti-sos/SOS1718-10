@@ -1,6 +1,6 @@
 describe('Add builder', function () {
     it('should add a new builder', function(){
-        browser.get('https://sos1718-10.herokuapp.com/builders/front/#!/');
+        browser.get('https://sos1718-10.herokuapp.com/#!/builders');
         
         element.all(by.repeater('builder in builders')).then(function(initialBuilders){
             

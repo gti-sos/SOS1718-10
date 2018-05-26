@@ -172,42 +172,5 @@ angular
 
 
                     });
-
-
-
-
-                ////////////////////////////////////CHARTKICK/////////////////////
-                $http
-                    .get("/api/v1/builders")
-                    .then(function(response) {
-                        var polesPorConstructor = []
-                        var builders = response.data.map(function(d) { return d.builder })
-                        //Sacamos el numero de vistorias de cada constructor y lo almacenamos en un conjunto en la misma posicion i que la del constructor
-                        //De forma que ambos conjuntos quedan con los constructores y el numero de victorias en el mismo orden a pesar de estar en diferentes conjuntos
-                        //Para asi facilitar la extraccion de la tupla [Constructor, victorias]
-                        for (var i = 0; i < builders.length; i++) {
-                            polesPorConstructor[i] = response.data[i].pole;
-                        }
-
-
-                        //console.log("Builder: " + builders);
-                        //console.log("Victorias: " + victoriasPorConstrucor);
-                        var ConjuntoDeTuplas = []
-                        var tupla = []
-
-                        //Con este método creamos la lista de tuplas ['Builder', victorias]
-                        //Para ello recorremos las victoriasPorConstructor que es el conjunto de victorias por constructor
-                        for (var m = 0; m < polesPorConstructor.length; m++) {
-                            tupla = [builders[m], polesPorConstructor[m]]
-                            ConjuntoDeTuplas[m] = tupla;
-
-                        }
-                        
-                        
-                        console.log("conjuntoDePolesOrdenadasPorAño: " + ConjuntoDeTuplas);
-                        var chart = Chartkick.ColumnChart("chart-1", [ConjuntoDeTuplas[0], ConjuntoDeTuplas[1], ConjuntoDeTuplas[2]]);
-                        chart.redraw()
-                    });
-
-
+                
                     }]);
