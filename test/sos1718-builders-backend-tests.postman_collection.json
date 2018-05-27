@@ -1,0 +1,551 @@
+{
+	"info": {
+		"_postman_id": "767b37c4-4716-4bfc-aa8d-36378a9fc67c",
+		"name": "buildings",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET al conjunto (initialData)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c062f8d3-b7ff-41db-9986-fb27e61bd996",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status Code 201, created\"] = responseCode.code === 201;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/loadInitialData"
+			},
+			"response": []
+		},
+		{
+			"name": "GET al conjunto de recursos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a8d56d4-6842-4978-97a0-95d1091b4263",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Builders list should have more than 5 builders\"] = (jsonData.length >= 5);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos1718-10.herokuapp.com/api/v1/builders?apikey=davvicfra",
+					"protocol": "https",
+					"host": [
+						"sos1718-10",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"builders"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "davvicfra"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET (SIN APIKEY)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "51c1bdcf-be7b-4a23-820f-d61d301b16df",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Builders list should have more than 5 builders\"] = (jsonData.length >= 5);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a un recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e66fb78-81cb-459f-ab4b-aed48337967b",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"El campeon de la temporada 1998 está en la base de datos\"] = responseCode.code === 200;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Paginación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8bbc6cb3-7ee2-4a26-a0d8-96b31b9d7969",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Hay 3 elemtentos\"] = jsonData.length === 3;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos1718-10.herokuapp.com/api/v1/builders?&limit=3&offset=1",
+					"protocol": "https",
+					"host": [
+						"sos1718-10",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"builders"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "3"
+						},
+						{
+							"key": "offset",
+							"value": "1"
+						},
+						{
+							"key": null,
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET (BÚSQUEDA POR PAIS)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "281b0894-02db-47b2-97ae-2aea50b22398",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status Code 200, created\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos1718-10.herokuapp.com/api/v1/builders?country=italy",
+					"protocol": "https",
+					"host": [
+						"sos1718-10",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"builders"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "italy"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET A UN RECURSO NO EXISTENTE ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a4c8d498-669a-4dad-808e-d3f53be610e4",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No hay datos para este año en la base de datos\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2222"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Contacts  Fail (>20) ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4aa50c8-4d75-4fa7-8f0e-8d4d96822010",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Should have more than 20\"] = jsonData.length > 20;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos171810dbd-sandbox-sos161711dbd.c9users.io/api/v1/builders"
+			},
+			"response": []
+		},
+		{
+			"name": "GET builders > 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a6f90b4f-caa6-4178-ac08-3b3c99e0d0be",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Should have more than 2\"] = jsonData.length > 2;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos171810dbd-sandbox-sos161711dbd.c9users.io/api/v1/builders"
+			},
+			"response": []
+		},
+		{
+			"name": "POST a la colección",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "29270920-f0db-4151-ac90-5ac43e846f58",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Element created\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
+			},
+			"response": []
+		},
+		{
+			"name": "POST as un recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2fda3cf-ca7a-4f4d-8130-98c545c324ac",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Metodo no permitido (405)\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 5555,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2022"
+			},
+			"response": []
+		},
+		{
+			"name": "POST de un recurso ya existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03e6e8ea-884f-4f3a-b819-ef38be546fbe",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"POST of an existing resource\"] = responseCode.code === 409;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/",
+				"description": "POST de un recurso que ya está en la base de datos"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT a un recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "411d8ace-cfa6-4584-9b47-8fe2d4971162",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"country\": \"italia\",\n        \"year\": 2022,\n        \"builder\": \"ferrari\",\n        \"pole\": 28,\n        \"victory\": 15\n    }"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2022"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT al conjunto de recursos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d0228f5-60f8-4f46-8744-8f5184c47994",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Method not allowed\"] = responseCode.code === 405;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"country\": \"uk\",\n    \"year\": 1996,\n    \"builder\": \"williams\",\n    \"pole\": 12,\n    \"victory\": 12\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT con año erróneo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "81a55b65-4ccb-43c0-9fdf-a79c20b72d10",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Different year, please rewrite the year correctly\"] = responseCode.code === 400;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"country\": \"italia\",\n        \"year\": 2022,\n        \"builder\": \"ferrari\",\n        \"pole\": 28,\n        \"victory\": 15\n    }"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2023",
+				"description": "PUT con un año que no es el mismo del body "
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE de un recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8bcb466b-748c-4519-b2fa-9685e890a791",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Element borrado\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2022"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE al conjunto de recursos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "021468b5-c563-453d-a384-58db8a7303b7",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Conjunto vacío\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE al conjunto ya vacío",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed54afc8-e56b-47b9-ac3a-abaf8e9ff9bd",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"El conjunto ya estaba vacío\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
+			},
+			"response": []
+		}
+	]
+}
