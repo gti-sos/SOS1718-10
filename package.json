@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "test/runPhantomjs.sh",
-    "test": "protractor test/motoConfig.js; protractor test/configBuilders.js ",
+    "test": "protractor test/motoConfig.js; protractor test/configBuilders.js; protractor test/busesConfig.js ",
     "posttest": "killall phantomjs",
     "start": "node index.js",
     "deploy": "git add . ; git commit -m 'deploy to heroku'; git push heroku"

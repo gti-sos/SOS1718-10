@@ -1,10 +1,11 @@
 var fs = require("fs");
 var path = require("path");
+var config=require('./busesConfig');
 
 
 describe('Data is loaded', function() {
     it('should show some buses', function() {
-        browser.get('https://sos1718-10.herokuapp.com/buses/front/#!/').then(function() {
+        browser.get(config.getAppUrl()+"/#!/buses").then(function() {
             element.all(by.repeater('bus in buses')).then(function(buses) {
 
                 browser.takeScreenshot().then(function(png) {

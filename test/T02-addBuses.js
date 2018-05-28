@@ -1,6 +1,13 @@
+var fs = require("fs");
+var path = require("path");
+var config = require("./busesConfig")
+
+
+
+
 describe('Add buses', function () {
     it('should add a new bus', function(){
-        browser.get('https://sos1718-10.herokuapp.com/buses/front/#!/');
+        browser.get(config.getAppUrl()+"/#!/buses");
         
         element.all(by.repeater('bus in buses')).then(function(initialBuses){
             
