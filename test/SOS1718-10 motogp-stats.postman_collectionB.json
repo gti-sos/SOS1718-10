@@ -287,10 +287,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5e10dd9a-8c50-4987-831a-cbc942c5a856",
+						"id": "c90a2c26-f0a9-474d-9079-e1cdce9bb4a1",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Has modificado el recurso\"] = responseCode.code === 201;"
+							"tests[\"Has modificado el recurso\"] = responseCode.code === 200;"
 						]
 					}
 				}
@@ -318,10 +318,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a6dd344b-fe10-45ff-a926-801d8555c068",
+						"id": "3eabd473-5ffb-4023-87d8-123e89202d40",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"El año del recurso no coincide\"] = responseCode.code === 409;"
+							"tests[\"El año del recurso no coincide\"] = responseCode.code === 400;"
 						]
 					}
 				}
@@ -423,29 +423,6 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE todo borrado ",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "886249e1-1856-40d7-845f-9144dc992328",
-						"type": "text/javascript",
-						"exec": [
-							"tests[\"Todo borrado\"] = responseCode.code === 404;"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {},
 				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
 				"description": ""
 			},

@@ -10,7 +10,7 @@ var path = require("path");
 describe('API should work is loaded', function() {
 
    newman.run({
-      collection: require(path.join(process.cwd(),"test","SOS1718-10 motogp-stats.postman_collection.json")),
+      collection: require(path.join(process.cwd(),"test","SOS1718-10 motogp-stats.postman_collectionB.json")),
       reporters: "cli"
 
    }, function(err) {
