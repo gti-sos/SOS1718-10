@@ -1,0 +1,478 @@
+{
+	"info": {
+		"name": "SOS1718-10 motogp-stats",
+		"_postman_id": "2400ac87-22c1-45f1-a37e-ef71e3329c3f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET al conjunto de recursos (>5)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3c77b1d6-6881-47ec-8f9d-20755992a9c1",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)",
+							"tests[\"Motogp list should have more than 5 pilots\"] = (jsonData.length >= 5);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"year\": 2016,\n        \"pilot\": \"valentino-rossi\",\n        \"country\": \"italy\",\n        \"score\": 249,\n        \"age\": 37\n\t\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET al conjunto de recursos (error >20)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2f6435e-e18f-4b5f-a7bc-1fd61a48fe5d",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)",
+							"tests[\"Motogp list should have more than 20 pilots\"] = (jsonData.length >= 20);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"year\": 2016,\n        \"pilot\": \"valentino-rossi\",\n        \"country\": \"italy\",\n        \"score\": 249,\n        \"age\": 37\n\t\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET a un recurso",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/2017",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET a un recurso inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d626d772-efe6-4bfa-8338-20a41d44bdb0",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No existe el recurso\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/2022",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET (Busqueda por PAIS)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats?country=spain",
+					"protocol": "https",
+					"host": [
+						"sos1718-10",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"motogp-stats"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "spain",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET paginación",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "665d36bf-cee3-4629-b517-e9deccfca2ef",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)",
+							"tests[\"Hay 3 elementos\"] = (jsonData.length === 3);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats?limit=3&offset=3&",
+					"protocol": "https",
+					"host": [
+						"sos1718-10",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"motogp-stats"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "3",
+							"equals": true
+						},
+						{
+							"key": "offset",
+							"value": "3",
+							"equals": true
+						},
+						{
+							"key": null,
+							"value": null
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST a la coleccion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4a8fd474-76a4-4447-8bed-10066d70966f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Elemento Creado\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2008,\n    \"pilot\": \"valentino-rossi\",\n    \"country\": \"italy\",\n    \"score\": 373,\n    \"age\": 29\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST de un recurso ya existente ERROR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0591bc5-d110-4928-ab3b-437d4d564dbc",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"El Elemento ya existe\"] = responseCode.code === 409;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2008,\n    \"pilot\": \"valentino-rossi\",\n    \"country\": \"italy\",\n    \"score\": 373,\n    \"age\": 29\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST a un recurso ERROR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d638a09-2457-41b0-8c39-8c7f73961414",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No puedes modificar un recurso con un POST\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2008,\n    \"pilot\": \"valentino-rossi\",\n    \"country\": \"italy\",\n    \"score\": 374,\n    \"age\": 29\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/2008",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PUT a un recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c90a2c26-f0a9-474d-9079-e1cdce9bb4a1",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Has modificado el recurso\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2008,\n    \"pilot\": \"valentino-rossi\",\n    \"country\": \"italy\",\n    \"score\": 374,\n    \"age\": 29\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/2008",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PUT a un recurso año erroneo ERROR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3eabd473-5ffb-4023-87d8-123e89202d40",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"El año del recurso no coincide\"] = responseCode.code === 400;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2017,\n    \"pilot\": 22,\n    \"country\": \"italy\",\n    \"score\": 374,\n    \"age\": 29\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/2008",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PUT al conjunto de recursos ERROR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "89939841-4fa2-48bc-aa16-d01d01537ff9",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No puede modificar un elemento del conjunto\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"year\": 2008,\n    \"pilot\": \"valentino-rossi\",\n    \"country\": \"italy\",\n    \"score\": 374,\n    \"age\": 29\n}"
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a recurso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f635ad6-5130-4cfd-823e-ceffe1908813",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Se ha borrado con exito\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/2008",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a la coleccion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ebc9486-82e3-4593-8ca2-077e2868e0cf",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Conjunto Borrado\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE todo borrado ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "886249e1-1856-40d7-845f-9144dc992328",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Todo borrado\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats",
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET a la coleccion (loadInitialData)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09b61f6d-c7d5-4bc2-8201-2edb0d1f41d6",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "https://sos1718-10.herokuapp.com/api/v1/motogp-stats/loadInitialData",
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
