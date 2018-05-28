@@ -15,7 +15,7 @@
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"tests[\"Builders list should have more than 5 builders\"] = (jsonData.length >= 5);"
+							"tests[\"Buses list should have more than 5 Buses\"] = (jsonData.length >= 5);"
 						]
 					}
 				}
@@ -266,7 +266,7 @@
 					"mode": "raw",
 					"raw": "{\n        \"community\": \"valencia\",\n        \"year\": 2018,\n        \"month\": \"january\",\n        \"occupation\": 6.3,\n        \"transportedTraveler\": \"7373\",\n        \"country\": \"spain\"\n    }"
 				},
-				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
+				"url": "https://sos1718-10.herokuapp.com/api/v1/Buses"
 			},
 			"response": []
 		},
