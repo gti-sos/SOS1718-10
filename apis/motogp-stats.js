@@ -1,5 +1,5 @@
 var exports = module.exports = {};
-var BASE_API_PATH_SECURE ="/api/v1/security";
+var BASE_API_PATH_SECURE = "/api/v1/security";
 var BASE_API_PATH_V2 = "/api/v2";
 
 exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
@@ -109,7 +109,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////////// GET AL CONJUNTO DE RECURSOS /////////////////////////////////////////////
 
-    app.get(BASE_API_PATH + "/motogp-stats", function(req, res){
+    app.get(BASE_API_PATH + "/motogp-stats", function(req, res) {
         /// Date() es para que cuando hagamos un get nos muestre la fecha y hora del servidor
         /// y despues la coletilla GET /motogp-stats
         console.log(Date() + " - GET /motogp-stats");
@@ -184,31 +184,36 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                     }));
                 }
                 else {
-                    res.send(motogpStats); 
+                    res.send(motogpStats);
                 }
             });
         }
     });
 
-
+    console.log("A");
     /////////////////////////////////////////////////// GET a un recurso ////////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/motogp-stats/:year", (req, res) => {
         var year = req.params.year;
+        console.log("B")
         if (!year) {
             console.log("WARNING: New GET request to /motogp-stats/:year without season, sending 400...");
             res.sendStatus(400); /// bad request
-        }
+            console.log("C");}
         else {
             console.log(Date() + " - GET /motogp-stats/" + year);
             dbp.find({ "year": parseInt(year) }).toArray(function(err, filteredMotogpStats) {
+                console.log("D")
                 if (err) {
+                    console.log("E")
                     console.error('WARNING: Error getting data from DB');
                     res.sendStatus(500); /// internal server error
                 }
                 else {
+                    console.log("F");
                     if (filteredMotogpStats.length > 0) {
                         console.log(" INFO: Sending motogp-stats: " + JSON.stringify(filteredMotogpStats[0], 2, null));
                         res.send(filteredMotogpStats.map((m) => {
+                            console.log("G");
                             delete m._id;
                             return m;
                         })[0]);
@@ -219,11 +224,14 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                         res.sendStatus(404); /// not found
                     }
                 }
+                console.log("H");
             });
+            console.log("I");
 
         }
-
+        console.log("J");
     });
+    console.log("K");
 
     /////////////////////////////////// POST AL CONJUNTO DE RECURSOS (AÑADE UN NUEVO RECURSO) /////////////////////////////////////////////////
     app.post(BASE_API_PATH + "/motogp-stats", (req, res) => {
@@ -714,7 +722,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
         }
 
     });
-    
+
     /////////////////////////////////////// INICIALIZAR EL CONJUNTO V2  ////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH_V2 + "/motogp-stats/loadInitialData", function(req, res) {
         var inicializacion = [{
@@ -1056,7 +1064,7 @@ exports.register = function(app, dbp, BASE_API_PATH, checkApiKeyFunction) {
                 }
             });
         }
-        
+
     });
 
 }

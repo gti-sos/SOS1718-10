@@ -85,7 +85,7 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
             googleChartData.push([coun, pilot]);
         }
         console.log(googleChartData);
-        
+
 
         google.charts.load('current', {
             'packages': ['geochart'],
@@ -136,65 +136,15 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
             }
         }
 
-        Highcharts.chart('container', {
-                chart: {
-                    type: 'spline',
-                    spacingBottom: 30
-                },
-                title: {
-                    text: 'GPStatsApi *'
-                },
-                subtitle: {
-                    text: '* MOTOGP',
-                    floating: true,
-                    align: 'right',
-                    verticalAlign: 'bottom',
-                    y: 15
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    verticalAlign: 'top',
-                    x: 150,
-                    y: 100,
-                    floating: true,
-                    borderWidth: 1,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-                },
-                xAxis: {
-                    categories: response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-                },
-                yAxis: {
-                    title: {
-                        text: 'Convinada'
-                    },
-                    labels: {
-                        formatter: function() {
-                            return this.value;
-                        }
-                    }
-                },
-                tooltip: {
-                    formatter: function() {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                            this.x + ': ' + this.y;
-                    }
-                },
-                plotOptions: {
-                    area: {
-                        fillOpacity: 0.5
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                series: [{
-                    name: 'SCORE',
-                    data: conjuntoDEPA
-                }]
-            });
+
+        d3.select(".chart")
+            .selectAll("div")
+            .data(conjuntoDEPA)
+            .enter()
+            .append("div")
+            .style("width", function(d) { return d + 'px' })
+            .text(function(d) { return "Score:" + d; });
 
 
     });
-
 }]);

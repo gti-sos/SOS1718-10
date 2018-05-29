@@ -1,0 +1,179 @@
+<html>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="bower_components/d3/d3.min.js"></script>
+<script src="bower_components/d3-scale"></script>
+
+<style type="text/css">
+    body {
+        font-family: Arial;
+    }
+
+    .simpleBarChart {
+        border-bottom: 1px solid #CCCCCC;
+        border-left: 1px solid #CCCCCC;
+        display: inline-block;
+        position: relative;
+    }
+
+    .simpleBarChart .bar {
+        background-color: #666699;
+        margin-bottom: 5px;
+        width: 20px;
+        color: white;
+        font-size: 0.8em;
+        height: 20px;
+        text-align: center;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+        box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.25);
+    }
+
+    .simpleBarChart .marker {
+        position: absolute;
+        color: #AAA;
+        font-size: 0.7em;
+        display: inline-block;
+    }
+
+    .simpleBarChart .rule {
+        position: absolute;
+        top: 0px;
+        border-right: 1px dashed #aaa;
+        height: 100%;
+        z-index: -1;
+    }
+</style>
+<script type="text/javascript">
+    /* D3 experimentation...
+     * 
+     * This demo draws a simple bar chart from left to right, using DOM and CSS.
+     */
+
+    // The numbers we want to chart...totally meaningless
+    var dataset = [{
+            name: "Java",
+            value: 50
+        }, {
+            name: "C++",
+            value: 22
+        }, {
+            name: "Python",
+            value: 98
+        }, {
+            name: "JavaScript",
+            value: 77
+        }, {
+            name: "Ruby",
+            value: 50
+        }, {
+            name: "Erlang",
+            value: 20
+        }, {
+            name: "PHP",
+            value: 123
+        }, {
+            name: "C",
+            value: 100
+        }, {
+            name: "SQL",
+            value: 78
+        }, {
+            name: "VB",
+            value: 18
+        }, {
+            name: "C#",
+            value: 108
+        }, {
+            name: "ML",
+            value: 38
+        }, {
+            name: "Lisp",
+            value: 56
+        }, {
+            name: "Fortran",
+            value: 79
+        }, {
+            name: "COBOL",
+            value: 31
+        }],
+        maxOutputRange = 500, // the highest number permitted to be returned by our scale function
+        barChart,
+        scale = d3.scale.linear()
+        .domain([0, d3.max(dataset, function(e) {
+            return e.value;
+        })]) // input "domain" is range of possible input values
+        .range([0, maxOutputRange]); // output "range" is range of possible output values.
+
+
+    // Make our bar chart as wide as the widest possible bar given our scale function
+    barChart = d3.select(".simpleBarChart");
+    barChart.style("width", maxOutputRange + "px");
+
+    function createBars() {
+        // this code creates an empty div for each entry in the data set
+        // these will be the bars in the chart.
+        barChart.selectAll("div")
+            .data(dataset)
+            .enter()
+            .append("div")
+            .attr("class", "bar") // with a class of bar...
+            .attr("title", function(d) {
+                return d.name + ": " + d.value;
+            })
+            .transition().duration(1000) // animate the width
+            .style("width", function(d) {
+                // the width of the bar is the datset value
+                // scaled by our function.
+                return scale(d.value) + "px";
+            })
+            .text(function(d) {
+                return d.name;
+            });
+    }
+
+
+    function createXAxisTicks() {
+        // this function creates the X axis ticks
+        barChart.selectAll(".marker")
+            .data(scale.ticks(15)) // get 15 ticks in the range of our scale function
+            .enter()
+            .append("span") // make a new span for each tick
+            .attr("class", "marker") // class it up
+            .text(function(tick) {
+                return tick; // the text
+            })
+            .style("left", function(tick) {
+                return scale(tick) + "px"; // position the thing absolutely relative to the left edge
+            })
+            .style("margin-left", function(tick) {
+                // shuffle left by half the width so it appears in the middle of the rule
+                return "-" + (this.offsetWidth / 2) + "px";
+            });
+    }
+
+    function createVerticalRules() {
+        // create vertical rules, much the same as the tick code
+        // above.
+        barChart.selectAll(".rule")
+            .data(scale.ticks(15))
+            .enter()
+            .append("div")
+            .attr("class", "rule")
+            .style("left", function(tick) {
+                return scale(tick) + "px";
+            });
+    }
+
+    createBars();
+    createXAxisTicks();
+    createVerticalRules();
+</script>
+
+<body>
+    TEST
+    
+<h1>Some Programming Languages....</h1>
+<div class="simpleBarChart"> 	</div>
+</body>
+
+</html>
