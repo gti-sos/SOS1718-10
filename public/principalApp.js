@@ -56,6 +56,11 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationBuilders2", {
             templateUrl: "../public_apis/builders/front-end/integration2.html",
             controller: "IntegrationCtrl2"
+            
+    }).
+    when("/integrationpArsenalPlayers", {
+            templateUrl: "../public_apis/builders/front-end/integrationArsenalPlayers.html",
+            controller: "JugadoresIntegracionCtrl"
 
             /*VICTOR*/
 

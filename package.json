@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/gti-sos/SOS1718-10#readme",
   "dependencies": {
+    "angular": "^1.7.0",
     "angular-chart.js": "^1.1.1",
+    "angularjs": "0.0.1",
     "body-parser": "^1.18.2",
     "cool-ascii-faces": "^1.3.4",
     "cors": "^2.8.4",
