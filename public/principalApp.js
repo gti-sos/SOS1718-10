@@ -33,6 +33,9 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationmoto2", {
         templateUrl: "../public_apis/motogp/front-end/pollutionCitiesMotogpGraphs.html",
         controller: "pollutionCitiesMotogpGraphsCtrl"
+    }).when("/integrationmotoext1", {
+        templateUrl: "../public_apis/motogp/front-end/integration1.html",
+        controller: "integration1Ctrl"
     }).
     /*DAVID*/
 
@@ -54,9 +57,9 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         controller: "IntegrationCtrl"
     }).
     when("/integrationBuilders2", {
-            templateUrl: "../public_apis/builders/front-end/integration2.html",
-            controller: "IntegrationCtrl2"
-            
+        templateUrl: "../public_apis/builders/front-end/integration2.html",
+        controller: "IntegrationCtrl2"
+
     }).
     when("/integrationpArsenalPlayers", {
             templateUrl: "../public_apis/builders/front-end/integrationArsenalPlayers.html",

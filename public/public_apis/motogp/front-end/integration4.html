@@ -1,0 +1,51 @@
+<html>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<body>
+    <div id="chartContainer" style="height: 600px; width: 100%;"></div>
+
+</body>
+
+<script type="text/javascript">
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        title: {
+            text: "Recruitment Analysis - July 2016"
+        },
+        data: [{
+            type: "funnel",
+            indexLabel: "{label} - {y}",
+            toolTipContent: "<b>{label}</b>: {y} <b>({percentage}%)</b>",
+            neckWidth: 20,
+            neckHeight: 0,
+            valueRepresents: "area",
+            dataPoints: [
+                { y: 3871, label: "Applications" },
+                { y: 2496, label: "Screened" },
+                { y: 1398, label: "Qualified" },
+                { y: 1118, label: "Interviewed" },
+                { y: 201, label: "Offers Extended" },
+                { y: 151, label: "Filled" }
+            ]
+        }]
+    });
+    calculatePercentage();
+    chart.render();
+
+    function calculatePercentage() {
+        var dataPoint = chart.options.data[0].dataPoints;
+        var total = dataPoint[0].y;
+        for (var i = 0; i < dataPoint.length; i++) {
+            if (i == 0) {
+                chart.options.data[0].dataPoints[i].percentage = 100;
+            }
+            else {
+                chart.options.data[0].dataPoints[i].percentage = ((dataPoint[i].y / total) * 100).toFixed(2);
+            }
+        }
+    }
+</script>
+
+
+</html>
