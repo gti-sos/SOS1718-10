@@ -4,8 +4,7 @@ angular
     .controller("GraphFinalCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("MainCtrl initialized");
 
-        var apiAConsumir = "https://sos1718-10.herokuapp.com/proxyIntegracion";
-        
+        var apiAConsumir = "https://www.thesportsdb.com/api/v1/json/1/searchplayers.php?t=Arsenal"
 
 
 
