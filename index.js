@@ -67,6 +67,17 @@ app.use(pathsBuilders, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+/////////// PROXY BUILDERS INTEGRACION
+
+var pathsIntegracion='/proxyIntegracion';
+var apiServerHostIntegracion = 'https://www.thesportsdb.com/api/v1/json/1/searchplayers.php?t=Arsenal';
+
+app.use(pathsIntegracion, function(req, res) {
+  var url = apiServerHostIntegracion + req.url;
+  console.log('piped: '+req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
 /////////// PROXY BUSES
 
 var pathsBuses='/proxyBuses';
