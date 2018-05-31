@@ -52,18 +52,13 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/builders/front-end/graph.html",
         controller: "GraphCtrl"
     }).
-    when("/integrationBuilders", {
-        templateUrl: "../public_apis/builders/front-end/integration.html",
-        controller: "IntegrationCtrl"
+    when("/integrationSOSSinProxy", {
+        templateUrl: "../public_apis/builders/front-end/integrationSOS-SinProxy.html",
+        controller: "IntegrationSOSSinProxy"
     }).
-    when("/integrationBuilders2", {
-        templateUrl: "../public_apis/builders/front-end/integration2.html",
-        controller: "IntegrationCtrl2"
-
-    }).
-    when("/integrationpArsenalPlayers", {
-            templateUrl: "../public_apis/builders/front-end/integrationArsenalPlayers.html",
-            controller: "GraphFinalCtrl"
+    when("/integrationSOSConProxy", {
+        templateUrl: "../public_apis/builders/front-end/integrationSOS-ConProxy.html",
+        controller: "IntegrationSOSConProxy"
 
             /*VICTOR*/
 

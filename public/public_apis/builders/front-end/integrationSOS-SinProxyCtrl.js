@@ -1,6 +1,6 @@
 angular
     .module("Principal")
-    .controller("IntegrationCtrl", ["$scope", "$http", function($scope, $http) {
+    .controller("IntegrationSOSSinProxy", ["$scope", "$http", function($scope, $http) {
                 console.log("IntegrationCtrl initialized");
                 var apiBuilders = "/api/v1/builders";
                 var apiUnemployments = "https://sos1718-02.herokuapp.com/api/v1/unemployments";
