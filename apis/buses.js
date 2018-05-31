@@ -212,10 +212,10 @@ exports.register = function(app, db, BASE_API_PATH, checkApiKeyFunction) {
                             return m;
                         })[0]);
                     }
-//                    else {
-//                        console.log("WARNING: There are not any contact with community " + community);
-//                        res.sendStatus(404); // not found
-//                    }
+                    else {
+                        console.log("WARNING: There are not any contact with community " + community);
+                        res.sendStatus(404); // not found
+                    }
                 }
             });
         }
