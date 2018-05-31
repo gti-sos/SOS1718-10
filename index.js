@@ -55,6 +55,17 @@ app.use(paths, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+/////////// PROXY PACO-LEE WEATHER
+
+var paths='/proxyFGGW';
+var apiServerHostWeather = 'https://api.abalin.net/get/namedays?day=20&month=6&country=es';
+
+app.use(paths, function(req, res) {
+  var url = apiServerHostWeather + req.url;
+  console.log('piped: '+req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
 
 /////////// PROXY BUILDERS
 
