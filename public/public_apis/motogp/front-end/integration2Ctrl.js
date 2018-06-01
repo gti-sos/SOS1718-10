@@ -63,7 +63,7 @@ angular.module("Principal").controller("integration2Ctrl", ["$scope", "$http", f
             zingchart.render({
                 id: 'myChart',
                 data: myConfig,
-                height: "60%",
+                height: "80%",
                 width: "90%"
             });
             console.log(myConfig);
