@@ -27,14 +27,25 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
             }
         }
 
-        /*$http.get(meal).then(function(response) {
+        $http.get(meal).then(function(response) {
             console.log(response);
-            var conjuntoDEPA1 = []
+            var conjuntoDEPA1 = [];
+            var conjuntoOPA1 = [];
+            var conjuntoOPA2 = [];
             //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
             //1º Guardamos en una variable el conjunto de los años ordenados
-            var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.idMeal) }).sort((a, b) => a - b)
+            var array = response.data.meals;
+            console.log("el bolo: " + array);
+
+            for (var x = 0; x < array.length; x++) {
+                conjuntoOPA1.push(array[x].idMeal);
+                co
+            }
+            console.log("el bolo 1:" + conjuntoOPA1);
+
+
+
             //2ºRecorremos el conjunto ordenado
-            console.log(conjuntoOPA1);
             for (var i = 0; i < conjuntoOPA1.length; i++) {
                 //3º Recorremos el response.data en busca de la edad que corresponden a cada año
                 for (var j = 0; j < response.data.length; j++) {
@@ -48,7 +59,7 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                         console.log(conjuntoDEPA1);
                     }
                 }
-            }*/
+            }
 
             //Creamos un solo objeto y a ese mismo le vamos metiendo varias claves (y, label) y sus valores para cada caso
             //sustituyendo en cada caso el valor correspondiente de conjuntoOPA[z] y conjuntoDePuntos[z]
@@ -63,8 +74,8 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                 conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
             }
-            
-            /*
+
+
             //Creamos un solo objeto y a ese mismo le vamos metiendo varias claves (y, label) y sus valores para cada caso
             //sustituyendo en cada caso el valor correspondiente de conjuntoOPA1[z] y conjuntoDePuntos1[z]
             //y en un conjunto de objetos vamos guardando cada objeto creado de la forma {label:2000, y:15}
@@ -77,7 +88,7 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                 object["y"] = conjuntoDEPA1[z];
                 conjuntoObjetos1.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
-            }*/
+            }
             var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light1", // "light1", "ligh2", "dark1", "dark2"
                 animationEnabled: true,
@@ -96,17 +107,18 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                     indexLabelFontColor: "#EEEEEE",
                     indexLabelPlacement: "inside",
                     yValueFormatString: "",
-                    dataPoints: conjuntoObjetos
+                    dataPoints: conjuntoObjetos,
+                    conjuntoObjetos1
 
 
                 }]
 
             });
             console.log(conjuntoObjetos);
-            //console.log(conjuntoObjetos1);
+            console.log(conjuntoObjetos1);
             chart.render();
         });
 
-    //});
+    });
 
 }]);
