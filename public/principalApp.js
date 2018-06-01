@@ -67,7 +67,19 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationSOSConProxy", {
         templateUrl: "../public_apis/builders/front-end/integrationSOS-ConProxy.html",
         controller: "IntegrationSOSConProxy"
-
+    }).
+    when("/integrationApiExterna1", {
+        templateUrl: "../public_apis/builders/front-end/apiExterna1.html",
+        controller: "ApiExterna1Ctrl"
+    }).
+    when("/integrationApiExterna2", {
+        templateUrl: "../public_apis/builders/front-end/apiExterna2.html",
+        controller: "ApiExterna2Ctrl"
+    }).
+    when("/integrationApiExterna3", {
+        templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
+        controller: "ApiExterna3Ctrl"
+    
             /*VICTOR*/
 
         }).when("/buses", {
