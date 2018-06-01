@@ -1,115 +1,71 @@
 /*global angular*/
-/*global Highcharts*/
-
+/*global google*/
 angular
     .module("Principal")
     .controller("IntegracionFinalI", ["$scope", "$http", function($scope, $http) {
         console.log("integracion controller initialized");
+        var paisesW = [];
 
-        /*eliminar eltos. duplicados*/
+        var paisesTotal = [
+            ['Country', 'Population', 'Tranportedtraveler']
+        ];
+        $http
+            .get("https://restcountries.eu/rest/v2/all")
+            .then(function(response) {
+                paisesW = response.data;
 
-        Array.prototype.unique = function(a) {
-            return function() { return this.filter(a) }
-        }(function(a, b, c) {
-            return c.indexOf(a, b + 1) < 0
-        });
-
-        /*ordenar array*/
-
-        Array.prototype.sortNumbers = function() {
-            return this.sort(
-                function(a, b) {
-                    return a - b
-                }
-            );
-        }
-
-        var paises = [];
-
-        $http.get("/api/v1/buses").then(function(responseBuses) {
-
-            
-
-            for (var i = 0; i < responseBuses.data.length; i++) {
-                paises.push(responseBuses.data[i].country);
-            }
-
-
-
-            //console.log(aBuses);
-
-            $http.get("https://restcountries.eu/rest/v2/all").then(function(responseCountries) {
-                var aOpen = [];
-                var aBuses = [];
-
-                for (var i = 0; i < responseCountries.data.length; i++) {
-                    paises.push(responseCountries.data[i].year);
-                }
-                console.log(paises.sortNumbers().unique());
-                
-                for (var i = 0; i < paises.sortNumbers().unique().length; i++) {
-                    var acum = 0;
-                    var ac = 0;
-                    for (var j = 0; j < responseBuses.data.length; j++) {
-                        if (responseBuses.data[j].year == paises.sortNumbers().unique()[i]) {
-                            ac += parseInt(responseBuses.data[j].transportedTraveler);
-                            
-                        }
-                    }
-                    aBuses.push(ac);
-                    for (var j = 0; j < responseCountries.data.length; j++) {
-                        if (responseCountries.data[j].year == paises.sortNumbers().unique()[i]) {
-                            acum += responseCountries.data[j].population;
-                            
-                        }
-                    }
-                    aOpen.push(acum);
-                }
-                
-
-            console.log(aBuses);
-            console.log(aOpen);
-
-
-                //console.log(years.sortNumbers().unique());
-
-
-                Highcharts.chart('container', {
-                    chart: {
-                        type: 'line'
-                    },
-                    title: {
-                        text: 'Integracion'
-                    },
-                    subtitle: {
-                        text: ''
-                    },
-                    xAxis: {
-                        categories: years.sortNumbers().unique()
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'TransFirst'
-                        }
-                    },
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-                    series: [{
-                        name: 'transportedTraveler',
-                        data: aBuses
-                    }, {
-                        name: 'capacity',
-                        data: aOpen
-                    }]
-                });
-
+                console.log(response.data);
             });
 
-        });
+
+        $http
+            .get("/api/v1/buses")
+            .then(function(response) {
+
+
+                for (var i = 0; i < response.data.length; i++) {
+                    for (var j = 0; j < paisesW.length; j++) {
+                        if (response.data[i].country == paisesW[j].name.toLowerCase()) {
+                            paisesTotal.push([response.data[i].country, paisesW[j].population, response.data[i].transportedTraveler]);
+                        }
+
+                    }
+                }
+                console.log(paisesTotal);
+                google.charts.load('current', {
+                    'packages': ['geochart'],
+                    'mapsApiKey': "AIzaSyCXG8oC2k-nM18JMXiW0asnu6UJ8wLYCVA"
+
+                });
+                google.charts.setOnLoadCallback(drawRegionsMap);
+
+                function drawRegionsMap() {
+
+
+
+
+
+                    var data = google.visualization.arrayToDataTable(paisesTotal);
+                    console.log(data);
+
+                    var options = {
+                        datalessRegionColor: 'lightgreen',
+                        backgroundColor: '#81BEF7',
+                        region: 150,
+                        // displayMode: 'markers',
+                        colorAxis: {
+                            colors: ['#FFFF00', '#FF0000']
+                        },
+                        resolution: 'countries'
+                    };
+
+                    var chart = new google.visualization.GeoChart(document.getElementById('map'));
+
+                    chart.draw(data, options);
+                }
+            });
+
+
+
+
     }]);
