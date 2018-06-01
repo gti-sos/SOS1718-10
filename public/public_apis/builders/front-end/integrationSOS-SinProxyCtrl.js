@@ -23,7 +23,7 @@ angular
                 //Eliminamos los duplicados
                 buildersCountry = buildersCountry.unique()
 
-                console.log("BuildersCountry: " + buildersCountry);
+                //console.log("BuildersCountry: " + buildersCountry);
 
 
 
@@ -37,18 +37,20 @@ angular
                         })
                         buildersCountry = buildersCountry.unique()
 
-                        console.log("BuildersCountry con duplicados quitados: " + buildersCountry);
+                        //console.log("BuildersCountry con duplicados quitados: " + buildersCountry);
                         var arrayADevolver = [];
+                        
+                        //recorremos los paises
                         for (var v = 0; v < buildersCountry.length; v++) {
                             var nodo = []
                             nodo[0] = buildersCountry[v];
+                            //recorremos los paises de builders para sacar las victorias de aquellos paises que coincidan
                             responseBuilders.data.forEach((n) => {
                                 if (n.country == buildersCountry[v]) {
-                                    console.log("Country actual " + n.country);
-                                    console.log("Country del array: " + buildersCountry[v]);
                                     nodo[1] = n.victory;
-                                    console.log("VICTORIAS: " +n.victories)
                                 }
+                                //recorremos los paises de unemplyments para sacar los gastos a largo plazo de aquellos paises 
+                                //que coincidan
                                 responseUnemployments.data.forEach((p) => {
                                     if (p.country == buildersCountry[v]) {
                                         nodo[2] = p.longterm;
