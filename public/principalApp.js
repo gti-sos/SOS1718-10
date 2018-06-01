@@ -59,23 +59,7 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationSOSConProxy", {
         templateUrl: "../public_apis/builders/front-end/integrationSOS-ConProxy.html",
         controller: "IntegrationSOSConProxy"
-<<<<<<< HEAD
 
-=======
-    }).
-    when("/integrationApiExterna1", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna1.html",
-        controller: "ApiExterna1Ctrl"
-    }).
-    when("/integrationApiExterna2", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna2.html",
-        controller: "ApiExterna2Ctrl"
-    }).
-    when("/integrationApiExterna3", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
-        controller: "ApiExterna3Ctrl"
-    
->>>>>>> 1098af030a1e3f6628a7d661f8389d4ee4ec36d4
             /*VICTOR*/
 
         }).when("/buses", {
@@ -93,6 +77,10 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         .when("/integracionProxyBuses", {
             templateUrl: "../public_apis/buses/front-end/integracionProxy.html",
             controller: "IntegracionProxy"
+        })
+        .when("/integracionFinalI", {
+            templateUrl: "../public_apis/buses/front-end/integracionFinalI.html",
+            controller: "IntegracionFinalI"
         })
         .when("/buses/:community", {
             templateUrl: "../public_apis/buses/front-end/edit.html",
