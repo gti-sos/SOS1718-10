@@ -123,20 +123,20 @@ angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", fu
                     //Este conjuntoObjetos sería el conjunto final que devoleríamos
                 }
                 console.log("titodavi:" + conjuntoObjetos1);
-                /*
+
                 var conjuntoObjetos2 = []
                 for (var z = 0; z < conjuntoOPA.length; z++) {
                     //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                     //que es la forma en la que recibe los datos la gráfica 
                     var object = {};
-                    object["x"] = years[z];
-                    object["y"] = aBuses[z];
+                    object["x"] = busyear[z];
+                    object["y"] = parseInt(bustrans[z]);
                     conjuntoObjetos2.push(object);
 
                     //Este conjuntoObjetos sería el conjunto final que devoleríamos
                 }
                 console.log("titotolo:" + conjuntoObjetos2);
-                */
+
 
                 Highcharts.chart('container', {
                     chart: {
@@ -164,7 +164,7 @@ angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", fu
                         }
                     },
                     tooltip: {
-                        pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+                        pointFormat: '{series.name} number <b>{point.y:,.0f}</b><br/>in {point.x}'
                     },
                     plotOptions: {
                         area: {
@@ -189,9 +189,8 @@ angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", fu
                         name: 'Builders',
                         data: conjuntoObjetos1
                     }, {
-                        name: 'Buses'
-                        /*,
-                                                data: bustrans*/
+                        name: 'Buses',
+                        data: conjuntoObjetos2
                     }]
                 });
             });
