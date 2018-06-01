@@ -30,60 +30,41 @@ angular.module("Principal").controller("integration2Ctrl", ["$scope", "$http", f
         $http.get(apiWeather).then(function(responseDN) {
             console.log("responseDN:", responseDN.data.data["name_es"]);
 
-            var conjunto1 = {};
-            var nameNumber = responseDN.data.data["name_es"].split(",").length + 3000;
-
-            var objectGP = {};
-            objectGP["label"] = conjuntoOPA[z];
-            objectGP["y"] = conjuntoDEPA[z];
-            conjuntoObjetos.push(object);
 
 
-            //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-            //1º Guardamos en una variable el conjunto de los años ordenados
-            var nombres = response.data.name_es.length;
 
-            //2ºRecorremos el conjunto ordenado
-            console.log(nombres);
-            for (var i = 0; i < nombres.length; i++) {
-                //3º Recorremos el response.data en busca de la edad que corresponden a cada año
-                for (var j = 0; j < response.data.length; j++) {
-                    //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                    //que se encuentra en esa posicion en el conjunto ordenado
-                    if (nombres[i] == response.data[j].name_es) {
-                        console.log(nombres);
-                        //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                        //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                        conjuntoDEPA1[i] = response.data[j].day;
-                        console.log(conjuntoDEPA1);
-                    }
-                }
+            var conjuntoObjetos = []
+            for (var z = 0; z < conjuntoDEPA.length; z++) {
+
+                var objectGP = {};
+
+                objectGP["values"] = [conjuntoDEPA[z]];
+                objectGP["join"] = [conjuntoOPA[z]];
+                conjuntoObjetos.push(objectGP);
             }
+
+            var objectDN = {};
+            var nameNumber = [responseDN.data.data["name_es"].split(",").length + 3000];
+            objectDN["values"] = [100];
+            objectDN["join"] = nameNumber;
+
+            conjuntoObjetos.push(objectDN);
+
+
+
 
             var myConfig = {
                 "type": "venn",
-                "series": [{
-                        "values": conjuntoOPA1,
-                        "join": conjuntoDEPA1
-                    }
-                    /*,
-                                        {
-                                            "values": conjuntoOPA1,
-                                            "join": conjuntoDEPA1
-                                        }*/
-                ]
+                "series": conjuntoObjetos
 
             };
-            console.log(conjuntoOPA1);
-            // console.log(conjuntoOPA1);
-            console.log(conjuntoDEPA1);
-            //console.log(conjuntoDEPA1);
+            console.log(myConfig);
 
             zingchart.render({
                 id: 'myChart',
                 data: myConfig,
-                height: "100%",
-                width: "100%"
+                height: "60%",
+                width: "90%"
             });
             console.log(myConfig);
         });
