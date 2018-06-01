@@ -7,6 +7,7 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
     var dataCache = {};
     $scope.name = [];
     $scope.datos2 = [];
+    $scope.dataBirth = {};
 
     $http.get(apiMotogp).then(function(response) {
         var conjuntoDEPA = []
@@ -42,47 +43,70 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
 
             }
 
+            var conjuntoObjetos = []
+            for (var z = 0; z < conjuntoOPA.length; z++) {
+                //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
+                //que es la forma en la que recibe los datos la gráfica 
+                var object = {};
+                object["label"] = conjuntoOPA[z];
+                object["y"] = conjuntoDEPA[z];
+                conjuntoObjetos.push(object);
+                //Este conjuntoObjetos sería el conjunto final que devoleríamos
+            }
+
+            var conjuntoObjetos1 = []
+             for (var z = 0; z < $scope.dataBirth.length; z++) {
+                 //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
+                 //que es la forma en la que recibe los datos la gráfica 
+                 var object = {};
+                 object["label"] = conjuntoOPA[z];
+                 object["y"] = $scope.data[i].person.name[z];
+                 conjuntoObjetos1.push(object);
+                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
+             }
 
 
 
 
-
-            chart = AmCharts.makeChart("chartpaco", {
-                "type": "serial",
-                "theme": "dark",
-                "dataProvider": $scope.datos2,
-                "valueAxes": [{
-                    "gridColor": 'green',
-                    "gridAlpha": 0.2,
-                    "dashLength": 0
-                }],
-                "gridAboveGraphs": true,
-                "startDuration": 1,
-                "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]</b>",
-                    "fillAlphas": 0.8,
-                    "lineAlpha": 0.2,
-                    "type": "column",
-                    "valueField": "varied"
-                }],
-                "chartCursor": {
-                    "categoryBalloonEnabled": false,
-                    "cursorAlpha": 0,
-                    "zoomable": false
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Recruitment Analysis - July 2016"
                 },
-                "categoryField": "name",
-                "categoryAxis": {
-                    "gridPosition": "start",
-                    "gridAlpha": 0,
-                    "tickPosition": "start",
-                    "tickLength": 20
-                },
-                "export": {
-                    "enabled": false
-                }
+                data: [{
+                    type: "funnel",
+                    indexLabel: "{label} - {y}",
+                    toolTipContent: "<b>{label}</b>: {y} <b>({percentage}%)</b>",
+                    neckWidth: 20,
+                    neckHeight: 0,
+                    valueRepresents: "area",
+                    dataPoints: [
+                        conjuntoObjetos,
+                        conjuntoObjetos1
+                    ]
+
+                }]
 
             });
+            console.log(conjuntoObjetos);
+            console.log(conjuntoObjetos1);
+            calculatePercentage();
+            chart.render();
+
+            function calculatePercentage() {
+                var dataPoint = chart.options.data[0].dataPoints;
+                var total = dataPoint[0].y;
+                for (var i = 0; i < dataPoint.length; i++) {
+                    if (i == 0) {
+                        chart.options.data[0].dataPoints[i].percentage = 100;
+                    }
+                    else {
+                        chart.options.data[0].dataPoints[i].percentage = ((dataPoint[i].y / total) * 100).toFixed(2);
+                    }
+                }
+            }
         });
+
     });
 
 
