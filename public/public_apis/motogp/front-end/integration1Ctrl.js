@@ -2,6 +2,7 @@
 /*global Highcharts*/
 /*global google*/
 /*global AmCharts*/
+/*global CanvasJS*/
 
 angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("integration1 Ctrl initialized!");
@@ -22,9 +23,10 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                 if (conjuntoOPA[i] == response.data[j].year) {
                     //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
                     //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                    conjuntoDEPA[i] = response.data[j].age;
+                    conjuntoDEPA[i] = response.data[j].pilot;
                 }
             }
+            console.log("tito:" + conjuntoDEPA);
         }
 
         $http.get(meal).then(function(response) {
@@ -39,9 +41,10 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
 
             for (var x = 0; x < array.length; x++) {
                 conjuntoOPA1.push(array[x].idMeal);
-                co
+                conjuntoOPA2.push(array[x].strMeal);
             }
             console.log("el bolo 1:" + conjuntoOPA1);
+            console.log("el bolo 1:" + conjuntoOPA2);
 
 
 
@@ -69,8 +72,8 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                 //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                 //que es la forma en la que recibe los datos la gráfica 
                 var object = {};
-                object["label"] = conjuntoOPA[z];
-                object["y"] = conjuntoDEPA[z];
+                object["label"] = conjuntoDEPA[z];
+                object["y"] = conjuntoOPA[z];
                 conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
             }
@@ -84,11 +87,15 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                 //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                 //que es la forma en la que recibe los datos la gráfica 
                 var object = {};
-                object["label"] = conjuntoOPA1[z];
-                object["y"] = conjuntoDEPA1[z];
-                conjuntoObjetos1.push(object);
+                object["label"] = conjuntoOPA2[z];
+                object["y"] = parseInt(conjuntoOPA1[z]);
+                conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
             }
+            
+             
+            
+            
             var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light1", // "light1", "ligh2", "dark1", "dark2"
                 animationEnabled: true,
@@ -107,15 +114,15 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
                     indexLabelFontColor: "#EEEEEE",
                     indexLabelPlacement: "inside",
                     yValueFormatString: "",
-                    dataPoints: conjuntoObjetos,
-                    conjuntoObjetos1
+                    dataPoints: 
+                    conjuntoObjetos
 
 
                 }]
 
             });
             console.log(conjuntoObjetos);
-            console.log(conjuntoObjetos1);
+     
             chart.render();
         });
 
