@@ -66,12 +66,15 @@ angular
                         console.log("Conjunto de años unificados ordenados " + years.sort((a, b) => a - b));
 
                         var conjuntoIntegracion = []
-                        for (var w = 0; w < yearsBuilders; w++) {
+                        for (var w = 0; w < yearsBuilders.length; w++) {
+                            console.log("Entraaa")
                             var object = {};
                             object["x"] = conjuntoDeVictoriasOrdenadasPorAño[w];
                             object["y"] = estadisticasIntegracion[w];
                             conjuntoIntegracion.push(object);
                         }
+                        
+                        console.log("Conjunto de integracion: " + conjuntoIntegracion);
 
 
                         window.onload = function() {
@@ -83,15 +86,19 @@ angular
                                     text: "Integration Builder with World-Stats"
                                 },
                                 axisX: {
+                                    minimum: 0,
+                                    maximum: 100,
                                     title: "Victories",
                                 },
                                 axisY: {
+                                    minimum: 0,
+                                    maximum: 100,
                                     title: "Sales",
                                 },
                                 data: [{
                                     type: "scatter",
-                                    toolTipContent: "<b>Victories: </b>{x} sq.ft<br/><b>Sales: </b>${y}k",
-                                    dataPoints: object
+                                    toolTipContent: "<b>Victories: </b>{x}<br/><b>Sales: </b>{y}",
+                                    dataPoints: conjuntoIntegracion
                                 }]
                             });
                             chart.render();
