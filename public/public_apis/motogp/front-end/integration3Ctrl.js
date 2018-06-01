@@ -54,7 +54,7 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
             }
 
-            var conjuntoObjetos1 = []
+            /*var conjuntoObjetos1 = []
              for (var z = 0; z < $scope.dataBirth.length; z++) {
                  //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                  //que es la forma en la que recibe los datos la gráfica 
@@ -63,7 +63,7 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
                  object["y"] = $scope.data[i].person.name[z];
                  conjuntoObjetos1.push(object);
                  //Este conjuntoObjetos sería el conjunto final que devoleríamos
-             }
+             }*/
 
 
 
@@ -80,16 +80,16 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
                     neckWidth: 20,
                     neckHeight: 0,
                     valueRepresents: "area",
-                    dataPoints: [
-                        conjuntoObjetos,
-                        conjuntoObjetos1
-                    ]
+                    dataPoints: 
+                        conjuntoObjetos
+                        //conjuntoObjetos1
+                    
 
                 }]
 
             });
             console.log(conjuntoObjetos);
-            console.log(conjuntoObjetos1);
+            //console.log(conjuntoObjetos1);
             calculatePercentage();
             chart.render();
 

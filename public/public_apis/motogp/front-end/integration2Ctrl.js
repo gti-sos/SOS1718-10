@@ -27,13 +27,22 @@ angular.module("Principal").controller("integration2Ctrl", ["$scope", "$http", f
             }
         }
 
-        $http.get(apiWeather).then(function(response) {
-            console.log(response.data);
-            var conjuntoDEPA1 = []
+        $http.get(apiWeather).then(function(responseDN) {
+            console.log("responseDN:", responseDN.data.data["name_es"]);
+
+            var conjunto1 = {};
+            var nameNumber = responseDN.data.data["name_es"].split(",").length + 3000;
+
+            var objectGP = {};
+            objectGP["label"] = conjuntoOPA[z];
+            objectGP["y"] = conjuntoDEPA[z];
+            conjuntoObjetos.push(object);
+
+
             //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
             //1º Guardamos en una variable el conjunto de los años ordenados
-            var nombres =  response.data.name_es.length;
-            
+            var nombres = response.data.name_es.length;
+
             //2ºRecorremos el conjunto ordenado
             console.log(nombres);
             for (var i = 0; i < nombres.length; i++) {
