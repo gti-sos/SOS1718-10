@@ -7,8 +7,6 @@ angular
 
 
         /////////////////////////INTEGRACIÓN CON PROXY//////////////////////////////////
-
-
         $http.get(apiBuilders)
             .then(function(response) {
 
@@ -29,7 +27,7 @@ angular
                         }
                     }
                 }
-                var paises = response.data.map(function(d) { return d.country });
+                var yearsBuilders = conjuntoOrdenadoPorAño;
                 var years = response.data.map(function(d) { return parseInt(d.year) });
 
                 $http.get(apiWorldStats)
@@ -53,72 +51,62 @@ angular
                             }
                         }
 
-                        console.log("estadisticasIntegracion" + estadisticasIntegracion)
-                        var year1 = response.data.map(function(d) { return parseInt(d.year) });
-                        console.log("año1: " + year1)
+                        var yearsWorldStats = response.data.map(function(d) { return parseInt(d.year) });
                         for (var j = 0; j < estadisticasIntegracion.length; j++) {
-                            if (!(year1[j] in years)) {
-                                console.log("years: " + year1[j]);
-                                years.push(year1[j]);
+                            if (!(yearsWorldStats[j] in years)) {
+                                years.push(yearsWorldStats[j]);
                             }
                         }
-                        console.log("años " + years.sort((a, b) => a - b));
+                        console.log("Estadisticas de Integracion ordenadas por año (Sales for year): " + estadisticasIntegracion)
+                        console.log("Conjunto de años de Api World-Stats: " + yearsWorldStats)
+                        console.log("Conjunto de victorias ordenadas por año: " + conjuntoDeVictoriasOrdenadasPorAño);
+                        console.log("Conjunto de años ordenados de Builders " + yearsBuilders)
+                        console.log("Conjunto de años unificados ordenados " + years.sort((a, b) => a - b));
 
-                        var paises1 = response.data.map(function(d) { return d.country });
-                        for (var j = 0; j < estadisticasIntegracion.length; j++) {
-                            if (!(paises1[j] in paises))
-                                paises.push(paises1[j])
+                        var conjuntoIntegracion = []
+                        for (var w = 0; w < yearsBuilders.length; w++) {
+                            var object = {};
+                            object["x"] = conjuntoDeVictoriasOrdenadasPorAño[w];
+                            object["y"] = estadisticasIntegracion[w];
+                            conjuntoIntegracion.push(object);
+                            //console.log("Conjunto de integracion[w][x]: " + conjuntoIntegracion[w].x);
+                            //console.log("Conjunto de integracion[w][y]: " + conjuntoIntegracion[w].y);
+                            //console.log("Object: " + object);
                         }
 
-                        console.log("Victorias: " + conjuntoDeVictoriasOrdenadasPorAño);
-                        console.log("Sales: " + estadisticasIntegracion);
+                        //console.log("Conjunto de integracion: " + conjuntoIntegracion);
 
 
-                        Highcharts.chart('integrationsProxy', {
-                            chart: {
-                                type: 'bar'
-                            },
+
+
+                        var chart = new CanvasJS.Chart("integrationsProxy", {
+                            animationEnabled: true,
+                            zoomEnabled: true,
                             title: {
-                                text: 'Integration Builder with World-Stats'
+                                text: "Integration Builder with World-Stats"
                             },
-
-                            xAxis: {
-                                categories: paises,
+                            axisX: {
+                                title: "Victories",
+                                minimum:0 ,
+                                maximum: 20
                             },
-                            yAxis: {
-                                categories: years
-
+                            axisY: {
+                                title: "Sales",
+                                minimum:0,
+                                maximum:60
                             },
-
-                            plotOptions: {
-                                bar: {
-                                    dataLabels: {
-                                        enabled: true
-                                    }
-                                }
-                            },
-                            legend: {
-                                layout: 'vertical',
-                                align: 'right',
-                                verticalAlign: 'top',
-                                x: -40,
-                                y: 80,
-                                floating: true,
-                                borderWidth: 1,
-                                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                                shadow: true
-                            },
-                            credits: {
-                                enabled: false
-                            },
-                            series: [{
-                                name: 'Victories',
-                                data: conjuntoDeVictoriasOrdenadasPorAño
-                            }, {
-                                name: 'Sales',
-                                data: estadisticasIntegracion
+                            data: [{
+                                type: "scatter",
+                                toolTipContent: "<b>Victories: </b>{x}<br/><b>Sales: </b>{y}",
+                                dataPoints: conjuntoIntegracion
                             }]
                         });
+                        chart.render();
+
+
+
+
                     });
             });
+
     }]);
