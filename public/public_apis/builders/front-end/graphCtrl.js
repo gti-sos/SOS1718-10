@@ -222,7 +222,7 @@ angular
                     animationEnabled: true,
                     theme: "light2", // "light1", "light2", "dark1", "dark2"
                     title: {
-                        text: "GDP Growth Rate - 2016"
+                        text: "Poles por año"
                     },
                     axisY: {
                         title: "Poles",
@@ -233,7 +233,6 @@ angular
                     },
                     data: [{
                         type: "column",
-                        //yValue: conjuntoOrdenadoPorAño,
                         dataPoints: conjuntoObjetos
                     }]
                 });

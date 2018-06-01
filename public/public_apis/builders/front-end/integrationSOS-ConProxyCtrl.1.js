@@ -67,7 +67,6 @@ angular
 
                         var conjuntoIntegracion = []
                         for (var w = 0; w < yearsBuilders.length; w++) {
-                            console.log("Entraaa")
                             var object = {};
                             object["x"] = conjuntoDeVictoriasOrdenadasPorAño[w];
                             object["y"] = estadisticasIntegracion[w];
