@@ -114,6 +114,10 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "../public_apis/buses/front-end/integracionFinalI.html",
             controller: "IntegracionFinalI"
         })
+        .when("/integracionFinalII", {
+            templateUrl: "../public_apis/buses/front-end/integracionFinalII.html",
+            controller: "IntegracionFinalII"
+        })
         .when("/buses/:community", {
             templateUrl: "../public_apis/buses/front-end/edit.html",
             controller: "EditCtrl2"
