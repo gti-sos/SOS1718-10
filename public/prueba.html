@@ -1,125 +1,70 @@
-<h2>Integrations with Proxy</h2>
-<div id="integrationsProxy" style="height: 300px; width: 100%;"></div>
+<html>
+<center>
+        <h1 style="background-color:black">
+            <font color=white>SOS1718-10
+            <p style="float:right"><i>Analytics</i></p></font>
+            <a href="https://sos1718-10.herokuapp.com/builders/"><img src="../public_apis/builders/front-end/logo/Logo-F1.png" width="75" height="50" style="float:left"></img></a>
+        </h1>
+</center>
+
+
+
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 
 <script type="text/javascript">
-    var apiBuilders = "/api/v1/builders";
-    var apiWorldStats = "https://sos1718-10.herokuapp.com/proxyBuilders";
+    window.onload = function() {
 
-
-    /////////////////////////INTEGRACIÓN CON PROXY//////////////////////////////////
-
-
-    $http.get(apiBuilders)
-        .then(function(response) {
-
-            var conjuntoDeVictoriasOrdenadasPorAño = []
-            //con este método sacamos las victorias ordenadas correctamente con su correspondiente año ordenado
-            //1º Guardamos en una variable el conjunto de los años ordenados
-            var conjuntoOrdenadoPorAño = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-            //2ºRecorremos el conjunto ordenado
-            for (var i = 0; i < conjuntoOrdenadoPorAño.length; i++) {
-                //3º Recorremos el response.data en busca del numero de victorias que corresponden a cada año
-                for (var j = 0; j < response.data.length; j++) {
-                    //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                    //que se encuentra en esa posicion en el conjunto ordenado
-                    if (conjuntoOrdenadoPorAño[i] == response.data[j].year) {
-                        //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                        //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                        conjuntoDeVictoriasOrdenadasPorAño[i] = response.data[j].victory;
-                    }
-                }
-            }
-            var paises = response.data.map(function(d) { return d.country });
-            var years = response.data.map(function(d) { return parseInt(d.year) });
-
-            $http.get(apiWorldStats)
-                .then(function(response) {
-                    var estadisticasIntegracion = []
-                    //con este método sacamos las victorias ordenadas correctamente con su correspondiente año ordenado
-                    //1º Guardamos en una variable el conjunto de los años ordenados
-                    var conjuntoOrdenadoPorAño = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-                    //2ºRecorremos el conjunto ordenado
-                    for (var i = 0; i < conjuntoOrdenadoPorAño.length; i++) {
-                        //3º Recorremos el response.data en busca del numero de victorias que corresponden a cada año
-                        var sales = response.data.map(function(d) { return parseInt(d.sale) });
-                        for (var j = 0; j < sales.length; j++) {
-                            //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                            //que se encuentra en esa posicion en el conjunto ordenado
-                            if (conjuntoOrdenadoPorAño[i] == response.data[j].year) {
-                                //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                                //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                                estadisticasIntegracion[i] = response.data[j].sale;
-                            }
-                        }
-                    }
-
-                    console.log("estadisticasIntegracion" + estadisticasIntegracion)
-                    var year1 = response.data.map(function(d) { return parseInt(d.year) });
-                    console.log("año1: " + year1)
-                    for (var j = 0; j < estadisticasIntegracion.length; j++) {
-                        if (!(year1[j] in years)) {
-                            console.log("years: " + year1[j]);
-                            years.push(year1[j]);
-                        }
-                    }
-                    console.log("años " + years.sort((a, b) => a - b));
-
-                    var paises1 = response.data.map(function(d) { return d.country });
-                    for (var j = 0; j < estadisticasIntegracion.length; j++) {
-                        if (!(paises1[j] in paises))
-                            paises.push(paises1[j])
-                    }
-
-
-                    window.onload = function() {
-
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-                            zoomEnabled: true,
-                            title: {
-                                text: "Integration Builder with World-Stats"
-                            },
-                            axisX: {
-                                categories: paises
-                            },
-                            axisY: {
-                                categories: years
-                            },
-                            data: [{
-                                type: "scatter",
-                                toolTipContent: "<b>Area: </b>{x} sq.ft<br/><b>Price: </b>${y}k",
-                                dataPoints: [
-                                    { x: 800, y: 350 },
-                                    { x: 900, y: 450 },
-                                    { x: 850, y: 450 },
-                                    { x: 1250, y: 700 },
-                                    { x: 1100, y: 650 },
-                                    { x: 1350, y: 850 },
-                                    { x: 1200, y: 900 },
-                                    { x: 1410, y: 1250 },
-                                    { x: 1250, y: 1100 },
-                                    { x: 1400, y: 1150 },
-                                    { x: 1500, y: 1050 },
-                                    { x: 1330, y: 1120 },
-                                    { x: 1580, y: 1220 },
-                                    { x: 1620, y: 1400 },
-                                    { x: 1250, y: 1450 },
-                                    { x: 1350, y: 1600 },
-                                    { x: 1650, y: 1300 },
-                                    { x: 1700, y: 1620 },
-                                    { x: 1750, y: 1700 },
-                                    { x: 1830, y: 1800 },
-                                    { x: 1900, y: 2000 },
-                                    { x: 2050, y: 2200 },
-                                    { x: 2150, y: 1960 },
-                                    { x: 2250, y: 1990 }
-                                ]
-                            }]
-                        });
-                        chart.render();
-
-                    }
-
-                });
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            zoomEnabled: true,
+            title: {
+                text: "Real Estate Rates"
+            },
+            axisX: {
+                title: "Area (in sq. ft)",
+                minimum: 790,
+                maximum: 2260
+            },
+            axisY: {
+                title: "Price (in USD)",
+                valueFormatString: "$#,##0k"
+            },
+            data: [{
+                type: "scatter",
+                toolTipContent: "<b>Area: </b>{x} sq.ft<br/><b>Price: </b>${y}k",
+                dataPoints: [
+                    { x: 800, y: 350 },
+                    { x: 900, y: 450 },
+                    { x: 850, y: 450 },
+                    { x: 1250, y: 700 },
+                    { x: 1100, y: 650 },
+                    { x: 1350, y: 850 },
+                    { x: 1200, y: 900 },
+                    { x: 1410, y: 1250 },
+                    { x: 1250, y: 1100 },
+                    { x: 1400, y: 1150 },
+                    { x: 1500, y: 1050 },
+                    { x: 1330, y: 1120 },
+                    { x: 1580, y: 1220 },
+                    { x: 1620, y: 1400 },
+                    { x: 1250, y: 1450 },
+                    { x: 1350, y: 1600 },
+                    { x: 1650, y: 1300 },
+                    { x: 1700, y: 1620 },
+                    { x: 1750, y: 1700 },
+                    { x: 1830, y: 1800 },
+                    { x: 1900, y: 2000 },
+                    { x: 2050, y: 2200 },
+                    { x: 2150, y: 1960 },
+                    { x: 2250, y: 1990 }
+                ]
+            }]
         });
-</script>
+        chart.render();
+
+    }
+    </script>
+</html>

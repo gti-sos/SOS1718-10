@@ -71,6 +71,9 @@ angular
                             object["x"] = conjuntoDeVictoriasOrdenadasPorAño[w];
                             object["y"] = estadisticasIntegracion[w];
                             conjuntoIntegracion.push(object);
+                            console.log("Conjunto de integracion[w][x]: " + conjuntoIntegracion[w].x);
+                            console.log("Conjunto de integracion[w][y]: " + conjuntoIntegracion[w].y);
+                            console.log("Object: " + object);
                         }
                         
                         console.log("Conjunto de integracion: " + conjuntoIntegracion);
@@ -79,8 +82,6 @@ angular
                         window.onload = function() {
 
                             var chart = new CanvasJS.Chart("integrationsProxy", {
-                                animationEnabled: true,
-                                zoomEnabled: true,
                                 title: {
                                     text: "Integration Builder with World-Stats"
                                 },
