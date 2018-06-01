@@ -3,7 +3,7 @@
 
 angular
     .module("Principal")
-    .controller("IntegracionCtrl3", ["$scope", "$http", function($scope, $http) {
+    .controller("IntegracionFinalI", ["$scope", "$http", function($scope, $http) {
         console.log("integracion controller initialized");
 
         /*eliminar eltos. duplicados*/
@@ -24,42 +24,42 @@ angular
             );
         }
 
-        var years = [];
+        var paises = [];
 
         $http.get("/api/v1/buses").then(function(responseBuses) {
 
             
 
             for (var i = 0; i < responseBuses.data.length; i++) {
-                years.push(responseBuses.data[i].year);
+                paises.push(responseBuses.data[i].country);
             }
 
 
 
             //console.log(aBuses);
 
-            $http.get("https://sos1718-01.herokuapp.com/api/v1/tvfees-stats").then(function(responsetvFeesStats) {
+            $http.get("https://restcountries.eu/rest/v2/all").then(function(responseCountries) {
                 var aOpen = [];
                 var aBuses = [];
 
-                for (var i = 0; i < responsetvFeesStats.data.length; i++) {
-                    years.push(responsetvFeesStats.data[i].year);
+                for (var i = 0; i < responseCountries.data.length; i++) {
+                    paises.push(responseCountries.data[i].year);
                 }
-                console.log(years.sortNumbers().unique());
+                console.log(paises.sortNumbers().unique());
                 
-                for (var i = 0; i < years.sortNumbers().unique().length; i++) {
+                for (var i = 0; i < paises.sortNumbers().unique().length; i++) {
                     var acum = 0;
                     var ac = 0;
                     for (var j = 0; j < responseBuses.data.length; j++) {
-                        if (responseBuses.data[j].year == years.sortNumbers().unique()[i]) {
+                        if (responseBuses.data[j].year == paises.sortNumbers().unique()[i]) {
                             ac += parseInt(responseBuses.data[j].transportedTraveler);
                             
                         }
                     }
                     aBuses.push(ac);
-                    for (var j = 0; j < responsetvFeesStats.data.length; j++) {
-                        if (responsetvFeesStats.data[j].year == years.sortNumbers().unique()[i]) {
-                            acum += responsetvFeesStats.data[j].capacity;
+                    for (var j = 0; j < responseCountries.data.length; j++) {
+                        if (responseCountries.data[j].year == paises.sortNumbers().unique()[i]) {
+                            acum += responseCountries.data[j].population;
                             
                         }
                     }

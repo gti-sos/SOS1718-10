@@ -37,18 +37,6 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/motogp/front-end/integration1.html",
         controller: "integration1Ctrl"
     }).
-    when("/integrationmotoext2", {
-        templateUrl: "../public_apis/motogp/front-end/integration2.html",
-        controller: "integration2Ctrl"
-    }).
-     when("/integrationmotoext3", {
-        templateUrl: "../public_apis/motogp/front-end/integration3.html",
-        controller: "integration3Ctrl"
-    }).
-    when("/integrationmotoext4", {
-        templateUrl: "../public_apis/motogp/front-end/integration4.html",
-        controller: "integration4Ctrl"
-    }).
     /*DAVID*/
 
 
@@ -71,23 +59,7 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationSOSConProxy", {
         templateUrl: "../public_apis/builders/front-end/integrationSOS-ConProxy.html",
         controller: "IntegrationSOSConProxy"
-    }).
-    when("/integrationSOSConProxy1", {
-        templateUrl: "../public_apis/builders/front-end/integrationSOS-ConProxy.1.html",
-        controller: "IntegrationSOSConProxy1"
-    }).
-    when("/integrationApiExterna1", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna1.html",
-        controller: "ApiExterna1Ctrl"
-    }).
-    when("/integrationApiExterna2", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna2.html",
-        controller: "ApiExterna2Ctrl"
-    }).
-    when("/integrationApiExterna3", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
-        controller: "ApiExterna3Ctrl"
-    
+
             /*VICTOR*/
 
         }).when("/buses", {
