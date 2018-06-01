@@ -10,22 +10,27 @@ angular
         $http.get(apiFestivos)
             .then(function(responseFestivos) {
                 var fechas = []
-                var object1={}
-                object1["id"] = '01';
-                object1["name"] = 'Enero';
-                object1["color"] = '#EC2500'
-                fechas.push(object1)
+                var primeraFecha = responseFestivos.data[0].date
+                var fechaSplitada = primeraFecha.split("-")
+                var primerAño = fechaSplitada[0]
+                
+                console.log("Primera fecha: " + primerAño);
                 responseFestivos.data.forEach((n) => {
                     var object = {};
                     object["name"] = n.title;
                     var fecha = n.date.split("-")
                     //console.log("Muestrame la fecha spliteada: " +fecha)
-                    object["parent"] = fecha[1];
-                    object["value"] = fecha[2];
-                    fechas.push(object);
+                    if(fecha[0] != primerAño){
+                        object["parent"] = fecha[1];
+                        object["value"] = fecha[2];
+                        console.log("Mes: " + fecha[1]);
+                           console.log("Dia: " + fecha[2])
+                        fechas.push(object);
+                    }
                 })
-                console.log("Muestrame las fechas: " + fechas)
-                
+                //console.log("Muestrame las fechas: " + fechas)
+                console.log("Numero de fechas: " + fechas.length)
+
                 Highcharts.chart('api-externa5', {
                     series: [{
                         type: "treemap",
