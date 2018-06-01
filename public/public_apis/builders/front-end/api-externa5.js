@@ -5,7 +5,12 @@ angular
         var apiBuilders = "/api/v1/builders";
         var apiFestivos = "https://feriados-cl-api.herokuapp.com/feriados";
 
-
+        function toObject(arr) {
+            var rv = {};
+            for (var i = 0; i < arr.length; ++i)
+                rv[i] = arr[i];
+            return rv;
+        }
 
         $http.get(apiFestivos)
             .then(function(responseFestivos) {
@@ -13,23 +18,23 @@ angular
                 var primeraFecha = responseFestivos.data[0].date
                 var fechaSplitada = primeraFecha.split("-")
                 var primerAño = fechaSplitada[0]
-                
+
                 console.log("Primera fecha: " + primerAño);
                 responseFestivos.data.forEach((n) => {
                     var object = {};
                     object["name"] = n.title;
                     var fecha = n.date.split("-")
-                    //console.log("Muestrame la fecha spliteada: " +fecha)
-                    if(fecha[0] != primerAño){
+                    //console.log("Muestrame la fecha spliteada: " + fecha)
+                    if (fecha[0] == primerAño) {
                         object["parent"] = fecha[1];
                         object["value"] = fecha[2];
-                        console.log("Mes: " + fecha[1]);
-                           console.log("Dia: " + fecha[2])
+                        //console.log("Mes: " + fecha[1]);
+                        //console.log("Dia: " + fecha[2])
                         fechas.push(object);
                     }
                 })
                 //console.log("Muestrame las fechas: " + fechas)
-                console.log("Numero de fechas: " + fechas.length)
+                //console.log("Numero de fechas: " + fechas.length)
 
                 Highcharts.chart('api-externa5', {
                     series: [{
