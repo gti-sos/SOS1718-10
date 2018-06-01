@@ -53,7 +53,7 @@ $http.get("https://api.myjson.com/bins/1lzv8").then(function(response){
      Morris.Bar({
         
       // ID of the element in which to draw the chart.
-      element: 'api-externa',
+      element: 'api-externa3',
       // Chart data records -- each entry in this array corresponds to a point on
       // the chart.
       
