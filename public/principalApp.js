@@ -68,10 +68,6 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/builders/front-end/integrationSOS-SinProxy.html",
         controller: "IntegrationSOSSinProxy"
     }).
-    when("/integrationSOSSinProxy1", {
-        templateUrl: "../public_apis/builders/front-end/integrationSOS-SinProxy.1.html",
-        controller: "IntegrationSOSSinProxy1"
-    }).
     when("/integrationSOSConProxy", {
         templateUrl: "../public_apis/builders/front-end/integrationSOS-ConProxy.html",
         controller: "IntegrationSOSConProxy"
