@@ -23,3 +23,6 @@ controller("ApiExterna1Ctrl", ["$scope", "$http", "$rootScope", function($scope,
                         ar.push(albums[j]);
                         datos.push(ar);
                     }
+                
+            });});
+    }]);
