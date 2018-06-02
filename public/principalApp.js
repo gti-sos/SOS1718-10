@@ -53,6 +53,10 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/motogp/front-end/integration5.html",
         controller: "integration5Ctrl"
     }).
+    when("/integrationmotoext6", {
+        templateUrl: "../public_apis/motogp/front-end/integration6.html",
+        controller: "integration6Ctrl"
+    }).
     when("/integrationppal", {
         templateUrl: "../public_apis/integration.html",
         controller: "integrationCtrl"
