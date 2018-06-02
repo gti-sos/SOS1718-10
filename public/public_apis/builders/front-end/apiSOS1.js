@@ -34,7 +34,7 @@ controller("ApiSOS1Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
                 "outlineColor": "#FFFFFF",
                 "outlineThickness": 2,
                 "labelPosition": "right",
-                "balloonText": "[[title]]: [[value]] peakPower [[description]]",
+                "balloonText": "[[tittle]]: [[value]] peakPower [[description]]",
                 "export": {
                     "enabled": true
                 }
