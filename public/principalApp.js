@@ -57,11 +57,11 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/motogp/front-end/integration6.html",
         controller: "integration6Ctrl"
     }).
-    when("/integrationppal", {
+    when("/analytics", {
         templateUrl: "../public_apis/integration.html",
         controller: "integrationCtrl"
     }).
-    when("/integrationsgrup", {
+    when("/integrations", {
         templateUrl: "../public_apis/grupo.html"
     }).
     when("/motogp-stats-profile", {

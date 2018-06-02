@@ -1,7 +1,7 @@
-angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", function($scope, $http) {
-    console.log("integration3 Ctrl initialized!");
+angular.module("Principal").controller("integration6Ctrl", ["$scope", "$http", function($scope, $http) {
+    console.log("integration6 Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
-    var apiIsma = 'https://sos1718-07.herokuapp.com/api/v1/attacks-data';
+    var apiBloc = 'https://mcapi.ca/blockedservers';
 
 
     $http.get(apiMotogp).then(function(response) {
@@ -23,24 +23,13 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
             }
         }
 
-        $http.get(apiIsma).then(function(response) {
-            var conjuntoDEPA1 = []
-            //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-            //1º Guardamos en una variable el conjunto de los años ordenados
-            var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.killed) }).sort((a, b) => a - b)
-            //2ºRecorremos el conjunto ordenado
-            for (var i = 0; i < conjuntoOPA1.length; i++) {
-                //3º Recorremos el response.data en busca de la edad que corresponden a cada año
-                for (var j = 0; j < response.data.length; j++) {
-                    //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                    //que se encuentra en esa posicion en el conjunto ordenado
-                    if (conjuntoOPA1[i] == response.data[j].killed) {
-                        //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                        //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                        conjuntoDEPA1[i] = response.data[j].country;
-                    }
-                }
-            }
+        $http.get(apiBloc).then(function(response) {
+
+            console.log("bloc" + response)
+
+            var array = response.data;
+
+            console.log("bloc1" + array);
 
 
 
