@@ -1,13 +1,8 @@
 angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("integration3 Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
-    var tvmaze = "https://api.tvmaze.com/search/people?q=lauren";
+    var apiIsma = 'https://sos1718-07.herokuapp.com/api/v1/attacks-data';
 
-    $scope.data = {};
-    var dataCache = {};
-    $scope.name = [];
-    $scope.datos2 = [];
-    $scope.dataBirth = {};
 
     $http.get(apiMotogp).then(function(response) {
         var conjuntoDEPA = []
@@ -23,47 +18,58 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
                 if (conjuntoOPA[i] == response.data[j].year) {
                     //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
                     //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                    conjuntoDEPA[i] = response.data[j].age;
+                    conjuntoDEPA[i] = response.data[j].pilot;
                 }
             }
         }
-        $http.get(tvmaze).then(function(response) {
 
-            dataCache = response.data;
-            $scope.data = dataCache;
-            console.log(dataCache)
+        $http.get(apiIsma).then(function(response) {
+            var conjuntoDEPA1 = []
+            //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
+            //1º Guardamos en una variable el conjunto de los años ordenados
+            var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.killed) }).sort((a, b) => a - b)
+            //2ºRecorremos el conjunto ordenado
+            for (var i = 0; i < conjuntoOPA1.length; i++) {
+                //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+                for (var j = 0; j < response.data.length; j++) {
+                    //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
+                    //que se encuentra en esa posicion en el conjunto ordenado
+                    if (conjuntoOPA1[i] == response.data[j].killed) {
+                        //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
+                        //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                        conjuntoDEPA1[i] = response.data[j].country;
+                    }
+                }
+            }
 
 
 
-            for (var i = 0; i < $scope.dataBirth.length; i++) {
-                var ar = [];
-                console.log($scope.data[i]);
-                $scope.datos2.push({ "varied": conjuntoOPA[i], "name": $scope.data[i].person.name });
+
+
+
+
+
+            var conjuntoObjetos = [];
+            for (var y = 0; y < conjuntoOPA.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
+                //que es la forma en la que recibe los datos la gráfica 
+                var object = {};
+                object["label"] = conjuntoDEPA[y];
+                object["y"] = conjuntoOPA[y];
+                conjuntoObjetos.push(object);
+                //Este conjuntoObjetos sería el conjunto final que devoleríamos}
 
 
             }
-
-            var conjuntoObjetos = []
-            for (var z = 0; z < conjuntoOPA.length; z++) {
+            var conjuntoObjetos1 = []
+            for (var z = 0; z < conjuntoOPA1.length; z++) {
                 //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                 //que es la forma en la que recibe los datos la gráfica 
                 var object = {};
-                object["label"] = conjuntoOPA[z];
-                object["y"] = conjuntoDEPA[z];
+                object["label"] = conjuntoDEPA1[z];
+                object["y"] = conjuntoOPA1[z];
                 conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
             }
-
-            /*var conjuntoObjetos1 = []
-             for (var z = 0; z < $scope.dataBirth.length; z++) {
-                 //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                 //que es la forma en la que recibe los datos la gráfica 
-                 var object = {};
-                 object["label"] = conjuntoOPA[z];
-                 object["y"] = $scope.data[i].person.name[z];
-                 conjuntoObjetos1.push(object);
-                 //Este conjuntoObjetos sería el conjunto final que devoleríamos
-             }*/
 
 
 
@@ -71,7 +77,7 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 title: {
-                    text: "Recruitment Analysis - July 2016"
+                    text: "MotoGP & Attacks"
                 },
                 data: [{
                     type: "funnel",
@@ -80,10 +86,9 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
                     neckWidth: 20,
                     neckHeight: 0,
                     valueRepresents: "area",
-                    dataPoints: 
-                        conjuntoObjetos
-                        //conjuntoObjetos1
-                    
+                    dataPoints: conjuntoObjetos
+                    //conjuntoObjetos1
+
 
                 }]
 
@@ -105,6 +110,7 @@ angular.module("Principal").controller("integration3Ctrl", ["$scope", "$http", f
                     }
                 }
             }
+
         });
 
     });

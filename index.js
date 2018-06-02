@@ -46,46 +46,48 @@ var request = require('request');
 
 /////////// PROXY PACO-LEE
 
-var paths='/proxyFGG';
+var paths = '/proxyFGG';
 var apiServerHost = 'https://sos1718-03.herokuapp.com/api/v1/pollution-cities';
 
 app.use(paths, function(req, res) {
   var url = apiServerHost + req.url;
-  console.log('piped: '+req.baseUrl + req.url);
+  console.log('piped: ' + req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });
 
-/////////// PROXY PACO-LEE WEATHER
+/////////// PROXY PACO-LEE NAMES
 
-var paths='/proxyFGGW';
-var apiServerHostWeather = 'https://api.abalin.net/get/namedays?day=20&month=6&country=es';
+var paths0 = '/proxyFGGW';
+var apiServerHostName = 'https://api.abalin.net/get/namedays?day=20&month=6&country=es';
 
-app.use(paths, function(req, res) {
-  var url = apiServerHostWeather + req.url;
-  console.log('piped: '+req.baseUrl + req.url);
+app.use(paths0, function(req, res) {
+  var url = apiServerHostName + req.url;
+  console.log('piped: ' + req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });
+
+
 
 
 /////////// PROXY BUILDERS
 
-var pathsBuilders='/proxyBuilders';
+var pathsBuilders = '/proxyBuilders';
 var apiServerHostBuildes = 'https://sos1718-05.herokuapp.com/api/v1/world-stats';
 
 app.use(pathsBuilders, function(req, res) {
   var url = apiServerHostBuildes + req.url;
-  console.log('piped: '+req.baseUrl + req.url);
+  console.log('piped: ' + req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });
 
 /////////// PROXY BUSES
 
-var pathsBuses='/proxyBuses';
+var pathsBuses = '/proxyBuses';
 var apiServerHostBuses = 'https://sos1718-12.herokuapp.com/api/v2/rape-stats';
 
 app.use(pathsBuses, function(req, res) {
   var url = apiServerHostBuses + req.url;
-  console.log('piped: '+req.baseUrl + req.url);
+  console.log('piped: ' + req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });
 
@@ -93,30 +95,30 @@ app.use(pathsBuses, function(req, res) {
 
 MongoClient.connect(mdbURL, { native_parser: true }, (err, mlabs) => {
 
-    if (err) {
-        console.error("Error accesing DB: " + err);
-        process.exit(1);
-    }
-    console.log("Connected to DB");
+  if (err) {
+    console.error("Error accesing DB: " + err);
+    process.exit(1);
+  }
+  console.log("Connected to DB");
 
-    var database = mlabs.db("sos1718-10-sandbox")
-    var db = database.collection("buses");
-    var dbd = database.collection("builders");
-    var dbp = database.collection("motogp-stats");
+  var database = mlabs.db("sos1718-10-sandbox")
+  var db = database.collection("buses");
+  var dbd = database.collection("builders");
+  var dbp = database.collection("motogp-stats");
 
 
-    /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
-    apiBuilders.register(app, dbd, BASE_API_PATH, security.checkApiKeyFunction);
-    apiMotogpStats.register(app, dbp, BASE_API_PATH, security.checkApiKeyFunction);
-    apiBuses.register(app, db, BASE_API_PATH, security.checkApiKeyFunction);
+  /////////////////////////////////////////////CONEXIÓN CON MÓDULOS///////////////////////////////////////////////////////
+  apiBuilders.register(app, dbd, BASE_API_PATH, security.checkApiKeyFunction);
+  apiMotogpStats.register(app, dbp, BASE_API_PATH, security.checkApiKeyFunction);
+  apiBuses.register(app, db, BASE_API_PATH, security.checkApiKeyFunction);
 
-    app.listen(port, () => {
-        console.log("Server Ready on port" + port + "!");
-    }).on("error", (e) => {
-        console.log("Server NOT READY:" + e + "!");
-    });
+  app.listen(port, () => {
+    console.log("Server Ready on port" + port + "!");
+  }).on("error", (e) => {
+    console.log("Server NOT READY:" + e + "!");
+  });
 
-    console.log("Server setting up....");
+  console.log("Server setting up....");
 });
 
 
