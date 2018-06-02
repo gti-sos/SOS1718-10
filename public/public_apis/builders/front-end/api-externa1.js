@@ -5,11 +5,8 @@ controller("ApiExterna1Ctrl", ["$scope", "$http", "$rootScope", function($scope,
 
     $http.get("/api/v1/builders").then(function(responseBuilders) {
 
-            var years = []
+            var years = responseBuilders.data.map(function(d){ return d.year})
 
-            for (var i = 0; i < responseBuilders.data.length; i++) {
-                years.push(responseBuilders.data[i].year);
-            }
             $http.get("https://api.myjson.com/bins/1lzv8").then(function(response) {
 
                     var albums = response.data.map(function(d) { return d.albums })
@@ -23,8 +20,7 @@ controller("ApiExterna1Ctrl", ["$scope", "$http", "$rootScope", function($scope,
                         ar.push(albums[j]);
                         datos.push(ar);
                     }
-                
-
+                    
                 chart = anychart.cartesian(); console.log(datos); console.log(response.data.length);
 
 
