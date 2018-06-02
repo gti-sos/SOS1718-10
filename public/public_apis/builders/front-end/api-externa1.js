@@ -12,13 +12,13 @@ controller("ApiExterna1Ctrl", ["$scope", "$http", "$rootScope", function($scope,
 
 
 
-    $http.get("/api/v1/builders").then(function(response) {
+    /*$http.get("/api/v1/builders").then(function(responseBuilders) {
 
-        dataBuilders = response.data;
+        dataBuilders = responseBuilders.data;
         $scope.dataBuilders = dataBuilders;
 
-        for (var i = 0; i < response.data.length; i++) {
-            $scope.year.push(Number($scope.dataBuilders[i].year));
+        for (var i = 0; i < responseBuilders.data.length; i++) {
+            $scope.year.push(Number(responseBuilders.data[i].year));
         }
         $http.get("https://api.fixer.io/latest").then(function(response) {
 
@@ -41,6 +41,32 @@ controller("ApiExterna1Ctrl", ["$scope", "$http", "$rootScope", function($scope,
 
             chart = anychart.cartesian();
             console.log($scope.datos2);
+            console.log(response.data.length);*/
+
+
+    $http.get("/api/v1/builders").then(function(responseBuilders) {
+        
+        var year = []
+
+        for (var i = 0; i < responseBuilders.data.length; i++) {
+            year.push(responseBuilders.data[i].year);
+        }
+        $http.get("https://api.fixer.io/latest").then(function(response) {
+            var datos = []
+
+            for (var i = 0; i < responseBuilders.data.length; i++) {
+                var ar = [];
+                ar.push(response.data.base);
+                ar.push(year[i]);
+                console.log("year[i]: " + year[i]);
+            }
+            datos.push(ar);
+            console.log("Datos: " + datos)
+
+
+
+            chart = anychart.cartesian();
+            console.log(datos);
             console.log(response.data.length);
 
 
@@ -48,7 +74,7 @@ controller("ApiExterna1Ctrl", ["$scope", "$http", "$rootScope", function($scope,
 
 
             // add a marker seris
-            chart.bubble($scope.datos2);
+            chart.bubble(datos);
 
             // set chart title
             chart.title("Bubble Chart");
