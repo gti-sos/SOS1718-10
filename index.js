@@ -66,13 +66,13 @@ app.use(paths0, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
-/////////// PROXY PACO-LEE futbol
+/////////// PROXY PACO-LEE fran
 
 var paths1 = '/proxyFGGF';
-var apiServerFutbol = 'https://api.football-data.org/v1/competitions';
+var apiServerFran = 'http://sos1718-07.herokuapp.com/api/v1/homicide-reports-data';
 
 app.use(paths1, function(req, res) {
-  var url = apiServerFutbol + req.url;
+  var url = apiServerFran + req.url;
   console.log('piped: ' + req.baseUrl + req.url);
   req.pipe(request(url)).pipe(res);
 });

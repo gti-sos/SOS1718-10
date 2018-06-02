@@ -1,7 +1,7 @@
-angular.module("Principal").controller("integration4Ctrl", ["$scope", "$http", function($scope, $http) {
-    console.log("integration4 Ctrl initialized!");
+angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", function($scope, $http) {
+    console.log("integration5 Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
-    var apiFran = 'https://sos1718fgg-elbolo-sos171810fgg.c9users.io/proxyFGGF';
+    var apiFran = '<h1>MotoGP & Homicide</h1>';
 
 
     $http.get(apiMotogp).then(function(response) {

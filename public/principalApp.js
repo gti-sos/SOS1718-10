@@ -48,6 +48,9 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationmotoext4", {
         templateUrl: "../public_apis/motogp/front-end/integration4.html",
         controller: "integration4Ctrl"
+    }).when("/integrationmotoext5", {
+        templateUrl: "../public_apis/motogp/front-end/integration5.html",
+        controller: "integration5Ctrl"
     }).
     /*DAVID*/
 
@@ -81,8 +84,8 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         controller: "ApiExterna2Ctrl"
     }).
     when("/integrationApiExterna3", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
-        controller: "ApiExterna3Ctrl"
+            templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
+            controller: "ApiExterna3Ctrl"
 
             /*VICTOR*/
 
