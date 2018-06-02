@@ -77,6 +77,17 @@ app.use(paths1, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+/////////// PROXY PACO-LEE miguel
+
+var paths1 = '/proxyFGGM';
+var apiServerMigue = 'http://sos1718-07.herokuapp.com/api/v1/global-terrorism-data';
+
+app.use(paths1, function(req, res) {
+  var url = apiServerMigue + req.url;
+  console.log('piped: ' + req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
 
 
 

@@ -1,7 +1,7 @@
 angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("integration5 Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
-    var apiFran = '<h1>MotoGP & Homicide</h1>';
+    var apiMigue = 'https://sos1718fgg-elbolo-sos171810fgg.c9users.io/proxyFGGM';
 
 
     $http.get(apiMotogp).then(function(response) {
@@ -18,26 +18,26 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
                 if (conjuntoOPA[i] == response.data[j].year) {
                     //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
                     //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                    conjuntoDEPA[i] = response.data[j].country;
+                    conjuntoDEPA[i] = response.data[j].age;
                 }
             }
         }
 
-        $http.get(apiFran).then(function(response) {
+        $http.get(apiMigue).then(function(response) {
             var conjuntoDEPA1 = []
             //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
             //1º Guardamos en una variable el conjunto de los años ordenados
-            var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
+            var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.iyear) }).sort((a, b) => a - b)
             //2ºRecorremos el conjunto ordenado
             for (var i = 0; i < conjuntoOPA1.length; i++) {
                 //3º Recorremos el response.data en busca de la edad que corresponden a cada año
                 for (var j = 0; j < response.data.length; j++) {
                     //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
                     //que se encuentra en esa posicion en el conjunto ordenado
-                    if (conjuntoOPA1[i] == response.data[j].year) {
+                    if (conjuntoOPA1[i] == response.data[j].iyear) {
                         //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
                         //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                        conjuntoDEPA1[i] = response.data[j].city;
+                        conjuntoDEPA1[i] = response.data[j].nkill;
                     }
                 }
             }
@@ -51,8 +51,8 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             for (var y = 0; y < conjuntoOPA.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                 //que es la forma en la que recibe los datos la gráfica 
                 var object = {};
-                object["country"] = conjuntoDEPA[y];
-                object["visits"] = conjuntoOPA[y];
+                object["values"] = [conjuntoDEPA[y]];
+                object["join"] = [conjuntoOPA[y]];
                 conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos}
 
@@ -61,8 +61,8 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             for (var y = 0; y < conjuntoOPA1.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                 //que es la forma en la que recibe los datos la gráfica 
                 var object = {}
-                object["country"] = conjuntoDEPA1[y];
-                object["visits"] = conjuntoOPA1[y];
+                object["values"] = [conjuntoDEPA1[y]];
+                object["join"] = [conjuntoOPA1[y]];
                 conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos}
 
@@ -74,38 +74,45 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             console.log("BOOLO: " + conjuntoOPA1)
             console.log("BOOLO: " + conjuntoObjetos)
 
-
-            var chart = AmCharts.makeChart("chartdiv", {
-                "type": "serial",
-                "theme": "light",
-                "dataProvider": conjuntoObjetos,
-                "gridAboveGraphs": true,
-                "startDuration": 1,
-                "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]</b>",
-                    "fillAlphas": 0.8,
-                    "lineAlpha": 0.2,
-                    "type": "column",
-                    "valueField": "visits"
-                }],
-                "chartCursor": {
-                    "categoryBalloonEnabled": false,
-                    "cursorAlpha": 0,
-                    "zoomable": false
+            var myConfig = {
+                "type": "venn",
+                "title": {
+                    "text": "MotoGP & Global Terrorism"
                 },
-                "categoryField": "country",
-                "categoryAxis": {
-                    "gridPosition": "start",
-                    "gridAlpha": 0,
-                    "tickPosition": "start",
-                    "tickLength": 20
+                legend: {
+                    toggleAction: 'remove', // remove plot so it re-calculates percentage
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    layout: 'vertical',
+                    borderWidth: 0,
+                    marker: {
+                        type: 'circle',
+                        size: 10,
+                        cursor: 'pointer',
+                    },
+                    item: {
+                        fontSize: 15,
+                        cursor: 'pointer',
+                        offsetX: -5
+                    }
                 },
-                "export": {
-                    "enabled": true
-                }
+                "tooltip": {
+                    "text": "%t",
+                    "border-radius": 5,
+                    "font-size": 15
+                },
+                "series": conjuntoObjetos
+            };
 
+            zingchart.render({
+                id: 'myChart',
+                data: myConfig,
+                height: '100%',
+                width: "100%"
             });
+
         });
     });
+
 
 }]);

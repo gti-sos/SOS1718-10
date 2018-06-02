@@ -1,77 +1,25 @@
-<html>
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="bower_components/d3/d3.min.js"></script>
-<style type="text/css">
-    /* Use this selector to override the line style on a given series */
+<center>
+    <h1 style="background-color:black">
+        <font color=white>SOS1718-10
+            <p style="float:right"><i>Integration INT</i></p>
+        </font>
+        <a href="https://sos1718-10.herokuapp.com/motogp-stats/"><img src="../public_apis/motogp/front-end/img/moto.png" width="75" height="50" style="float:left"></img></a>
+    </h1>
+</center>
 
-    .ct-series-a .ct-line {
-        stroke: red;
-        stroke-width: 2px;
-    }
-
-    .ct-series-a .ct-area {
-        stroke: none;
-        fill-opacity: 0.5;
-        fill: red;
-    }
-
-    .ct-series-b .ct-line {
-        stroke: green;
-        stroke-width: 2px;
-    }
-
-    .ct-series-b .ct-area {
-        stroke: none;
-        fill-opacity: 0.5;
-        fill: green;
-    }
-
-    .ct-series-c .ct-line {
-        stroke: blue;
-        stroke-width: 2px;
-    }
-
-    .ct-series-c .ct-area {
-        stroke: none;
-        fill-opacity: 0.5;
-        fill: blue;
-    }
-</style>
 
 <body>
-    <div class="ct-chart ct-perfect-fourth"></div>
-
+    <div id='myChart'><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
 </body>
+<style type="text/css">
+    html,
+    body,
+    #myChart {
+        height: 100%;
+        width: 100%;
+    }
 
-<script type="text/javascript">
-    var chart = new Chartist.Line('.ct-chart', {
-        labels: [0, 1, 2, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49],
-        series: [
-            [0.92, 0.90, 0.88, 0.86, 0.84, 0.80, 0.76, 0.72, 0.68, 0.62, 0.56, 0.50, 0.32, 0.17, 0.20, 0.23, 0.28, 0.48, 0.35, 0.43, 0.41, 0.38, 0.27, 0.14, 0.02, 0.02, 0.03, 0.05, 0.09, 0.16, 0.26, 0.42, 0.79, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.93, 0.90, 0.86, 0.83, 0.85, 0.88, 0.94, 0.99, 1.00, 1.00, 1.00],
-            [0.28, 0.48, 0.15, 0.43, 0.11, 0.67, 0.94, 0.17, 0.20, 0.83, 0.94, 0.93, 0.92, 0.90, 0.88, 0.86, 0.84, 0.80, 0.76, 0.72, 0.68, 0.62, 0.56, 0.50, 0.32, 0.17, 0.20, 0.23, 0.28, 0.48, 0.35, 0.43, 0.41, 0.38, 0.27, 0.08, 0.08, 1.00, 0.05, 0.88, 0.27, 0.56, 0.45, 0.89, 0.99, 1.00, 0.90, 0.62, 0.31, 0.33],
-            [0.20, 0.83, 0.28, 0.48, 0.15, 0.43, 0.11, 0.11, 0.67, 0.94, 0.20, 0.83, 0.28, 0.48, 0.15, 0.43, 0.11, 0.11, 0.67, 0.94, 0.20, 0.83, 0.28, 0.48, 0.15, 0.43, 0.11, 0.11, 0.67, 0.94, 0.09, 0.02, 0.03, 0.05, 0.09, 0.16, 0.26, 0.42, 0.79, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 0.93, 0.90, 0.86]
-        ]
-    }, {
-        low: 0,
-        showArea: true,
-        showPoint: false,
-        fullWidth: true
-    });
-
-    chart.on('draw', function(data) {
-        if (data.type === 'line' || data.type === 'area') {
-            data.element.animate({
-                d: {
-                    begin: 500 * data.index,
-                    dur: 500,
-                    from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-                    to: data.path.clone().stringify(),
-                    easing: Chartist.Svg.Easing.easeOutQuint
-                }
-            });
-        }
-    });
-</script>
-
-
-</html>
+    .zc-ref {
+        display: none;
+    }
+</style>
