@@ -9,7 +9,59 @@ angular
             .then(function(responseFestivos) {
 
                 //Aqui vamos a guardar los objetos con las fechas
-                var fechas = []
+                var fechas = [{
+                        id: '01',
+                        name: 'Enero',
+                        color: "#EC2500"
+                    }, {
+                        id: '02',
+                        name: 'Febrero',
+                        color: "#ECE100"
+                    }, {
+                        id: '03',
+                        name: 'Marzo',
+                        color: '#EC9800'
+                    },
+                    {
+                        id: '04',
+                        name: 'Abril',
+                        color: "#EC2500"
+                    }, {
+                        id: '05',
+                        name: 'Mayo',
+                        color: "#ECE100"
+                    }, {
+                        id: '06',
+                        name: 'Junio',
+                        color: '#EC9800'
+                    },
+                    {
+                        id: '07',
+                        name: 'Julio',
+                        color: "#EC2500"
+                    }, {
+                        id: '08',
+                        name: 'Agosto',
+                        color: "#ECE100"
+                    }, {
+                        id: '09',
+                        name: 'Septiembre',
+                        color: '#EC9800'
+                    },
+                    {
+                        id: '10',
+                        name: 'Octubre',
+                        color: "#EC2500"
+                    }, {
+                        id: '11',
+                        name: 'Noviembre',
+                        color: "#ECE100"
+                    }, {
+                        id: '12',
+                        name: 'Diciembre',
+                        color: '#EC9800'
+                    }
+                ]
                 //Cogemos la primera fecha para solo devolver los festivos de ese año
                 var primeraFecha = responseFestivos.data[0].date
                 //Spliteamos la fecha ara quedarnos solo con el año
@@ -38,64 +90,7 @@ angular
                     })
 
                 console.log("Fechas: " + fechas)
-                
-                
-                var array = [{
-                                id: '01',
-                                name: 'Enero',
-                                color: "#EC2500"
-                            }, {
-                                id: '02',
-                                name: 'Febrero',
-                                color: "#ECE100"
-                            }, {
-                                id: '03',
-                                name: 'Marzo',
-                                color: '#EC9800'
-                            },
-                            {
-                                id: '04',
-                                name: 'Abril',
-                                color: "#EC2500"
-                            }, {
-                                id: '05',
-                                name: 'Mayo',
-                                color: "#ECE100"
-                            }, {
-                                id: '06',
-                                name: 'Junio',
-                                color: '#EC9800'
-                            },
-                            {
-                                id: '07',
-                                name: 'Julio',
-                                color: "#EC2500"
-                            }, {
-                                id: '08',
-                                name: 'Agosto',
-                                color: "#ECE100"
-                            }, {
-                                id: '09',
-                                name: 'Septiembre',
-                                color: '#EC9800'
-                            },
-                            {
-                                id: '10',
-                                name: 'Octubre',
-                                color: "#EC2500"
-                            }, {
-                                id: '11',
-                                name: 'Noviembre',
-                                color: "#ECE100"
-                            }, {
-                                id: '12',
-                                name: 'Diciembre',
-                                color: '#EC9800'
-                            }];
-                        
-                        array.concat([fechas]);
-                        console.log("Array: " + array)
-                
+
                 Highcharts.chart('api-externa3', {
                     series: [{
                         type: "treemap",
@@ -114,7 +109,7 @@ angular
                                 }
                             }
                         }],
-                        data: [array]
+                        data: fechas
                     }],
                     title: {
                         text: 'Fruit consumption'

@@ -14,7 +14,7 @@ controller("ApiSOS2Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
                 var object = {}
                 object["x"] = victories[i]
                 object["y"] = breaks[i]
-                object["label"] = builders[i]
+                //object["label"] = builders[i]
                 array.push(object)
             }
 
@@ -23,23 +23,18 @@ controller("ApiSOS2Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
             var chart = new CanvasJS.Chart("apiSOS2", {
                 animationEnabled: true,
                 title: {
-                    text: "Number of iPhones Sold in Different Quarters"
+                    text: "Integrations builders with divorces"
                 },
                 axisX: {
-                    minimum: new Date(2015, 01, 25),
-                    maximum: new Date(2017, 02, 15),
-                    valueFormatString: "MMM YY"
+                    title: "Victories"
+
                 },
                 axisY: {
-                    title: "Number of Sales",
-                    titleFontColor: "#4F81BC",
-                    suffix: "mn"
+                    title: "Breaks",
                 },
                 data: [{
-                    indexLabelFontColor: "darkSlateGray",
                     name: "views",
                     type: "area",
-                    yValueFormatString: "#,##0.0mn",
                     dataPoints: array
                 }]
             });
