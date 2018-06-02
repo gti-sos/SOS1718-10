@@ -102,6 +102,10 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
         controller: "ApiExterna3Ctrl"
     }).
+    when("/integrationApiExterna4", {
+        templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
+        controller: "ApiExterna4Ctrl"
+    }).
     when("/integrationApiSOS1", {
         templateUrl: "../public_apis/builders/front-end/apiSOS1.html",
         controller: "ApiSOS1Ctrl"
