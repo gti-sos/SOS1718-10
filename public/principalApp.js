@@ -4,6 +4,7 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     $routeProvider.when("/", {
         templateUrl: "index1.html"
     }).
+
     /*PACO*/
     when("/motogp-stats", {
         templateUrl: "../public_apis/motogp/front-end/list.html",
@@ -52,6 +53,12 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/motogp/front-end/integration5.html",
         controller: "integration5Ctrl"
     }).
+    when("/integrationsgrup", {
+        templateUrl: "../public_apis/grupo.html"
+    }).
+    when("/motogp-stats-profile", {
+        templateUrl: "../public_apis/motogp/index.html"
+    }).
     /*DAVID*/
 
 
@@ -84,12 +91,12 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         controller: "ApiExterna2Ctrl"
     }).
     when("/integrationApiExterna3", {
-            templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
-            controller: "ApiExterna3Ctrl"
+        templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
+        controller: "ApiExterna3Ctrl"
     }).
     when("/integrationApiSOS1", {
-            templateUrl: "../public_apis/builders/front-end/apiSOS1.html",
-            controller: "ApiSOS1Ctrl"
+        templateUrl: "../public_apis/builders/front-end/apiSOS1.html",
+        controller: "ApiSOS1Ctrl"
     }).
     when("/integrationApiSOS2", {
             templateUrl: "../public_apis/builders/front-end/apiSOS2.html",
