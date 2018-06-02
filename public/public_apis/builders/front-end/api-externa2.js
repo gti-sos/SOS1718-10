@@ -17,7 +17,7 @@ controller("ApiExterna2Ctrl", ["$scope", "$http", "$rootScope", function($scope,
       array.push(arrayAux);
     }
 
-    $http.get("http://api.football-data.org/v1/competitions").then(function(responseFootball) {
+    $http.get("https://sos1718-10.herokuapp.com/proxyIntegration").then(function(responseFootball) {
 
       var equipos = responseFootball.data.map(function(d) { return d.numberOfTeams })
       var ligas = responseFootball.data.map(function(d) { return d.caption })

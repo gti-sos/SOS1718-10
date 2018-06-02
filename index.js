@@ -80,6 +80,18 @@ app.use(pathsBuilders, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+
+/////////// PROXY INTEGRACIÓN FOOTBALL-DATA
+
+var pathsBuilders2 = '/proxyIntegration';
+var apiServerHostBuildes2 = 'http://api.football-data.org/v1/competitions';
+
+app.use(pathsBuilders2, function(req, res) {
+  var url = apiServerHostBuildes2 + req.url;
+  console.log('piped: ' + req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
 /////////// PROXY BUSES
 
 var pathsBuses = '/proxyBuses';
