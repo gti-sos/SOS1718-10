@@ -90,6 +90,10 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationApiSOS1", {
             templateUrl: "../public_apis/builders/front-end/apiSOS1.html",
             controller: "ApiSOS1Ctrl"
+    }).
+    when("/integrationApiSOS2", {
+            templateUrl: "../public_apis/builders/front-end/apiSOS2.html",
+            controller: "ApiSOS2Ctrl"
 
             /*VICTOR*/
 

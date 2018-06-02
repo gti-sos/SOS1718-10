@@ -11,15 +11,15 @@ controller("ApiSOS1Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
             var array = []
             for (var i = 0; i < builders.length; i++) {
                 var object = {}
-                object["tittle"] = peakPowers[i]
-                object["value"] = builders[i]
+                object["tittle"] = builders[i]
+                object["value"] = peakPowers[i]
                 array.push(object)
             }
 
             var chart = AmCharts.makeChart("apiSOS1", {
                 "type": "funnel",
                 "theme": "light",
-                "dataProvider": array,
+                "dataProvider":array,
                 "balloon": {
                     "fixedPosition": true
                 },
@@ -34,7 +34,7 @@ controller("ApiSOS1Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
                 "outlineColor": "#FFFFFF",
                 "outlineThickness": 2,
                 "labelPosition": "right",
-                "balloonText": "[[title]]: [[value]]n[[description]]",
+                "balloonText": "[[title]]: [[value]] peakPower [[description]]",
                 "export": {
                     "enabled": true
                 }
