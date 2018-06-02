@@ -1,85 +1,69 @@
 angular.module("Principal").
 
 controller("ApiExterna2Ctrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-  console.log("Controller initialized (External Api 2)");
+  console.log("Controller initialized (External Api 4");
 
-  $scope.data = {};
-  var dataCache = {};
-  $scope.id = [];
-  $scope.year = [];
-  $scope.datos = [];
-  $scope.datos2 = [];
+  $http.get("/api/v1/builders").then(function(responseBuilders) {
 
-
-
-  $http.get("/api/v1/builders").then(function(response) {
-
-    dataBuilders = response.data;
-    $scope.dataBuilders = dataBuilders;
-
-
-    for (var i = 0; i < response.data.length; i++) {
-      $scope.year.push(Number($scope.dataBuilders[i].year));
+    var poles = responseBuilders.data.map(function(d) { return d.victory });
+    var builders = responseBuilders.data.map(function(d) { return d.builder });
+    console.log("Poles: " + poles);
+    console.log("Builders: " + builders)
+    var array = []
+    for (var i = 0; i < builders.length; i++) {
+      var arrayAux = [];
+      arrayAux.push(builders[i]);
+      arrayAux.push(poles[i]);
+      array.push(arrayAux);
     }
-    var api_key = '5d196966459f4f5f8f0b362d8535a0da';
-    var api_url = "https://api.opencagedata.com/geocode/v1/json?q=41.40139%2C2.12870&pretty=1&key=" + api_key;
-    $http.get(api_url).then(function(response) {
 
-      dataCache = response.data;
-      $scope.data = dataCache;
+    $http.get("http://api.football-data.org/v1/competitions").then(function(responseFootball) {
 
-
-
-      for (var i = 0; i < $scope.dataBuilders.length; i++) {
-        var ar = [];
-        console.log($scope.data);
-        $scope.datos2.push({ "year": $scope.year[i], "name": $scope.data.documentation });
-
-
+      var equipos = responseFootball.data.map(function(d) { return d.numberOfTeams })
+      var ligas = responseFootball.data.map(function(d) { return d.caption })
+      for (var i = 0; i < builders.length; i++) {
+        var arrayAux = [];
+        arrayAux.push(equipos[i]);
+        arrayAux.pop(poles[i]);
+        console.log("numero de equipos: " + equipos);
+        console.log("Ligas: " + ligas);
+        array.push(arrayAux);
       }
 
 
 
 
 
-
-      chart = AmCharts.makeChart("api-externa2", {
-        "type": "serial",
-        "theme": "light",
-        "dataProvider": $scope.datos2,
-        "valueAxes": [{
-          "gridColor": "#FFFFFF",
-          "gridAlpha": 0.2,
-          "dashLength": 0
-        }],
-        "gridAboveGraphs": true,
-        "startDuration": 1,
-        "graphs": [{
-          "balloonText": "[[category]]: <b>[[value]]</b>",
-          "fillAlphas": 0.8,
-          "lineAlpha": 0.2,
-          "type": "column",
-          "valueField": "year"
-        }],
-        "chartCursor": {
-          "categoryBalloonEnabled": false,
-          "cursorAlpha": 0,
-          "zoomable": false
+      Highcharts.chart('api-externa2', {
+        chart: {
+          type: 'pyramid'
         },
-        "categoryField": "name",
-        "categoryAxis": {
-          "gridPosition": "start",
-          "gridAlpha": 0,
-          "tickPosition": "start",
-          "tickLength": 20
+        title: {
+          text: 'Sales pyramid',
+          x: -50
         },
-        "export": {
-          "enabled": true
-        }
-
+        plotOptions: {
+          series: {
+            dataLabels: {
+              enabled: true,
+              format: '<b>{point.name}</b> ({point.y:,.0f})',
+              color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+              softConnector: true
+            },
+            center: ['40%', '50%'],
+            width: '80%'
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        series: [{
+          name: 'Integrations builders with football-data',
+          data: array
+        }]
       });
+
     });
   });
-
 
 }]);
