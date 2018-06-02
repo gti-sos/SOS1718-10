@@ -25,13 +25,13 @@ angular.module("Principal").controller("ListCtrl1", ["$scope", "$http", function
         },function errorCallback(response){
             console.log(response.status);
             if(response.status == 409){
-               alert();
+               alert("piloto no añadido");
             }
             if(response.status == 422){
-               alert();  
+               alert("piloto no añadido"); 
             }
             if(response.status == 400){
-               alert();  
+               alert("piloto no añadido");
             }
         });
         getPilots();

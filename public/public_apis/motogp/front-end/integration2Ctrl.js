@@ -6,7 +6,7 @@
 angular.module("Principal").controller("integration2Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("integration2 Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
-    var apiWeather = 'https://sos1718fgg-elbolo-sos171810fgg.c9users.io/proxyFGGW';
+    var apiWeather = 'https://sos1718-10.herokuapp.com/proxyFGGW';
 
     $http.get(apiMotogp).then(function(response) {
         var conjuntoDEPA = []

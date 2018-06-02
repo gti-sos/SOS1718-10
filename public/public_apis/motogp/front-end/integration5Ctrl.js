@@ -1,7 +1,7 @@
 angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", function($scope, $http) {
     console.log("integration5 Ctrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
-    var apiMigue = 'https://sos1718fgg-elbolo-sos171810fgg.c9users.io/proxyFGGM';
+    var apiMigue = 'https://sos1718-10.herokuapp.com/proxyFGGM';
 
 
     $http.get(apiMotogp).then(function(response) {
