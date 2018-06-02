@@ -66,6 +66,17 @@ app.use(paths0, function(req, res) {
   req.pipe(request(url)).pipe(res);
 });
 
+/////////// PROXY PACO-LEE futbol
+
+var paths1 = '/proxyFGGF';
+var apiServerFutbol = 'https://api.football-data.org/v1/competitions';
+
+app.use(paths1, function(req, res) {
+  var url = apiServerFutbol + req.url;
+  console.log('piped: ' + req.baseUrl + req.url);
+  req.pipe(request(url)).pipe(res);
+});
+
 
 
 
