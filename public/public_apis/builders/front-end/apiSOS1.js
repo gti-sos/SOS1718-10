@@ -29,7 +29,7 @@ controller("ApiSOS1Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
                     data: [{
                         type: "pie",
                         startAngle: 25,
-                        toolTipContent: "<b>{label}</b>: {y}%",
+                        toolTipContent: "<b>{label}</b>: {y} cars",
                         showInLegend: "true",
                         legendText: "{label}",
                         indexLabelFontSize: 16,
