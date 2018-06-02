@@ -83,14 +83,6 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrationApiExterna3", {
         templateUrl: "../public_apis/builders/front-end/apiExterna3.html",
         controller: "ApiExterna3Ctrl"
-    }).
-    when("/integrationApiExterna5", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna5.html",
-        controller: "ApiExterna5Ctrl"
-    }).
-    when("/integrationApiExterna6", {
-        templateUrl: "../public_apis/builders/front-end/apiExterna6.html",
-        controller: "ApiExterna6Ctrl"
 
             /*VICTOR*/
 

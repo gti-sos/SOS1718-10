@@ -1,7 +1,7 @@
 angular.module("Principal").
 
 controller("ApiExterna2Ctrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-  console.log("Controller initialized (External Api 4");
+  console.log("Controller initialized (External Api 2)");
 
   $http.get("/api/v1/builders").then(function(responseBuilders) {
 
@@ -23,10 +23,8 @@ controller("ApiExterna2Ctrl", ["$scope", "$http", "$rootScope", function($scope,
       var ligas = responseFootball.data.map(function(d) { return d.caption })
       for (var i = 0; i < builders.length; i++) {
         var arrayAux = [];
+        arrayAux.push(ligas[i]);
         arrayAux.push(equipos[i]);
-        arrayAux.pop(poles[i]);
-        console.log("numero de equipos: " + equipos);
-        console.log("Ligas: " + ligas);
         array.push(arrayAux);
       }
 
@@ -58,7 +56,7 @@ controller("ApiExterna2Ctrl", ["$scope", "$http", "$rootScope", function($scope,
           enabled: false
         },
         series: [{
-          name: 'Integrations builders with football-data',
+          name: 'Integrations builders (poles) with football-data (numero equipos)',
           data: array
         }]
       });

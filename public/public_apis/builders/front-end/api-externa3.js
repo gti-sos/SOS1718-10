@@ -1,73 +1,122 @@
-angular.module("Principal").
-controller("ApiExterna3Ctrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-            
-        
-        var ret=[];
-        
-        $scope.data = {};
-         $scope.data1 = {};
-        var dataCache = {};
-        var dataCache1 = {};
-        $scope.nombre = [];
-        $scope.albums= [];
-        $scope.datos=[];
-        
-        
-        $scope.averageSalary = [];
-        $scope.riskOfPoverty = [];
-        $scope.year = [];
-         function capitalizeFirstLetter(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
-        
-        $http.get("/api/v1/builders").then(function(response){
-            
-            dataCache1 = response.data;
-            $scope.data1 = dataCache1;
-            
-            for(var i=0; i<$scope.data1.length; i++){
-                
-                $scope.datos.push(capitalizeFirstLetter($scope.data1[i].country) + " " + $scope.data1[i].year);
-                
-            }
+angular
+    .module("Principal")
+    .controller("ApiExterna3Ctrl", ["$scope", "$http", function($scope, $http) {
+        console.log("IntegrationCtrl initialized");
+        var apiBuilders = "/api/v1/builders";
+        var apiFestivos = "https://feriados-cl-api.herokuapp.com/feriados";
+
+        $http.get(apiFestivos)
+            .then(function(responseFestivos) {
+
+                //Aqui vamos a guardar los objetos con las fechas
+                var fechas = []
+                //Cogemos la primera fecha para solo devolver los festivos de ese año
+                var primeraFecha = responseFestivos.data[0].date
+                //Spliteamos la fecha ara quedarnos solo con el año
+                var fechaSpliteada = primeraFecha.split("-");
+                //Tomamos el año de la primera fecha
+                var primerAño = fechaSpliteada[0]
+
+                    / //Recorremos los datos de la api de festivos
+                    responseFestivos.data.forEach((n) => {
+                        //creamos un objeto donde vamos a almacenar la fecha
+                        var object = {}
+                        object["name"] = n.title;
+                        //Spliteamos la fecha para meter en el objeto 
+                        var fecha = n.date.split("-")
+                        //comprobamos si la fecha actual que estamos mirando es la misma que la calculada anteriormente
+                        //para no repetir años
+                        if (fecha[0] == primerAño) {
+                            object["parent"] = fecha[1] //mes
+                            object["vallue"] = fecha[2] //dia
+                        }
+                        fechas.push(object);
+                    })
+
+                Highcharts.chart('api-externa3', {
+                    series: [{
+                        type: "treemap",
+                        layoutAlgorithm: 'stripes',
+                        //alternateStartingDirection: true,
+                        levels: [{
+                            level: 1,
+                            layoutAlgorithm: 'sliceAndDice',
+                            dataLabels: {
+                                enabled: true,
+                                align: 'left',
+                                verticalAlign: 'top',
+                                style: {
+                                    fontSize: '15px',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        }],
+                        data: [{
+                                id: '01',
+                                name: 'Enero',
+                                color: "#EC2500"
+                            }, {
+                                id: '02',
+                                name: 'Febrero',
+                                color: "#ECE100"
+                            }, {
+                                id: '03',
+                                name: 'Marzo',
+                                color: '#EC9800'
+                            },
+                            {
+                                id: '04',
+                                name: 'Abril',
+                                color: "#EC2500"
+                            }, {
+                                id: '05',
+                                name: 'Mayo',
+                                color: "#ECE100"
+                            }, {
+                                id: '06',
+                                name: 'Junio',
+                                color: '#EC9800'
+                            },
+                            {
+                                id: '07',
+                                name: 'Julio',
+                                color: "#EC2500"
+                            }, {
+                                id: '08',
+                                name: 'Agosto',
+                                color: "#ECE100"
+                            }, {
+                                id: '09',
+                                name: 'Septiembre',
+                                color: '#EC9800'
+                            },
+                            {
+                                id: '10',
+                                name: 'Octubre',
+                                color: "#EC2500"
+                            }, {
+                                id: '11',
+                                name: 'Noviembre',
+                                color: "#ECE100"
+                            }, {
+                                id: '12',
+                                name: 'Diciembre',
+                                color: '#EC9800'
+                            },
+                            {
+                                name: 'Año nuevo',
+                                parent: '01',
+                                value: 1
+                            }
+                        ]
+                    }],
+                    title: {
+                        text: 'Fruit consumption'
+                    }
+                });
 
 
-$http.get("https://api.myjson.com/bins/1lzv8").then(function(response){
-                
-                
-            dataCache = response.data;
-            $scope.data = dataCache;
-            for(var i=0; i<$scope.data.length; i++){
-                console.log($scope.datos[i]);
-                ret.push({"country and year":$scope.datos[i],
-                "albums":$scope.data[i].albums,
-          
-          });
-            }
-            
-            
-            
-            
-            
-          
-     Morris.Bar({
-        
-      // ID of the element in which to draw the chart.
-      element: 'api-externa3',
-      // Chart data records -- each entry in this array corresponds to a point on
-      // the chart.
-      
-      data: ret,
-      // The name of the data record attribute that contains x-values.
-      xkey: ['country and year'] ,
-      // A list of names of data record attributes that contain y-values.
-      ykeys: ['albums'],
-      // Labels for the ykeys -- will be displayed when you hover over the
-      // chart.
-      labels: ['albums']
-    });
 
-           
-    });
-        });
-}]);
+            });
+
+    }]);
