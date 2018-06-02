@@ -16,42 +16,31 @@ angular
                 var fechaSpliteada = primeraFecha.split("-");
                 //Tomamos el año de la primera fecha
                 var primerAño = fechaSpliteada[0]
-
-                    / //Recorremos los datos de la api de festivos
+                console.log("primer año: " + primerAño) / //Recorremos los datos de la api de festivos
                     responseFestivos.data.forEach((n) => {
                         //creamos un objeto donde vamos a almacenar la fecha
                         var object = {}
                         object["name"] = n.title;
+                        //console.log("Festividad: " + object["name"]) //mes)
                         //Spliteamos la fecha para meter en el objeto 
                         var fecha = n.date.split("-")
+                        //console.log("Fecha: " + fecha);
                         //comprobamos si la fecha actual que estamos mirando es la misma que la calculada anteriormente
                         //para no repetir años
                         if (fecha[0] == primerAño) {
                             object["parent"] = fecha[1] //mes
-                            object["vallue"] = fecha[2] //dia
+                            object["value"] = parseInt(fecha[2]) //dia
+                            //console.log("MES: " + object["parent"])
+                            //console.log("DIA: " + object["value"])
+                            fechas.push(object);
                         }
-                        fechas.push(object);
+
                     })
 
-                Highcharts.chart('api-externa3', {
-                    series: [{
-                        type: "treemap",
-                        layoutAlgorithm: 'stripes',
-                        //alternateStartingDirection: true,
-                        levels: [{
-                            level: 1,
-                            layoutAlgorithm: 'sliceAndDice',
-                            dataLabels: {
-                                enabled: true,
-                                align: 'left',
-                                verticalAlign: 'top',
-                                style: {
-                                    fontSize: '15px',
-                                    fontWeight: 'bold'
-                                }
-                            }
-                        }],
-                        data: [{
+                console.log("Fechas: " + fechas)
+                
+                
+                var array = [{
                                 id: '01',
                                 name: 'Enero',
                                 color: "#EC2500"
@@ -102,13 +91,30 @@ angular
                                 id: '12',
                                 name: 'Diciembre',
                                 color: '#EC9800'
-                            },
-                            {
-                                name: 'Año nuevo',
-                                parent: '01',
-                                value: 1
+                            }];
+                        
+                        array.concat([fechas]);
+                        console.log("Array: " + array)
+                
+                Highcharts.chart('api-externa3', {
+                    series: [{
+                        type: "treemap",
+                        layoutAlgorithm: 'stripes',
+                        //alternateStartingDirection: true,
+                        levels: [{
+                            level: 1,
+                            layoutAlgorithm: 'sliceAndDice',
+                            dataLabels: {
+                                enabled: true,
+                                align: 'left',
+                                verticalAlign: 'top',
+                                style: {
+                                    fontSize: '15px',
+                                    fontWeight: 'bold'
+                                }
                             }
-                        ]
+                        }],
+                        data: [array]
                     }],
                     title: {
                         text: 'Fruit consumption'
