@@ -1,7 +1,7 @@
 angular.module("Principal").
 
 controller("ApiSOS2Ctrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
-    console.log("Controller initialized (Internal Api 4)");
+    console.log("Controller initialized (Internal Api 2)");
 
     $http.get("/api/v1/builders").then(function(responseBuilders) {
         var builders = responseBuilders.data.map(function(d) { return d.builder })
