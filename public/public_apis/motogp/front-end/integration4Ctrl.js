@@ -37,7 +37,7 @@ angular.module("Principal").controller("integration4Ctrl", ["$scope", "$http", f
                     if (conjuntoOPA1[i] == response.data[j].year) {
                         //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
                         //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
-                        conjuntoDEPA1[i] = response.data[j].city;
+                        conjuntoDEPA1[i] = response.data[j].state;
                     }
                 }
             }
