@@ -68,7 +68,7 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
     when("/integrations", {
         templateUrl: "../public_apis/grupo.html"
     }).
-    when("/videos", {
+    when("/about", {
         templateUrl: "../public_apis/videos.html"
     }).
     when("/motogp-stats-profile", {
