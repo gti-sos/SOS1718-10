@@ -11,84 +11,35 @@ controller("ApiSOS3Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
 
       var score = responseBasket.data.map(function(d) { return parseInt(d.first) })
 
-      console.log("idPlayers: " + score)
+      console.log("Score: " + score)
 
       var datos = []
 
       for (var z = 0; z < builders.length; z++) {
-        var ar = [];
-        ar.push(builders[z]);
-        ar.push(score[z]);
-        datos.push(ar);
+        var object = {};
+        object["builder"] = builders[z];
+        object["value"] = score[z];
+        datos.push(object);
       }
       console.log("Datos: " + datos);
 
-      var chart = AmCharts.makeChart("chartdiv", {
+      var chart = AmCharts.makeChart("apiSOS3", {
         "type": "radar",
         "theme": "light",
-        "dataProvider": [{
-          "direction": "N",
-          "value": 8
-        }, {
-          "direction": "NE",
-          "value": 9
-        }, {
-          "direction": "E",
-          "value": 4.5
-        }, {
-          "direction": "SE",
-          "value": 3.5
-        }, {
-          "direction": "S",
-          "value": 9.2
-        }, {
-          "direction": "SW",
-          "value": 8.4
-        }, {
-          "direction": "W",
-          "value": 11.1
-        }, {
-          "direction": "NW",
-          "value": 10
-        }],
+        "dataProvider": datos,
         "valueAxes": [{
           "gridType": "circles",
           "minimum": 0,
-          "autoGridCount": false,
-          "axisAlpha": 0.2,
-          "fillAlpha": 0.05,
           "fillColor": "#FFFFFF",
-          "gridAlpha": 0.08,
-          "guides": [{
-            "angle": 225,
-            "fillAlpha": 0.3,
-            "fillColor": "#0066CC",
-            "tickLength": 0,
-            "toAngle": 315,
-            "toValue": 14,
-            "value": 0,
-            "lineAlpha": 0,
-
-          }, {
-            "angle": 45,
-            "fillAlpha": 0.3,
-            "fillColor": "#CC3333",
-            "tickLength": 0,
-            "toAngle": 135,
-            "toValue": 14,
-            "value": 0,
-            "lineAlpha": 0,
-          }],
-          "position": "left"
         }],
         "startDuration": 1,
         "graphs": [{
-          "balloonText": "[[category]]: [[value]] m/s",
+          "balloonText": "[[category]]: [[value]] points",
           "bullet": "round",
           "fillAlphas": 0.3,
           "valueField": "value"
         }],
-        "categoryField": "direction",
+        "categoryField": "builder",
         "export": {
           "enabled": true
         }
