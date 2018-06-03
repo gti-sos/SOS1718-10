@@ -14,14 +14,43 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
     var api = "/api/v1/buses";
 
     $scope.loadInitialData = function() {
+<<<<<<< HEAD
         $http.get(api + "/loadInitialData").then(function(response) {
             $scope.status = "Status:" + response.status + ("Lista inicializada");
             alert("DataBase initialized");
             console.log("Load initial data: OK");
+=======
+        $http.get(api + "/loadInitialData").then(function successCallback(response) {
+            alert("Añadiendo Pilotos");
+            refresh();
+>>>>>>> 59ca4d28d0f07b05f0affafb1e23087199571e09
+            getBuses();
+        }, function errorCallback(response) {
+            alert("Hay pilotos existentes, vacie la base de datos y pulse de nuevo");
+            console.log("ERROR");
             getBuses();
         });
     };
 
+<<<<<<< HEAD
+=======
+    function refresh() {
+        $http.get(api).then(function successCallback(response) {
+            $scope.buses = response.data;
+            if ($scope.buses.isEmpty) {
+                document.getElementById("loadInitialData").disabled = false;
+            }
+            else {
+                document.getElementById("loadInitialData").disabled = true;
+            }
+        }, function errorCallback(response) {
+            console.log("Error callback");
+            
+            $scope.buses = [];
+        });
+    }
+
+>>>>>>> 59ca4d28d0f07b05f0affafb1e23087199571e09
     $scope.addBus = function() {
         $http.post(api, $scope.newBuses).then(function(response) {
 

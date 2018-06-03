@@ -50,7 +50,7 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/motogp/front-end/integration4.html",
         controller: "integration4Ctrl"
     }).when("/integrationmotoext5", {
-        templateUrl: "../public_apis/motogp/front-end/integration5.html",
+        templateUrl: "../public_apis/motogp/front-end/integrationPetao.html",
         controller: "integration5Ctrl"
     }).
     when("/integrationmotoext6", {

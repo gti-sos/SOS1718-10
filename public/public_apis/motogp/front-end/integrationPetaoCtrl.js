@@ -43,54 +43,23 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             }
 
 
+            var nuevoarray = conjuntoOPA.concat(conjuntoOPA1);
 
 
-
-
-            var conjuntoObjetos = [];
-            for (var y = 0; y < conjuntoOPA.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                //que es la forma en la que recibe los datos la gráfica 
-                var object = {};
-                object["values"] = [conjuntoDEPA[y]];
-                object["join"] = [conjuntoOPA[y]];
-                conjuntoObjetos.push(object);
-                //Este conjuntoObjetos sería el conjunto final que devoleríamos}
-
-
-            }
-            for (var y = 0; y < conjuntoOPA1.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                //que es la forma en la que recibe los datos la gráfica 
-                var object = {}
-                object["values"] = [conjuntoDEPA1[y]];
-                object["join"] = [conjuntoOPA1[y]];
-                conjuntoObjetos.push(object);
-                //Este conjuntoObjetos sería el conjunto final que devoleríamos}
-
-
-            }
-
-            for (var o = 0; 0 < conjuntoObjetos.length; o++) {
-                console.log(conjuntoObjetos.data);
-            }
-
-
-            console.log("BOOLO: " + conjuntoDEPA1)
-            console.log("BOOLO: " + conjuntoOPA1)
-            console.log("BOOLO: " + conjuntoObjetos)
-
-            var valuesArray = [50, 65, 115, 25, 35, 75, 85, 95, 45, 35, 75, 105, 65];
-            var globalMin = 55;
-            var globalMax = 85;
+            // value for feed
+            var valuesArray = nuevoarray;
+            var globalMin = 1980;
+            var globalMax = 2009;
             var globalMinColor = '#F44336';
             var globalMaxColor = '#2196F3';
             var myConfig = {
                 type: 'bar',
                 shapes: [{
                     type: 'rectangle',
-                    height: 10,
-                    width: 25,
-                    x: 75,
-                    y: 5,
+                    height: 100,
+                    width: 20,
+                    x: conjuntoOPA,
+                    y: conjuntoDEPA,
                     backgroundColor: '#C0C0C0',
                     label: {
                         text: 'Values Below Min',
@@ -116,17 +85,17 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
                     margin: 'dynamic'
                 },
                 scaleX: {
-                    label: { text: 'Insert Timestamp' }
+                    label: { text: 'DATA COMBINATION' }
                 },
                 scaleY: {
-                    format: '%v°',
-                    label: { text: 'Degrees In Celcius' }
+                    format: 'years',
+                    label: { text: 'YEARS' }
                 },
                 refresh: {
                     type: "feed",
                     transport: "js",
                     url: "feed()",
-                    interval: 400,
+                    interval: 100,
                     resetTimeout: 1000
                 },
                 series: [{
@@ -137,8 +106,8 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             zingchart.render({
                 id: 'myChart',
                 data: myConfig,
-                height: '100%',
-                width: '100%'
+                height: '95%',
+                width: '120%'
             });
 
 
@@ -211,6 +180,7 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             function stopGraph() {
                 zingchart.exec('myChart', 'stopfeed');
             }
+
         });
     });
 
