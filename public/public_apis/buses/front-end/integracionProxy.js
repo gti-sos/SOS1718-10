@@ -52,12 +52,12 @@ angular
                     var ac = 0;
                     for (var j = 0; j < responseBuses.data.length; j++) {
                         if (responseBuses.data[j].year == years.sortNumbers().unique()[i]) {
-                            ac += parseInt(responseBuses.data[j].occupation);
+                            ac += parseInt(responseBuses.data[j].transportedTraveler);
 
                         }
                     }
                     aBuses.push(ac);
-                    
+
                     for (var j = 0; j < responseProxy.data.length; j++) {
                         if (responseProxy.data[j].year == years.sortNumbers().unique()[i]) {
                             acum += responseProxy.data[j].rate;
@@ -74,45 +74,72 @@ angular
                 //console.log(years.sortNumbers().unique());
 
 
+
                 Highcharts.chart('container', {
                     chart: {
-                        type: ''
+                        type: 'scatter',
+                        zoomType: 'xy'
                     },
                     title: {
-                        text: ''
+                        text: 'Height Versus Weight of 507 Individuals by Gender'
                     },
                     subtitle: {
-                        text: ''
+                        text: 'Source: Heinz  2003'
                     },
                     xAxis: {
-                        categories: years.sortNumbers().unique()
+                        title: {
+                            enabled: true,
+                            text: 'years'
+                        },
+                        categories: years.sortNumbers().unique(),
+                        startOnTick: true,
+                        endOnTick: true,
+                        showLastLabel: true
                     },
                     yAxis: {
                         title: {
-                            text: ''
-                        },
-
+                            text: 'mix'
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        verticalAlign: 'top',
+                        x: 100,
+                        y: 70,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+                        borderWidth: 1
                     },
                     plotOptions: {
-                        area: {
-
+                        scatter: {
                             marker: {
-                                enabled: false,
-                                symbol: 'circle',
-                                radius: 2,
+                                radius: 5,
                                 states: {
                                     hover: {
-                                        enabled: true
+                                        enabled: true,
+                                        lineColor: 'rgb(100,100,100)'
                                     }
                                 }
+                            },
+                            states: {
+                                hover: {
+                                    marker: {
+                                        enabled: false
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<b>{series.name}</b><br>',
+                                pointFormat: '{point.x}, {point.y}'
                             }
                         }
                     },
                     series: [{
-                        name: 'occupation',
+                        name: 'transportedTraveler',
                         data: aBuses
                     }, {
-                        name: 'rate',
+                        name: 'capacity',
                         data: aOpen
                     }]
                 });
