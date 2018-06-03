@@ -77,7 +77,7 @@ angular.module("Principal").controller("integration4Ctrl", ["$scope", "$http", f
 
             var chart = AmCharts.makeChart("chartdiv", {
                 "type": "serial",
-                "theme": "light",
+                "theme": "dark",
                 "dataProvider": conjuntoObjetos,
                 "gridAboveGraphs": true,
                 "startDuration": 1,
