@@ -69,48 +69,148 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
 
             }
 
+            for (var o = 0; 0 < conjuntoObjetos.length; o++) {
+                console.log(conjuntoObjetos.data);
+            }
+
 
             console.log("BOOLO: " + conjuntoDEPA1)
             console.log("BOOLO: " + conjuntoOPA1)
             console.log("BOOLO: " + conjuntoObjetos)
 
+            var valuesArray = [50, 65, 115, 25, 35, 75, 85, 95, 45, 35, 75, 105, 65];
+            var globalMin = 55;
+            var globalMax = 85;
+            var globalMinColor = '#F44336';
+            var globalMaxColor = '#2196F3';
             var myConfig = {
-                "type": "venn",
-                "title": {
-                    "text": "MotoGP & Global Terrorism"
+                type: 'bar',
+                shapes: [{
+                    type: 'rectangle',
+                    height: 10,
+                    width: 25,
+                    x: 75,
+                    y: 5,
+                    backgroundColor: '#C0C0C0',
+                    label: {
+                        text: 'Values Below Min',
+                        offsetX: 65
+                    }
+                }],
+                plot: {
+                    rules: getColorData()
                 },
-                legend: {
-                    toggleAction: 'remove', // remove plot so it re-calculates percentage
-                    verticalAlign: 'middle',
-                    align: 'right',
-                    layout: 'vertical',
-                    borderWidth: 0,
-                    marker: {
-                        type: 'circle',
-                        size: 10,
-                        cursor: 'pointer',
-                    },
-                    item: {
-                        fontSize: 15,
-                        cursor: 'pointer',
-                        offsetX: -5
+                tooltip: { visible: false },
+                crosshairX: {
+                    lineWidth: '100%',
+                    alpha: .3,
+                    plotLabel: {
+                        fontSize: 18,
+                        padding: 8,
+                        borderRadius: 5,
+                        backgroundColor: '#e0e0e0',
+                        text: '<span style="color:%color">%v°</span>'
                     }
                 },
-                "tooltip": {
-                    "text": "%t",
-                    "border-radius": 5,
-                    "font-size": 15
+                plotarea: {
+                    margin: 'dynamic'
                 },
-                "series": conjuntoObjetos
-            };
+                scaleX: {
+                    label: { text: 'Insert Timestamp' }
+                },
+                scaleY: {
+                    format: '%v°',
+                    label: { text: 'Degrees In Celcius' }
+                },
+                refresh: {
+                    type: "feed",
+                    transport: "js",
+                    url: "feed()",
+                    interval: 400,
+                    resetTimeout: 1000
+                },
+                series: [{
+                    values: []
+                }]
+            }
 
             zingchart.render({
                 id: 'myChart',
                 data: myConfig,
                 height: '100%',
-                width: "100%"
+                width: '100%'
             });
 
+
+            /*
+             * Feed function to mimick live data coming in
+             */
+            window.feed = function(callback) {
+                var tick = {};
+                tick.plot0 = valuesArray[Math.floor(Math.random() * (valuesArray.length - 1))];
+                callback(JSON.stringify(tick));
+            };
+
+
+            function getColorData(min, max, minColor, maxColor) {
+                globalMin = typeof min !== 'undefined' ? min : globalMin;
+                globalMax = typeof max !== 'undefined' ? max : globalMax;
+                globalMinColor = typeof minColor !== 'undefined' ? minColor : globalMinColor;
+                globalMaxColor = typeof maxColor !== 'undefined' ? maxColor : globalMaxColor;
+                return [{
+                    "rule": "%v < " + globalMin,
+                    "background-color": '#C0C0C0'
+                }, {
+                    "rule": "%v >= " + globalMin + "  && %v <= " + globalMax,
+                    "background-color": globalMinColor
+                }, {
+                    "rule": "%v > " + globalMax,
+                    "background-color": globalMaxColor
+                }]
+            }
+
+            /*
+             * Global function at the window level due to example being used in
+             * an iframe
+             */
+            window.updateRules = function(form) {
+                try {
+                    // grab form values
+                    var minValue = form.querySelector('#min-threshold').value;
+                    var maxValue = form.querySelector('#max-threshold').value;
+                    var minColor = form.querySelector('#min-threshold-color').value;
+                    var maxColor = form.querySelector('#max-threshold-color').value;
+
+                    // minimally update the chart by updating the rules only
+                    zingchart.exec('myChart', 'modify', {
+                        data: {
+                            plot: {
+                                rules: getColorData(minValue, maxValue, minColor, maxColor)
+                            }
+                        }
+                    });
+                }
+                catch (e) {
+                    // make sure if error form doesn't submit
+                }
+
+                return false; // return false to prevent default behavior of form submission
+            }
+
+
+            /*
+             * assign event listeners for buttons */
+
+            document.getElementById('start').addEventListener('click', startGraph);
+            document.getElementById('stop').addEventListener('click', stopGraph);
+
+            function startGraph() {
+                zingchart.exec('myChart', 'startfeed');
+            }
+
+            function stopGraph() {
+                zingchart.exec('myChart', 'stopfeed');
+            }
         });
     });
 

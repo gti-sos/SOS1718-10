@@ -22,73 +22,12 @@
     </center>
 
 </head>
-<style type="text/css">
-    html,
-    body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
 
-    form {
-        text-align: center;
-    }
-
-    #myChart {
-        min-height: 400px;
-    }
-
-    #myChart+div {
-        /* center align feed controls */
-        text-align: center;
-    }
-
-
-    .feed-control {
-        z-index: 1000;
-        padding: 10px;
-        background: #ff9100;
-        border-style: solid;
-        border-width: 0 0 5px 0;
-        border-color: #ff6d00;
-        border-radius: 4px;
-        color: white;
-        cursor: pointer;
-        font-size: 16px;
-        transition: .1s;
-        margin-left: 15px;
-    }
-
-    .feed-control:active {
-        border-width: 0 0 2px 0;
-        transform: translateY(8px);
-        opacity: 0.9;
-
-    }
-
-    .feed-control:focus {
-        outline: none !important;
-        /* make sure no css conflicts with this demo */
-    }
-</style>
-
-</head>
 
 <body>
-    <form onSubmit="return window.updateRules(this);">
-        <label for="min-threshold">Min Temp</label>
-        <input type="number" id="min-threshold" value="55">
-        <label for="max-threshold">Max Temp</label>
-        <input type="number" id="max-threshold" value="85">
-        <label for="min-threshold-color">Min Color</label>
-        <input type="color" id="min-threshold-color" value="#F44336">
-        <label for="max-threshold-color">Max Color</label>
-        <input type="color" id="max-threshold-color" value="#2196F3">
-        <button type="submit">Submit Changes</button>
-    </form>
-    <div id='myChart'></div>
-    <div>
-        <button id="stop" class="feed-control">Stop</button>
-        <button id="start" class="feed-control">Start</button>
-    </div>
+    <div id="myChart"></div>
+
+
+</body>
+
+</html>
