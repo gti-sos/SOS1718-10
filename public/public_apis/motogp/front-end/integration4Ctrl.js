@@ -55,9 +55,12 @@ angular.module("Principal").controller("integration4Ctrl", ["$scope", "$http", f
                 object["visits"] = conjuntoOPA[y];
                 conjuntoObjetos.push(object);
                 //Este conjuntoObjetos sería el conjunto final que devoleríamos}
-
+            
 
             }
+            console.log("BOOLO1: " + conjuntoDEPA)
+            console.log("BOOLO1: " + conjuntoOPA)
+            console.log("BOOLO1: " + conjuntoObjetos)
             for (var y = 0; y < conjuntoOPA1.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
                 //que es la forma en la que recibe los datos la gráfica 
                 var object = {}
