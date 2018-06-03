@@ -1,5 +1,5 @@
 /*global angular*/
-/*global Highcharts*/
+/*global google*/
 
 angular
     .module("Principal")
@@ -24,107 +24,84 @@ angular
             );
         }
 
-
         var c = [];
-        var n = [];
-        var t = [];
-        var p = [];
-        var union = [];
+        var d;
         var googleDataInt = [
-            ["Country", "Population"]
+            ["Country", "Result"]
         ];
 
-        $http.get("/api/v1/buses").then(function(responseBuses) {
+        $http.get("/api/v1/buses").then(function(response) {
+
+            var busyear = []
+            var bustrans = []
+            for (var i = 0; i < response.data.length; i++) {
+                busyear.push(response.data[i].country)
+                bustrans.push(response.data[i].transportedTraveler);
+
+            }
+
+            console.log(busyear);
+            console.log(bustrans)
+
+            var conjuntoObjetos2 = []
+            for (var z = 0; z < bustrans.length; z++) {
+                //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
+                //que es la forma en la que recibe los datos la gráfica 
+                var object = {};
+                object["x"] = busyear[z];
+                object["y"] = parseInt(bustrans[z]);
+                conjuntoObjetos2.push(object);
+
+                console.log("TOLDO:" + conjuntoObjetos2)
 
 
 
 
 
-            $http.get("http://apiv3.iucnredlist.org/api/v3/country/list?token=9bb4facb6d23f48efbf424bb05c0c1ef1cf6f468393bc745d42179ac4aca5fee").then(function(responseRest) {
-                for (var i = 0; i < responseRest.data.length; i++) {
-                    c.push([responseRest.data[i].isocode, responseRest.data[i].country]);
-
-
-                }
 
 
 
-                console.log("FINALLLLL");
-                console.log(c);
 
-                googleDataInt.push(c);
-                console.log(googleDataInt);
+                //console.log(aBuses);
+
+                $http.get("https://api.nexchange.io/en/api/v1/currency").then(function(responseRest) {
+                    console.log("1:" + responseRest.data)
+                    for (var i = 0; i < responseRest.data.length; i++) {
+                        c.push([responseRest.data[i].name, responseRest.data[i].min_confirmations]);
 
 
-                Highcharts.chart('container', {
-                    chart: {
-                        type: 'tilemap',
-                        inverted: true,
-                        height: '80%'
-                    },
 
-                    title: {
-                        text: 'U.S. states by population in 2016'
-                    },
+                    }
+                    console.log("HOLAAAA" + c);
 
-                    subtitle: {
-                        text: 'Source:<a href="https://simple.wikipedia.org/wiki/List_of_U.S._states_by_population">Wikipedia</a>'
-                    },
+                    googleDataInt.push(c);
+                    console.log(googleDataInt);
 
-                    xAxis: {
-                        visible: false
-                    },
 
-                    yAxis: {
-                        visible: false
-                    },
+                    google.charts.load('current', { packages: ['corechart', 'bar'] });
+                    google.charts.setOnLoadCallback(drawBasic);
 
-                    colorAxis: {
-                        dataClasses: [{
-                            from: 0,
-                            to: 1000000,
-                            color: '#F9EDB3',
-                            name: '< 1M'
-                        }, {
-                            from: 1000000,
-                            to: 5000000,
-                            color: '#FFC428',
-                            name: '1M - 5M'
-                        }, {
-                            from: 5000000,
-                            to: 20000000,
-                            color: '#FF7987',
-                            name: '5M - 20M'
-                        }, {
-                            from: 20000000,
-                            color: '#FF2371',
-                            name: '> 20M'
-                        }]
-                    },
-
-                    tooltip: {
-                        headerFormat: '',
-                        pointFormat: 'The population of <b> {point.name}</b> is <b>{point.value}</b>'
-                    },
-
-                    plotOptions: {
-                        series: {
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.hc-a2}',
-                                color: '#000000',
-                                style: {
-                                    textOutline: false
-                                }
+                    function drawBasic() {
+                        var data = google.visualization.arrayToDataTable(c,conjuntoObjetos2, []);
+                        var options = {
+                            title: 'Virtual ',
+                            chartArea: {
+                                width: "50 %",
+                                height: "500px"
+                            },
+                            hAxis: {
+                                title: 'Transported Travelers',
+                                minValue: 0
+                            },
+                            vAxis: {
+                                title: 'Name '
                             }
-                        }
-                    },
+                        };
+                        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                        chart.draw(data, options);
+                    }
 
-                    series: [c]
                 });
-
-
-            });
-
+            }
         });
     }]);
