@@ -62,12 +62,15 @@ angular.module("Principal").controller("ListCtrl", ["$scope", "$http", function(
             console.log(response.status);
             if(response.status == 409){
                 $scope.status = "Status:" + response.status + ("FAIL: Builder already exist!");
+                alert("Builder already exist!");
             }
             if(response.status == 422){
                 $scope.status = "Status:" + response.status + ("FAIL: Builder does not have expected fields!");
+                alert("Builder does not have expected fields");
             }
             if(response.status == 400){
                 $scope.status == "Status:" + response.status + ("FAIL: New POST request to /builder/ without builder" );
+                alert("New POST request to /builder/ without builder");
             }
         });
         getBuilders();
