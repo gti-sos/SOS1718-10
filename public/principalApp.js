@@ -153,6 +153,10 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "../public_apis/buses/front-end/integracionFinalII.html",
             controller: "IntegracionFinalII"
         })
+        .when("/integracionFinal3", {
+            templateUrl: "../public_apis/buses/front-end/integracionFinal3.html",
+            controller: "IntegracionFinal3"
+        })
         .when("/buses/:community", {
             templateUrl: "../public_apis/buses/front-end/edit.html",
             controller: "EditCtrl2"
