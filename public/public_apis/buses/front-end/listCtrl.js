@@ -13,70 +13,67 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
 
     var api = "/api/v1/buses";
 
-    $scope.refresh = refresh();
-
     $scope.loadInitialData = function() {
         $http.get(api + "/loadInitialData").then(function(response) {
+            $scope.status = "Status:" + response.status + ("Lista inicializada");
+            alert("DataBase initialized");
             console.log("Load initial data: OK");
-            refresh();
+            getBuses();
         });
     };
-
-    function refresh() {
-        $http.get(api).then(function successCallback(response) {
-            $scope.buses = response.data;
-            if ($scope.buses.isEmpty) {
-                document.getElementById("loadInitialData").disabled = false;
-            }
-            else {
-                document.getElementById("loadInitialData").disabled = true;
-            }
-        }, function errorCallback(response) {
-            console.log("Error callback");
-            $scope.buses = [];
-        });
-    }
 
     $scope.addBus = function() {
         $http.post(api, $scope.newBuses).then(function(response) {
 
             $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
-            refresh();
+            alert("correctly added bus");
+            getBuses();
+            
         }, function errorCallback(response) {
             console.log(response.status);
             if (response.status == 409) {
                 $scope.status = "Status:" + response.status + ("FAIL: Bus already exist!");
+                alert("bus already exist!");
             }
             if (response.status == 422) {
                 $scope.status = "Status:" + response.status + ("FAIL: Bus does not have expected fields!");
+                alert("Bus does not have expected fields");
+                
             }
             if (response.status == 400) {
                 $scope.status == "Status:" + response.status + ("FAIL: New POST request to /buses/ without buses");
+                 alert("New POST request to /bus/ without builder");
+                
             }
+            
         });
-        refresh();
+         getBuses();
+        
     }
 
     $scope.deleteBus = function(community) {
         $http.delete(api + "/" + community).then(function(response) {
 
             $scope.status = "Status:" + response.status + "(Bus deleted correctly)";
+            alert("bus deleted");
             console.log(JSON.stringify((response, null, 2)));
-            refresh();
+            getBuses();
+            
         });
     }
 
     $scope.deleteAll = function() {
         $http.delete(api).then(function successCallback(response) {
 
-            $scope.status = "Status:" + response.status; + "(All buses deleted)";
+            $scope.status = "Status:" + response.status; + "(All buses deleted";
+            alert("Database empty, buses deleted correctly");
             console.log("Lista Vacia");
-            refresh();
+            getBuses();
         }, function errorCallback(response) {
             $scope.status = "Status:" + response.status + "(FAIL: you can not delete all buses)";
             console.log("ERROR");
-            refresh();
+            getBuses();
         });
     }
 
@@ -88,8 +85,9 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
 
         search = "?";
     }
+    getBuses();
 
-    refresh();
+    
 
     /////////////////////////////BUSQUEDA//////////////////////////////////////
 
