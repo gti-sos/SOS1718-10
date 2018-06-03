@@ -12,7 +12,7 @@
                 <tr style="background-color:#FFD9E6">
                     <th class="text-center" style="float:right"><button class="btn btn-warning" ng-click="loadInitialData()">INITIALIZE</button></th>
 
-                    <th class="success"><button class="button btn-danger" ng-click="deleteAll()">Empty database</button></th>
+                    <th class="success"><button class="btn btn-danger" ng-click="deleteAll()">Empty database</button></th>
                 </tr>
             </thead>
 
@@ -34,41 +34,22 @@
             </table>
         </div>
 
-        <div id="pagination" style="float: left; width: 30%; margin-left: 250px" ; disabled=true>
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <table>
-                <td><button class="btn btn-info" ng-click="previousPage(currentPage-1)" ng-disabled="currentPage==1">Prev</button></td>
-
-                <td ng-repeat="page in pages">
-                    <a><button class="btn btn-info" ng-click="newPage(page)">{{page}}</button></a>
-                </td>
-                <td><button class="btn btn-info" ng-click="nextPage(currentPage+1)" ng-disabled="currentPage == pages.length"> Next</button></td>
-            </table>
-        </div>
-
-
-
-
-        <div>
-
-            <table class="table">
-                <thead>
-                    <tr style="background-color:#EEFCFE">
-                        <h4>Search for year:</h4>
-                        <td class="succes"><input class="form-control" ng-model="newBuilder.year" placeholder="Year"></td>
+        <table class="table">
+            <thead>
+                <tr style="background-color:#EEFCFE">
+                    <td>
+                        <th class="succes">Search year<input class="form-control" ng-model="newBuilder.year" placeholder="Year"></th>
                         <th class="success"><button class="btn btn-success" ng-md-icon icon="search" ng-click="search()"> SEARCH </button></th>
-                    </tr>
-                </thead>
-            </table>
+                    </td>
+                    <td>
+                        <th class="info">Search builder<input class="form-control" ng-model="newBuilder.builder" placeholder="Builder"></th>
+                        <th class="success"><button class="btn btn-success" ng-md-icon icon="search" ng-click="searchBuilder()"> SEARCH </button></th>
+                    </td>
 
-            <table class="table">
-                <thead>
-                    <h4>Search for builder:</h4>
-                    <td class="info"><input class="form-control" ng-model="newBuilder.builder" placeholder="Builder"></td>
-                    <th class="success"><button class="btn btn-success" ng-md-icon icon="search" ng-click="searchBuilder()"> SEARCH </button></th>
-                </thead>
-            </table>
-        </div>
+            </thead>
+        </table>
+
+
         <table class="table">
             <thead>
                 <tr align=center>
@@ -107,5 +88,18 @@
                     <option>10</option>
                     <option>20</option>
                     <option>30</option>
-                    </select> records at a time.
+                    </select> for page.
         <pre>The selected page number: {{currentPage}}</pre>
+
+        <div id="pagination" style="float: left; width: 30%; margin-left: 1000px" ; disabled=true>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <table>
+                <td><button class="btn btn-info" ng-click="previousPage(currentPage-1)" ng-disabled="currentPage==1">Prev</button></td>
+
+                <td ng-repeat="page in pages">
+                    <a><button class="btn btn-info" ng-click="newPage(page)">{{page}}</button></a>
+                </td>
+                <td><button class="btn btn-info" ng-click="nextPage(currentPage+1)" ng-disabled="currentPage == pages.length"> Next</button></td>
+            </table>
+        </div>
+    </div>
