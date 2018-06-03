@@ -16,11 +16,13 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
     $scope.refresh = refresh();
 
     $scope.loadInitialData = function() {
-        $http.get(api + "/loadInitialData").then(function(response) {
-            $scope.status = "Status:" + response.status + ("Lista inicializada");
-            alert("DataBase initialized");
-            console.log("Load initial data: OK");
+        $http.get(api + "/loadInitialData").then(function successCallback(response) {
+            alert("Añadiendo Pilotos");
             refresh();
+            getBuses();
+        }, function errorCallback(response) {
+            alert("Hay pilotos existentes, vacie la base de datos y pulse de nuevo");
+            console.log("ERROR");
             getBuses();
         });
     };
@@ -36,6 +38,7 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
             }
         }, function errorCallback(response) {
             console.log("Error callback");
+            
             $scope.buses = [];
         });
     }
