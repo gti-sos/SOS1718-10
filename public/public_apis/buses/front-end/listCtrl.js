@@ -21,7 +21,7 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
             refresh();
             getBuses();
         }, function errorCallback(response) {
-            alert("Hay pilotos existentes, vacie la base de datos y pulse de nuevo");
+            alert("Hay buses existentes, vacie la base de datos y pulse de nuevo");
             console.log("ERROR");
             getBuses();
         });
