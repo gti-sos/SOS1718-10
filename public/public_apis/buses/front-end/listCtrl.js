@@ -14,16 +14,9 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
     var api = "/api/v1/buses";
 
     $scope.loadInitialData = function() {
-<<<<<<< HEAD
-        $http.get(api + "/loadInitialData").then(function(response) {
-            $scope.status = "Status:" + response.status + ("Lista inicializada");
-            alert("DataBase initialized");
-            console.log("Load initial data: OK");
-=======
         $http.get(api + "/loadInitialData").then(function successCallback(response) {
             alert("Añadiendo Pilotos");
             refresh();
->>>>>>> 59ca4d28d0f07b05f0affafb1e23087199571e09
             getBuses();
         }, function errorCallback(response) {
             alert("Hay buses existentes, vacie la base de datos y pulse de nuevo");
@@ -32,8 +25,6 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
         });
     };
 
-<<<<<<< HEAD
-=======
     function refresh() {
         $http.get(api).then(function successCallback(response) {
             $scope.buses = response.data;
@@ -45,20 +36,20 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
             }
         }, function errorCallback(response) {
             console.log("Error callback");
-            
+
             $scope.buses = [];
         });
     }
 
->>>>>>> 59ca4d28d0f07b05f0affafb1e23087199571e09
     $scope.addBus = function() {
         $http.post(api, $scope.newBuses).then(function(response) {
 
             $scope.status = "Status:" + response.status;
             console.log(JSON.stringify((response, null, 2)));
+            refresh();
             alert("correctly added bus");
             getBuses();
-            
+
         }, function errorCallback(response) {
             console.log(response.status);
             if (response.status == 409) {
@@ -68,17 +59,18 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
             if (response.status == 422) {
                 $scope.status = "Status:" + response.status + ("FAIL: Bus does not have expected fields!");
                 alert("Bus does not have expected fields");
-                
+
             }
             if (response.status == 400) {
                 $scope.status == "Status:" + response.status + ("FAIL: New POST request to /buses/ without buses");
-                 alert("New POST request to /bus/ without builder");
-                
+                alert("New POST request to /bus/ without builder");
+
             }
-            
+
         });
-         getBuses();
-        
+        refresh();
+        getBuses();
+
     }
 
     $scope.deleteBus = function(community) {
@@ -87,8 +79,9 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
             $scope.status = "Status:" + response.status + "(Bus deleted correctly)";
             alert("bus deleted");
             console.log(JSON.stringify((response, null, 2)));
+            refresh();
             getBuses();
-            
+
         });
     }
 
@@ -98,10 +91,12 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
             $scope.status = "Status:" + response.status; + "(All buses deleted";
             alert("Database empty, buses deleted correctly");
             console.log("Lista Vacia");
+            refresh();
             getBuses();
         }, function errorCallback(response) {
             $scope.status = "Status:" + response.status + "(FAIL: you can not delete all buses)";
             console.log("ERROR");
+            refresh();
             getBuses();
         });
     }
@@ -115,8 +110,9 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
         search = "?";
     }
     getBuses();
+    refresh();
 
-    
+
 
     /////////////////////////////BUSQUEDA//////////////////////////////////////
 
@@ -162,288 +158,278 @@ angular.module("Principal").controller("ListCtrl2", ["$scope", "$http", function
 
     //PAGINACIÓN
 
-    $scope.offset = 0;
-<<<<<<<<< saved version
-            search += ("&transportedTraveler=" + $scope.buscarBus.transportedTraveler);
+    $scope.offset = 0; <<
+    << << << < saved version
+    search += ("&transportedTraveler=" + $scope.buscarBus.transportedTraveler);
+}
+if ($scope.buscarBus.country) {
+    search += ("&country=" + $scope.buscarBus.country);
+}
+//if ($scope.buscarBus.from) {
+//    search += ("&from=" + $scope.buscarBus.from);
+//}
+//if ($scope.buscarBus.to) {
+//    search += ("&to=" + $scope.buscarBus.to);
+//}
+
+getBuses();
+
+
+};
+
+////////////////////////PAGINACION////////////////////////////////////////////
+
+
+
+//PAGINACIÓN
+
+$scope.offset = 0; $scope.getPaginacion = function() {
+console.log("Muestrame la paginacion" + api + "&limit=" + $scope.limit + "&offset=" + $scope.offset);
+$http
+    .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
+    .then(function(response) {
+        $scope.data = JSON.stringify(response.data, null, 2);
+        $scope.buses = response.data;
+        console.log($scope.data);
+    });
+
+};
+
+
+
+//MÉTODOS DE PAGINACIÓN
+
+$scope.viewby = 0; $scope.totalItems = function() {
+return $scope.buses.length;
+}; $scope.currentPage = 1; $scope.itemsPerPage = function() {
+return $scope.limit;
+}; $scope.maxSize = 5; //Botones (1 xpagina) a mostrar 
+$scope.offset = 0;
+
+
+
+$scope.newPage = function(numberPage) {
+var viewby = $scope.viewby;
+$scope.currentPage = numberPage;
+$scope.offset = numberPage * viewby - parseInt($scope.viewby);
+$scope.limit = $scope.viewby;
+$http
+    .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+
+};
+
+$scope.nextPage = function(numberPage) {
+$scope.currentPage = numberPage;
+$scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
+console.log($scope.offset);
+$scope.limit = $scope.viewby;
+$http
+    .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+};
+
+
+$scope.previousPage = function(numberPage) {
+var viewby = $scope.viewby;
+$scope.currentPage = numberPage;
+$scope.offset -= viewby;
+$http
+    .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+};
+
+
+
+$scope.setItemsPerPage = function(numberPage) {
+$scope.itemsPerPage = numberPage; ===
+=== ===
+$scope.getPaginacion = function() {
+    console.log("Muestrame la paginacion" + api + "&limit=" + $scope.limit + "&offset=" + $scope.offset);
+    $http
+        .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
+        .then(function(response) {
+            $scope.data = JSON.stringify(response.data, null, 2);
+            $scope.buses = response.data;
+            console.log($scope.data);
+        });
+
+};
+
+
+
+//MÉTODOS DE PAGINACIÓN
+
+$scope.viewby = 0;
+$scope.totalItems = function() {
+    return $scope.buses.length;
+}; >>>
+>>> >>> local version
+$scope.currentPage = 1;
+$scope.offset = 0; <<
+<< << << < saved version
+    .then(function(response) {
+        $scope.data = JSON.stringify(response.data, null, 2);
+        $scope.buses = response.data;
+        console.log($scope.data);
+    });
+
+};
+
+
+
+//MÉTODOS DE PAGINACIÓN
+
+$scope.viewby = 0; $scope.totalItems = function() {
+return $scope.buses.length;
+}; $scope.currentPage = 1; $scope.itemsPerPage = function() {
+return $scope.limit;
+}; $scope.maxSize = 5; //Botones (1 xpagina) a mostrar 
+$scope.offset = 0;
+
+
+
+$scope.newPage = function(numberPage) {
+var viewby = $scope.viewby;
+$scope.currentPage = numberPage;
+$scope.offset = numberPage * viewby - parseInt($scope.viewby);
+$scope.limit = $scope.viewby;
+$http
+    .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+
+};
+
+$scope.nextPage = function(numberPage) {
+$scope.currentPage = numberPage;
+$scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
+console.log($scope.offset);
+$scope.limit = $scope.viewby;
+$http
+    .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+};
+
+
+$scope.previousPage = function(numberPage) {
+var viewby = $scope.viewby;
+$scope.currentPage = numberPage;
+$scope.offset -= viewby;
+$http
+    .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+};
+
+
+
+$scope.setItemsPerPage = function(numberPage) {
+$scope.itemsPerPage = numberPage;
+$scope.currentPage = 1;
+$scope.offset = 0;
+var pages = [];
+$http
+    .get(api)
+    .then(function(response) {
+        for (var i = 1; i <= response.data.length / $scope.viewby; i++) {
+            pages.push(i);
         }
-        if ($scope.buscarBus.country) {
-            search += ("&country=" + $scope.buscarBus.country);
+        if (pages.length * $scope.viewby < response.data.length) {
+            pages.push(pages.length + 1);
         }
-        //if ($scope.buscarBus.from) {
-        //    search += ("&from=" + $scope.buscarBus.from);
-        //}
-        //if ($scope.buscarBus.to) {
-        //    search += ("&to=" + $scope.buscarBus.to);
-        //}
+        $scope.pages = pages;
+        document.getElementById("pagination").style.display = "block";
+        document.getElementById("pagination").disabled = false;
+    });
 
-        getBuses();
+$http
+    .get(api + "?" + "&limit= " + numberPage + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
 
-
-    };
-
-    ////////////////////////PAGINACION////////////////////////////////////////////
-
-
-
-    //PAGINACIÓN
-
-    $scope.offset = 0;
-    $scope.getPaginacion = function() {
-        console.log("Muestrame la paginacion" + api + "&limit=" + $scope.limit + "&offset=" + $scope.offset);
-        $http
-            .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
-            .then(function(response) {
-                $scope.data = JSON.stringify(response.data, null, 2);
-                $scope.buses = response.data;
-                console.log($scope.data);
-            });
-
-    };
+}; ===
+=== ===
 
 
 
-    //MÉTODOS DE PAGINACIÓN
+$scope.newPage = function(numberPage) {
+var viewby = $scope.viewby;
+$scope.currentPage = numberPage;
+$scope.offset = numberPage * viewby - parseInt($scope.viewby);
+$scope.limit = $scope.viewby;
+$http
+    .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
 
-    $scope.viewby = 0;
-    $scope.totalItems = function() {
-        return $scope.buses.length;
-    };
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = function() {
-        return $scope.limit;
-    };
-    $scope.maxSize = 5; //Botones (1 xpagina) a mostrar 
-    $scope.offset = 0;
+};
 
-
-
-    $scope.newPage = function(numberPage) {
-        var viewby = $scope.viewby;
-        $scope.currentPage = numberPage;
-        $scope.offset = numberPage * viewby - parseInt($scope.viewby);
-        $scope.limit = $scope.viewby;
-        $http
-            .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-
-    };
-
-    $scope.nextPage = function(numberPage) {
-        $scope.currentPage = numberPage;
-        $scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
-        console.log($scope.offset);
-        $scope.limit = $scope.viewby;
-        $http
-            .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-    };
+$scope.nextPage = function(numberPage) {
+$scope.currentPage = numberPage;
+$scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
+console.log($scope.offset);
+$scope.limit = $scope.viewby;
+$http
+    .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+};
 
 
-    $scope.previousPage = function(numberPage) {
-        var viewby = $scope.viewby;
-        $scope.currentPage = numberPage;
-        $scope.offset -= viewby;
-        $http
-            .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-    };
+$scope.previousPage = function(numberPage) {
+var viewby = $scope.viewby;
+$scope.currentPage = numberPage;
+$scope.offset -= viewby;
+$http
+    .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
+};
 
 
 
-    $scope.setItemsPerPage = function(numberPage) {
-        $scope.itemsPerPage = numberPage;
-=========
-     $scope.getPaginacion = function(){
-           console.log("Muestrame la paginacion" + api +"&limit="+ $scope.limit +"&offset="+$scope.offset);
-            $http
-                .get(api + "?" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function(response){
-                    $scope.data = JSON.stringify(response.data, null, 2); 
-                    $scope.buses = response.data;
-                    console.log( $scope.data );
-                });
-            
-        } ;
-        
-         
-         
-         //MÉTODOS DE PAGINACIÓN
-         
-        $scope.viewby = 0;
-        $scope.totalItems = function() {
-            return $scope.buses.length;
-        };
->>>>>>>>> local version
-        $scope.currentPage = 1;
-        $scope.offset = 0;
-<<<<<<<<< saved version
-            .then(function(response) {
-                $scope.data = JSON.stringify(response.data, null, 2);
-                $scope.buses = response.data;
-                console.log($scope.data);
-            });
+$scope.setItemsPerPage = function(numberPage) {
+$scope.itemsPerPage = numberPage;
+$scope.currentPage = 1;
+$scope.offset = 0;
+var pages = [];
+$http
+    .get(api)
+    .then(function(response) {
+        for (var i = 1; i <= response.data.length / $scope.viewby; i++) {
+            pages.push(i);
+        }
+        if (pages.length * $scope.viewby < response.data.length) {
+            pages.push(pages.length + 1);
+        }
+        $scope.pages = pages;
+        document.getElementById("pagination").style.display = "block";
+        document.getElementById("pagination").disabled = false;
+    });
 
-    };
+$http
+    .get(api + "?" + "&limit= " + numberPage + "&offset= " + $scope.offset)
+    .then(function(response) {
+        $scope.buses = response.data;
+    });
 
-
-
-    //MÉTODOS DE PAGINACIÓN
-
-    $scope.viewby = 0;
-    $scope.totalItems = function() {
-        return $scope.buses.length;
-    };
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = function() {
-        return $scope.limit;
-    };
-    $scope.maxSize = 5; //Botones (1 xpagina) a mostrar 
-    $scope.offset = 0;
-
-
-
-    $scope.newPage = function(numberPage) {
-        var viewby = $scope.viewby;
-        $scope.currentPage = numberPage;
-        $scope.offset = numberPage * viewby - parseInt($scope.viewby);
-        $scope.limit = $scope.viewby;
-        $http
-            .get(api + "?" + "&limit=" + $scope.limit + "&offset=" + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-
-    };
-
-    $scope.nextPage = function(numberPage) {
-        $scope.currentPage = numberPage;
-        $scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
-        console.log($scope.offset);
-        $scope.limit = $scope.viewby;
-        $http
-            .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-    };
-
-
-    $scope.previousPage = function(numberPage) {
-        var viewby = $scope.viewby;
-        $scope.currentPage = numberPage;
-        $scope.offset -= viewby;
-        $http
-            .get(api + "?" + "&limit= " + $scope.limit + "&offset= " + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-    };
-
-
-
-    $scope.setItemsPerPage = function(numberPage) {
-        $scope.itemsPerPage = numberPage;
-        $scope.currentPage = 1;
-        $scope.offset = 0;
-        var pages = [];
-        $http
-            .get(api)
-            .then(function(response) {
-                for (var i = 1; i <= response.data.length / $scope.viewby; i++) {
-                    pages.push(i);
-                }
-                if (pages.length * $scope.viewby < response.data.length) {
-                    pages.push(pages.length + 1);
-                }
-                $scope.pages = pages;
-                document.getElementById("pagination").style.display = "block";
-                document.getElementById("pagination").disabled = false;
-            });
-
-        $http
-            .get(api + "?" + "&limit= " + numberPage + "&offset= " + $scope.offset)
-            .then(function(response) {
-                $scope.buses = response.data;
-            });
-
-    };
-=========
-        
-        
-        
-        $scope.newPage = function(numberPage){
-            var viewby = $scope.viewby;
-            $scope.currentPage = numberPage;
-            $scope.offset = numberPage*viewby-parseInt( $scope.viewby);
-            $scope.limit = $scope.viewby;
-            $http
-                .get(api + "?" +"&limit="+ $scope.limit +"&offset="+$scope.offset)
-                .then(function(response){
-                    $scope.buses = response.data;
-                });
-            
-        };
-        
-        $scope.nextPage = function(numberPage) {
-            $scope.currentPage = numberPage;
-            $scope.offset = parseInt($scope.offset) + parseInt($scope.viewby);
-            console.log($scope.offset);
-            $scope.limit = $scope.viewby;
-            $http
-                .get(api + "?" +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
-                .then(function(response){
-                    $scope.buses = response.data;
-                });
-        };
-        
-        
-        $scope.previousPage = function(numberPage) {
-            var viewby = $scope.viewby;
-            $scope.currentPage = numberPage;
-            $scope.offset -= viewby;
-            $http
-                .get(api + "?" +"&limit= "+ $scope.limit +"&offset= " + $scope.offset)
-                .then(function(response){
-                    $scope.buses = response.data;
-                });
-        };
-        
-        
-        
-        $scope.setItemsPerPage = function(numberPage) {
-            $scope.itemsPerPage = numberPage;
-            $scope.currentPage = 1;
-            $scope.offset = 0;
-            var pages =[];
-             $http
-                .get(api)
-                .then(function(response){
-                    for(var i =1;i<=response.data.length / $scope.viewby;i++){
-                        pages.push(i);
-                    }
-                    if(pages.length*$scope.viewby<response.data.length){
-                        pages.push(pages.length+1);
-                    }
-                    $scope.pages = pages;
-                        document.getElementById("pagination").style.display = "block";
-                        document.getElementById("pagination").disabled = false;
-                });
-            
-            $http
-                .get(api + "?" + "&limit= " + numberPage +"&offset= "+ $scope.offset)
-                    .then(function(response){
-                        $scope.buses = response.data;
-                });
-                
-        };
->>>>>>>>> local version
-    getBuses();
+}; >>>
+>>> >>> local version getBuses();
 
 
 
