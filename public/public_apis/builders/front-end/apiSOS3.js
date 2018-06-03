@@ -23,26 +23,77 @@ controller("ApiSOS3Ctrl", ["$scope", "$http", "$rootScope", function($scope, $ht
       }
       console.log("Datos: " + datos);
 
-      google.charts.load("current", { packages: ["corechart"] });
-      google.charts.setOnLoadCallback(drawChart);
+      var chart = AmCharts.makeChart("chartdiv", {
+        "type": "radar",
+        "theme": "light",
+        "dataProvider": [{
+          "direction": "N",
+          "value": 8
+        }, {
+          "direction": "NE",
+          "value": 9
+        }, {
+          "direction": "E",
+          "value": 4.5
+        }, {
+          "direction": "SE",
+          "value": 3.5
+        }, {
+          "direction": "S",
+          "value": 9.2
+        }, {
+          "direction": "SW",
+          "value": 8.4
+        }, {
+          "direction": "W",
+          "value": 11.1
+        }, {
+          "direction": "NW",
+          "value": 10
+        }],
+        "valueAxes": [{
+          "gridType": "circles",
+          "minimum": 0,
+          "autoGridCount": false,
+          "axisAlpha": 0.2,
+          "fillAlpha": 0.05,
+          "fillColor": "#FFFFFF",
+          "gridAlpha": 0.08,
+          "guides": [{
+            "angle": 225,
+            "fillAlpha": 0.3,
+            "fillColor": "#0066CC",
+            "tickLength": 0,
+            "toAngle": 315,
+            "toValue": 14,
+            "value": 0,
+            "lineAlpha": 0,
 
-      var dat = [['Builders', 'Score']]
-      console.log("dat: " + dat)
-      dat = dat.concat(datos);
-      console.log("dat: " + dat)
+          }, {
+            "angle": 45,
+            "fillAlpha": 0.3,
+            "fillColor": "#CC3333",
+            "tickLength": 0,
+            "toAngle": 135,
+            "toValue": 14,
+            "value": 0,
+            "lineAlpha": 0,
+          }],
+          "position": "left"
+        }],
+        "startDuration": 1,
+        "graphs": [{
+          "balloonText": "[[category]]: [[value]] m/s",
+          "bullet": "round",
+          "fillAlphas": 0.3,
+          "valueField": "value"
+        }],
+        "categoryField": "direction",
+        "export": {
+          "enabled": true
+        }
+      });
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(dat);
-
-        var options = {
-          title: 'Lengths of dinosaurs, in meters',
-          legend: { position: 'none' },
-        };
-
-        var chart = new google.visualization.Histogram(document.getElementById('apiSOS3'));
-        chart.draw(data, options);
-
-      }
     });
   });
 }]);
