@@ -1,6 +1,6 @@
 angular.module("Principal").
 
-controller("ApiExterna4Ctrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
+controller("ApiSOS3Ctrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
 console.log("Controller initialized (Internal Api 3)");
 
 $http.get("/api/v1/builders").then(function(responseBuilders) {
