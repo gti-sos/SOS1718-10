@@ -85,6 +85,9 @@ angular.module("Principal", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "../public_apis/builders/front-end/edit.html",
         controller: "EditCtrl"
     }).
+    when("/builders-profile", {
+        templateUrl: "../public_apis/builders/index.html"
+    }).
     when("/graphsBuilders", {
         templateUrl: "../public_apis/builders/front-end/graph.html",
         controller: "GraphCtrl"
