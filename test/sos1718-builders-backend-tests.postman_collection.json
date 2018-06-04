@@ -302,7 +302,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+					"raw": "{\r\n  \"country\": \"united kingdom\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
 				},
 				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
 			},
@@ -332,7 +332,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 5555,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+					"raw": "{\r\n  \"country\": \"united kingdom\",\r\n  \"year\": 5555,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
 				},
 				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2022"
 			},
@@ -362,7 +362,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+					"raw": "{\r\n  \"country\": \"united kingdom\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
 				},
 				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/",
 				"description": "POST de un recurso que ya está en la base de datos"
@@ -426,7 +426,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"country\": \"uk\",\n    \"year\": 1996,\n    \"builder\": \"williams\",\n    \"pole\": 12,\n    \"victory\": 12\n}"
+					"raw": "{\n    \"country\": \"united kingdom\",\n    \"year\": 1996,\n    \"builder\": \"williams\",\n    \"pole\": 12,\n    \"victory\": 12\n}"
 				},
 				"url": "https://sos1718-10.herokuapp.com/api/v1/builders"
 			},
@@ -489,7 +489,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"country\": \"uk\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
+					"raw": "{\r\n  \"country\": \"united kingdom\",\r\n  \"year\": 2022,\r\n  \"builder\": \"benetton\",\r\n  \"pole\": 4,\r\n  \"victory\": 11\r\n}"
 				},
 				"url": "https://sos1718-10.herokuapp.com/api/v1/builders/2022"
 			},
