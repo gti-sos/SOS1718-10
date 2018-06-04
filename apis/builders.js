@@ -20,7 +20,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     ////////////////////////////////////////INICIALIZAR EL CONJUNTO////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders/loadInitialData", function(req, res) {
         var inicializacion = [{
-                "country": "United Kingdom ",
+                "country": "united kingdom ",
                 "year": 1996,
                 "builder": "williams",
                 "pole": 12,
