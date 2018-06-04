@@ -53,7 +53,7 @@ angular.module("Principal").controller("integration5Ctrl", ["$scope", "$http", f
             var globalMinColor = '#F44336';
             var globalMaxColor = '#2196F3';
             var myConfig = {
-                type: 'bar',
+                type: 'area',
                 shapes: [{
                     type: 'rectangle',
                     height: 100,
