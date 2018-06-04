@@ -25,7 +25,7 @@ angular.module("Principal").controller("Graph1Ctrl", ["$scope", "$http", "$locat
 
         Highcharts.chart('analytics', {
             chart: {
-                type: 'line'
+                type: 'area'
             },
             title: {
                 text: 'Age of the Pilots'
