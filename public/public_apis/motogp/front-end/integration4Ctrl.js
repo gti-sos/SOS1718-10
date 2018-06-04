@@ -6,18 +6,15 @@ angular.module("Principal").controller("integration4Ctrl", ["$scope", "$http", f
 
     $http.get(apiMotogp).then(function(response) {
         var conjuntoDEPA = []
-        //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-        //1º Guardamos en una variable el conjunto de los años ordenados
+       
         var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-        //2ºRecorremos el conjunto ordenado
+        
         for (var i = 0; i < conjuntoOPA.length; i++) {
-            //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+           
             for (var j = 0; j < response.data.length; j++) {
-                //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                //que se encuentra en esa posicion en el conjunto ordenado
+               
                 if (conjuntoOPA[i] == response.data[j].year) {
-                    //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                    //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                    
                     conjuntoDEPA[i] = response.data[j].country;
                 }
             }
@@ -25,49 +22,40 @@ angular.module("Principal").controller("integration4Ctrl", ["$scope", "$http", f
 
         $http.get(apiFran).then(function(response) {
             var conjuntoDEPA1 = []
-            //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-            //1º Guardamos en una variable el conjunto de los años ordenados
+          
             var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-            //2ºRecorremos el conjunto ordenado
+            
             for (var i = 0; i < conjuntoOPA1.length; i++) {
-                //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+                
                 for (var j = 0; j < response.data.length; j++) {
-                    //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                    //que se encuentra en esa posicion en el conjunto ordenado
+                   
                     if (conjuntoOPA1[i] == response.data[j].year) {
-                        //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                        //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                        
                         conjuntoDEPA1[i] = response.data[j].state;
                     }
                 }
             }
 
 
-
-
-
-
             var conjuntoObjetos = [];
-            for (var y = 0; y < conjuntoOPA.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                //que es la forma en la que recibe los datos la gráfica 
+            for (var y = 0; y < conjuntoOPA.length; y++) { 
                 var object = {};
                 object["country"] = conjuntoDEPA[y];
                 object["visits"] = conjuntoOPA[y];
                 conjuntoObjetos.push(object);
-                //Este conjuntoObjetos sería el conjunto final que devoleríamos}
+                
             
 
             }
             console.log("BOOLO1: " + conjuntoDEPA)
             console.log("BOOLO1: " + conjuntoOPA)
             console.log("BOOLO1: " + conjuntoObjetos)
-            for (var y = 0; y < conjuntoOPA1.length; y++) { //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                //que es la forma en la que recibe los datos la gráfica 
+            for (var y = 0; y < conjuntoOPA1.length; y++) {
                 var object = {}
                 object["country"] = conjuntoDEPA1[y];
                 object["visits"] = conjuntoOPA1[y];
                 conjuntoObjetos.push(object);
-                //Este conjuntoObjetos sería el conjunto final que devoleríamos}
+               
 
 
             }

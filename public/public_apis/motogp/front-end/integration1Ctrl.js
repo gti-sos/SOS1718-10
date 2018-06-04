@@ -11,18 +11,15 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
 
     $http.get(apiMotogp).then(function(response) {
         var conjuntoDEPA = []
-        //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-        //1º Guardamos en una variable el conjunto de los años ordenados
+   
         var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-        //2ºRecorremos el conjunto ordenado
+       
         for (var i = 0; i < conjuntoOPA.length; i++) {
-            //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+           
             for (var j = 0; j < response.data.length; j++) {
-                //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                //que se encuentra en esa posicion en el conjunto ordenado
+                
                 if (conjuntoOPA[i] == response.data[j].year) {
-                    //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                    //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+                    
                     conjuntoDEPA[i] = response.data[j].pilot;
                 }
             }
@@ -34,8 +31,7 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
 
             var conjuntoOPA1 = [];
             var conjuntoOPA2 = [];
-            //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-            //1º Guardamos en una variable el conjunto de los años ordenados
+            
             var array = response.data.meals;
             console.log("el bolo: " + array);
 
@@ -47,33 +43,27 @@ angular.module("Principal").controller("integration1Ctrl", ["$scope", "$http", f
             console.log("el bolo 1:" + conjuntoOPA2);
 
 
-            //Creamos un solo objeto y a ese mismo le vamos metiendo varias claves (y, label) y sus valores para cada caso
-            //sustituyendo en cada caso el valor correspondiente de conjuntoOPA[z] y conjuntoDePuntos[z]
-            //y en un conjunto de objetos vamos guardando cada objeto creado de la forma {label:2000, y:15}
+            
             var conjuntoObjetos = []
             for (var z = 0; z < conjuntoOPA.length; z++) {
-                //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                //que es la forma en la que recibe los datos la gráfica 
+               
                 var object = {};
                 object["label"] = conjuntoDEPA[z];
                 object["y"] = conjuntoOPA[z];
                 conjuntoObjetos.push(object);
-                //Este conjuntoObjetos sería el conjunto final que devoleríamos
+                
             }
 
 
-            //Creamos un solo objeto y a ese mismo le vamos metiendo varias claves (y, label) y sus valores para cada caso
-            //sustituyendo en cada caso el valor correspondiente de conjuntoOPA1[z] y conjuntoDePuntos1[z]
-            //y en un conjunto de objetos vamos guardando cada objeto creado de la forma {label:2000, y:15}
-            var conjuntoObjetos1 = []
+            
+           
             for (var z = 0; z < conjuntoOPA1.length; z++) {
-                //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                //que es la forma en la que recibe los datos la gráfica 
+                
                 var object = {};
                 object["label"] = conjuntoOPA2[z];
                 object["y"] = parseInt(conjuntoOPA1[z]);
                 conjuntoObjetos.push(object);
-                //Este conjuntoObjetos sería el conjunto final que devoleríamos
+                
             }
 
 

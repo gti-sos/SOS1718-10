@@ -1,3 +1,6 @@
+/* global angular */
+/* global Highcharts */
+
 angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("integrationCtrl initialized!");
     var apiMotogp = "/api/v1/motogp-stats";
@@ -23,22 +26,19 @@ angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", fu
     $http.get(apiMotogp).then(function(response) {
         var conjuntoGlobal = []
         var conjuntoDEPA = []
-        //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-        //1º Guardamos en una variable el conjunto de los años ordenados
+
         var conjuntoOPA = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-        //2ºRecorremos el conjunto ordenado
+
         for (var i = 0; i < conjuntoOPA.length; i++) {
-            //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+
             for (var j = 0; j < response.data.length; j++) {
-                //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                //que se encuentra en esa posicion en el conjunto ordenado
+
                 if (conjuntoOPA[i] == response.data[j].year) {
-                    //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                    //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+
                     conjuntoDEPA[i] = response.data[j].score;
                 }
             }
-            //conjuntoGlobal.push(conjuntoOPA);
+
 
         }
         console.log("tito:" + conjuntoDEPA);
@@ -46,23 +46,20 @@ angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", fu
 
         $http.get(apiBuilders).then(function(response) {
             var conjuntoDEPA1 = []
-            //con este método sacamos la edad ordenada correctamente con su correspondiente año ordenado
-            //1º Guardamos en una variable el conjunto de los años ordenados
+
             var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
-            //2ºRecorremos el conjunto ordenado
+
             for (var i = 0; i < conjuntoOPA1.length; i++) {
-                //3º Recorremos el response.data en busca de la edad que corresponden a cada año
+
                 for (var j = 0; j < response.data.length; j++) {
-                    //4º Miramos si el objeto que estamos recorriendo en ese momento es el que tiene el mismo año que el año 
-                    //que se encuentra en esa posicion en el conjunto ordenado
+
                     if (conjuntoOPA1[i] == response.data[j].year) {
-                        //5º Si es asi guardamos en la misma posicion del año el valor del campo victorias
-                        //Y asi tendriamos ordenados, en el mismo orden que los años, las victorias
+
                         conjuntoDEPA1[i] = response.data[j].victory;
                     }
                 }
 
-                //conjuntoGlobal.push(conjuntoOPA1);
+
 
             }
             console.log("tito1:" + conjuntoDEPA1);
@@ -95,45 +92,39 @@ angular.module("Principal").controller("integrationCtrl", ["$scope", "$http", fu
 
 
 
-                //Creamos un solo objeto y a ese mismo le vamos metiendo varias claves (y, label) y sus valores para cada caso
-                //sustituyendo en cada caso el valor correspondiente de conjuntoOPA[z] y conjuntoDePuntos[z]
-                //y en un conjunto de objetos vamos guardando cada objeto creado de la forma {label:2000, y:15}
+
                 var conjuntoObjetos = []
                 for (var z = 0; z < conjuntoOPA.length; z++) {
-                    //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                    //que es la forma en la que recibe los datos la gráfica 
+
                     var object = {};
                     object["x"] = conjuntoOPA[z];
                     object["y"] = conjuntoDEPA[z];
                     conjuntoObjetos.push(object);
 
-                    //Este conjuntoObjetos sería el conjunto final que devoleríamos
                 }
                 console.log("titobolo:" + conjuntoObjetos);
 
                 var conjuntoObjetos1 = []
                 for (var z = 0; z < conjuntoOPA.length; z++) {
-                    //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                    //que es la forma en la que recibe los datos la gráfica 
+
                     var object = {};
                     object["x"] = conjuntoOPA1[z];
                     object["y"] = conjuntoDEPA1[z];
                     conjuntoObjetos1.push(object);
 
-                    //Este conjuntoObjetos sería el conjunto final que devoleríamos
+
                 }
                 console.log("titodavi:" + conjuntoObjetos1);
 
                 var conjuntoObjetos2 = []
                 for (var z = 0; z < conjuntoOPA.length; z++) {
-                    //Creamos un objeto para almacenar en un array el conjunto de objetos de la forma {label:2000, y:15}
-                    //que es la forma en la que recibe los datos la gráfica 
+
                     var object = {};
                     object["x"] = busyear[z];
                     object["y"] = parseInt(bustrans[z]);
                     conjuntoObjetos2.push(object);
 
-                    //Este conjuntoObjetos sería el conjunto final que devoleríamos
+
                 }
                 console.log("titotolo:" + conjuntoObjetos2);
 
