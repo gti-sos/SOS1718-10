@@ -3,9 +3,9 @@ var BASE_API_PATH_SECURE = "/api/v1/security";
 
 exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
- ///FUNCION PAGINACION
+    ///FUNCION PAGINACION
     var insertar = function(elementos, array, offset, limit) {
-        
+
         var i = offset;
         var j = limit;
         while (j > 0) {
@@ -20,7 +20,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     ////////////////////////////////////////INICIALIZAR EL CONJUNTO////////////////////////////////////////////////////////////////
     app.get(BASE_API_PATH + "/builders/loadInitialData", function(req, res) {
         var inicializacion = [{
-                "country": "uk",
+                "country": "United Kingdom ",
                 "year": 1996,
                 "builder": "williams",
                 "pole": 12,
@@ -41,7 +41,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 "builder": "ferrari",
                 "pole": 3,
                 "victory": 6
-            }, 
+            },
             {
                 "country": "italy",
                 "year": 2004,
@@ -56,7 +56,8 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 "builder": "mercedes",
                 "pole": 18,
                 "victory": 16
-            }];
+            }
+        ];
 
         //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
         dbd.find({}).toArray((err, builders) => {
@@ -122,7 +123,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, offset, limit);
-                    res.send(elementos.map((m)=>{
+                    res.send(elementos.map((m) => {
                         delete m._id;
                         return m;
                     }));
@@ -154,7 +155,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
-                    res.send(filtered.map((m)=>{
+                    res.send(filtered.map((m) => {
                         delete m._id;
                         return m;
                     }));
@@ -185,7 +186,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 else {
                     if (filteredBuilders.length > 0) {
                         console.log("INFO: Sending builders: " + JSON.stringify(filteredBuilders[0], 2, null));
-                        res.send(filteredBuilders.map((m) =>{
+                        res.send(filteredBuilders.map((m) => {
                             delete m._id;
                             return m;
                         })[0]);
@@ -352,43 +353,43 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
     app.get(BASE_API_PATH_SECURE + "/builders/loadInitialData", function(req, res) {
         if (checkApiKeyFunction(req, res) == true) {
             var inicializacion = [{
-                "country": "uk",
-                "year": 1996,
-                "builder": "williams",
-                "pole": 12,
-                "victory": 12
-            },
+                    "country": "uk",
+                    "year": 1996,
+                    "builder": "williams",
+                    "pole": 12,
+                    "victory": 12
+                },
 
-            {
-                "country": "germany",
-                "year": 1998,
-                "builder": "mercedes",
-                "pole": 12,
-                "victory": 9
-            },
+                {
+                    "country": "germany",
+                    "year": 1998,
+                    "builder": "mercedes",
+                    "pole": 12,
+                    "victory": 9
+                },
 
-            {
-                "country": "italy",
-                "year": 1999,
-                "builder": "ferrari",
-                "pole": 3,
-                "victory": 6
-            }, 
-            {
-                "country": "italy",
-                "year": 2004,
-                "builder": "ferrari",
-                "pole": 18,
-                "victory": 15
-            },
+                {
+                    "country": "italy",
+                    "year": 1999,
+                    "builder": "ferrari",
+                    "pole": 3,
+                    "victory": 6
+                },
+                {
+                    "country": "italy",
+                    "year": 2004,
+                    "builder": "ferrari",
+                    "pole": 18,
+                    "victory": 15
+                },
 
-            {
-                "country": "germany",
-                "year": 2015,
-                "builder": "mercedes",
-                "pole": 18,
-                "victory": 16
-            }
+                {
+                    "country": "germany",
+                    "year": 2015,
+                    "builder": "mercedes",
+                    "pole": 18,
+                    "victory": 16
+                }
             ];
 
             //BUSCAMOS EN LA ABSE DE DATOS Y OBETENEMOS UN ARRAY
@@ -456,7 +457,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
                 }
                 if (filtered.length > 0) {
                     elementos = insertar(filtered, elementos, offset, to);
-                    res.send(elementos.map((m)=>{
+                    res.send(elementos.map((m) => {
                         delete m._id;
                         return m;
                     }));
@@ -488,7 +489,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
                 if (filtered.length > 0) {
                     console.log("INFO: Sending stat: " + filtered);
-                    res.send(filtered.map((m)=>{
+                    res.send(filtered.map((m) => {
                         delete m._id;
                         return m;
                     }));
@@ -570,7 +571,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     /////////////////////////////////POST A UN RECURSO (405 MÉTODO NO PERMITIDO)////////////////////////////////////////////////////////
     app.post(BASE_API_PATH_SECURE + "/builders/:year", (req, res) => {
-        if(!checkApiKeyFunction(req,res))return;
+        if (!checkApiKeyFunction(req, res)) return;
         var year = req.params.year;
         console.log(Date() + " - POST /builders/" + year);
         res.sendStatus(405);
@@ -578,7 +579,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     /////////////////////////////////////PUT AL CONJUNTO DE RECURSOS(405 METODO NO PERMITIDO)//////////////////////////////////////////
     app.put(BASE_API_PATH_SECURE + "/builders", (req, res) => {
-        if(!checkApiKeyFunction(req,res))return;
+        if (!checkApiKeyFunction(req, res)) return;
         console.log(Date() + " - PUT /builders");
         //Method not allowed
         res.sendStatus(405);
@@ -586,7 +587,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////DELETE al conjunto de recursos////////////////////////////////////////////////////
     app.delete(BASE_API_PATH_SECURE + "/builders", (req, res) => {
-        if(!checkApiKeyFunction(req,res))return;
+        if (!checkApiKeyFunction(req, res)) return;
         console.log(Date() + " - DELETE /builders");
         dbd.remove({}, { multi: true }, function(err, result) {
             var numRemoved = JSON.parse(result);
@@ -609,7 +610,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     //////////////////////////////////////////////DELETE de un recurso//////////////////////////////////////////////////////////////////////////////
     app.delete(BASE_API_PATH + "/builders/:year", (req, res) => {
-        if(!checkApiKeyFunction(req,res))return;
+        if (!checkApiKeyFunction(req, res)) return;
         var yearToRemove = req.params.year;
         if (!yearToRemove) {
             console.log("Entra 1");
@@ -646,7 +647,7 @@ exports.register = function(app, dbd, BASE_API_PATH, checkApiKeyFunction) {
 
     ///////////////////////////////////PUT A UN RECURSO (ACTUALIZA EL RECURSO)////////////////////////////////////////////////////
     app.put(BASE_API_PATH_SECURE + "/builders/:year", (req, res) => {
-        if(!checkApiKeyFunction(req,res))return;
+        if (!checkApiKeyFunction(req, res)) return;
         var year = req.params.year;
         var updatedBuilder = req.body;
 

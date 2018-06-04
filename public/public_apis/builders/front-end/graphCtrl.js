@@ -93,79 +93,37 @@ angular
             .get("/api/v1/builders")
             .then(function(response) {
 
-                var victoriasPorConstructor = []
-                var builders = response.data.map(function(d) { return d.builder })
-                //Sacamos el numero de vistorias de cada constructor y lo almacenamos en un conjunto en la misma posicion i que la del constructor
-                //De forma que ambos conjuntos quedan con los constructores y el numero de victorias en el mismo orden a pesar de estar en diferentes conjuntos
-                //Para asi facilitar la extraccion de la tupla [Constructor, victorias]
-                for (var i = 0; i < builders.length; i++) {
-                    victoriasPorConstructor[i] = response.data[i].victory;
+                var datos = []
+                var victories = response.data.map(function(d) { return d.victory })
+                var countries = response.data.map(function(d) { return d.country })
+
+                for (var z = 0; z < countries.length; z++) {
+                    var ar = [];
+                    ar.push(countries[z]);
+                    ar.push(victories[z]);
+                    datos.push(ar);
                 }
 
 
-                //console.log("Builder: " + builders);
-                //console.log("Victorias: " + victoriasPorConstrucor);
-                var ConjuntoDeTuplas = []
-                var tupla = []
+                var dat = [['Country', 'victories']]
+                console.log("dat: " + dat)
+                dat = dat.concat(datos);
+                console.log("dat: " + dat)
 
-                //Con este método creamos la lista de tuplas ['Builder', victorias]
-                //Para ello recorremos las victoriasPorConstructor que es el conjunto de victorias por constructor
-                for (var m = 0; m < victoriasPorConstructor.length; m++) {
-                    tupla = [builders[m], victoriasPorConstructor[m]]
-                    ConjuntoDeTuplas[m] = tupla;
+                google.charts.load('current', {
+                    'packages': ['geochart'],
+                    // Note: you will need to get a mapsApiKey for your project.
+                    // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+                    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+                });
+                google.charts.setOnLoadCallback(drawRegionsMap);
 
-                }
-                console.log("CONJUNTO DE TUPLAS: " + ConjuntoDeTuplas);
+                function drawRegionsMap() {
+                    var data = google.visualization.arrayToDataTable(dat);
 
+                    var options = {};
 
-
-                //////AQUI ESTAMOS INTENTANDO AGRUPAR TODAS LAS ESCUDERIAS CON SU SUMATORIO DE VICTORIAS
-
-                var conjunto2 = []
-                var pos = null
-                for (var d = 0; d < ConjuntoDeTuplas.length; d++) {
-                    if (ConjuntoDeTuplas[d][0] in conjunto2) {
-                        console.log("Entraaaa");
-                        pos = conjunto2.indexOf(ConjuntoDeTuplas[d])
-                        var suma = conjunto2[pos][1] + ConjuntoDeTuplas[d][1];
-                        console.log("Suma: " + suma);
-                        conjunto2[pos] = [conjunto2[pos][0], suma]
-                    }
-                    else {
-                        conjunto2.push(ConjuntoDeTuplas[d]);
-                    }
-                }
-                console.log("Conjunto compactado: " + conjunto2);
-
-
-
-                google.charts.load('current', { 'packages': ['corechart'] });
-                google.charts.setOnLoadCallback(drawChart);
-
-                function drawChart() {
-
-                    var data = google.visualization.arrayToDataTable([
-                        ['Builder', 'Victory'], ConjuntoDeTuplas[0], ConjuntoDeTuplas[1],
-                        ConjuntoDeTuplas[2]
-                    ]);
-
-
-                    /*         ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]*/
-
-
-
-                    var options = {
-                        title: 'My Daily Activities',
-                        'width': 500,
-                        'height': 500
-                    };
-                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    var chart = new google.visualization.GeoChart(document.getElementById('geoChart'));
 
                     chart.draw(data, options);
                 }
