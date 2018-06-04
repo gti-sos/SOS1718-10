@@ -9,18 +9,18 @@ angular.module("Principal").controller("pollutionCitiesMotogpGraphsCtrl", ["$sco
     var apiPollution = 'https://sos1718-10.herokuapp.com/proxyFGG';
 
 
-    $http.get(apiPollution).then(function(response) {
+    $http.get(apiPollution).then(function(responsePol) {
         var conjuntoDEPA1 = []
       
-        var conjuntoOPA1 = response.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
+        var conjuntoOPA1 = responsePol.data.map(function(d) { return parseInt(d.year) }).sort((a, b) => a - b)
        
         for (var i = 0; i < conjuntoOPA1.length; i++) {
             
-            for (var j = 0; j < response.data.length; j++) {
+            for (var j = 0; j < responsePol.data.length; j++) {
                
-                if (conjuntoOPA1[i] == response.data[j].year) {
+                if (conjuntoOPA1[i] == responsePol.data[j].year) {
                    
-                    conjuntoDEPA1[i] = response.data[j].nitrous;
+                    conjuntoDEPA1[i] = responsePol.data[j].nitrous;
                 }
             }
         }
@@ -46,7 +46,7 @@ angular.module("Principal").controller("pollutionCitiesMotogpGraphsCtrl", ["$sco
 
             Highcharts.chart('container', {
                 chart: {
-                    type: 'bar'
+                    type: 'scatter'
                 },
                 title: {
                     text: 'Pollution Cities & MotoGP Stats '
@@ -82,7 +82,7 @@ angular.module("Principal").controller("pollutionCitiesMotogpGraphsCtrl", ["$sco
 
                 }, {
                     name: 'NITOURS',
-                    data: [0, 0, 0, 0, 0, 432, 0, 0, 0]
+                    data: conjuntoOPA1
 
                 }]
             });
